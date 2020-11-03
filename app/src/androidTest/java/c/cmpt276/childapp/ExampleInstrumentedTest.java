@@ -1,4 +1,4 @@
-package c.example.childapp;
+package c.cmpt276.childapp;
 
 import android.content.Context;
 
