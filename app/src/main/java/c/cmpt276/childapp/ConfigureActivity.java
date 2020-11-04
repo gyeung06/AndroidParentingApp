@@ -74,7 +74,7 @@ public class ConfigureActivity extends AppCompatActivity {
     private void saveData() {
         String name = ((EditText)findViewById(R.id.edtName)).getText().toString().trim();
         if(name.isEmpty()){
-            Toast.makeText(getApplicationContext(),"Cannot save because name is empty",Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConfigureActivity.this,"Cannot save because name is empty",Toast.LENGTH_SHORT).show();
             return;
         }
         if(editorMode){
