@@ -9,9 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="c.cmpt276.childapp.ConfigureActivity"></activity>
+        <activity android:name=".TimeoutActivity"></activity>
+        <activity android:name=".FlipCoinActivity" />
+        <activity android:name=".ConfigureActivity" />
         <activity
-            android:name="c.cmpt276.childapp.MainActivity"
+            android:name=".MainActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
