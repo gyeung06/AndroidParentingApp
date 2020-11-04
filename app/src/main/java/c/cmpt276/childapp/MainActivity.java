@@ -1,16 +1,10 @@
 package c.cmpt276.childapp;
 
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,9 +17,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     void initializeButtons () {
-        Button btnTestConfig = findViewById(R.id.main_config);
-        btnTestConfig.setOnClickListener(this);
+        Button mainConfigBtn = findViewById(R.id.main_config);
+        mainConfigBtn.setOnClickListener(this);
 
+        Button flipBtn = findViewById(R.id.main_flip);
+        flipBtn.setOnClickListener(this);
+
+        Button timeBtn = findViewById(R.id.main_time);
+        timeBtn.setOnClickListener(this);
     }
 
     @Override
@@ -33,7 +32,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (v.getId()) {
             case R.id.main_config:
                 startActivity(ConfigureActivity.createIntent(MainActivity.this, -1));
+                break;
 
+            case R.id.main_flip:
+                startActivity(FlipCoinActivity.createIntent(MainActivity.this));
+                break;
+
+            case R.id.main_time:
+                startActivity(TimeoutActivity.createIntent(MainActivity.this));
+                break;
         }
     }
 }
