@@ -35,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_flip:
-                startActivity(FlipCoinActivity.createIntent(MainActivity.this));
+                startActivity(ChooseCoinActivity.createIntent(MainActivity.this));
                 break;
 
             case R.id.main_time:
