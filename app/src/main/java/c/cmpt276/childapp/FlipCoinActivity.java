@@ -28,11 +28,12 @@ public class FlipCoinActivity extends AppCompatActivity {
         b= findViewById(R.id.flip_button);
         iv = findViewById(R.id.iv_coin);
         r = new Random();
+        final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.sound);
 
         b.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                //mediaPlayer.start();
+                mediaPlayer.start();
                 side = r.nextInt(2);
 
                 if (side == 0){
