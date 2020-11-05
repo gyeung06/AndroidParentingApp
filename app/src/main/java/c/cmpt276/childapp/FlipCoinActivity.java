@@ -28,12 +28,11 @@ public class FlipCoinActivity extends AppCompatActivity {
         b= findViewById(R.id.flip_button);
         iv = findViewById(R.id.iv_coin);
         r = new Random();
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this,R.raw.sound);
 
         b.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                mediaPlayer.start();
+                //mediaPlayer.start();
                 side = r.nextInt(2);
 
                 if (side == 0){
@@ -47,7 +46,7 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 RotateAnimation rotate = new RotateAnimation(0,999999999,
                         RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
-                rotate.setDuration(1800);
+                rotate.setDuration(800);
                 iv.startAnimation(rotate);
             }
 
@@ -55,8 +54,8 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     public static Intent createIntent(Context context){
-        Intent i = new Intent(context, FlipCoinActivity.class);
-        return i;
+        Intent in = new Intent(context, FlipCoinActivity.class);
+        return in;
     }
 
 
