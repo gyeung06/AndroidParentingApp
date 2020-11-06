@@ -90,7 +90,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
 
             listView.getAdapter().getView(lastLoser,null,null).performClick();//TODO not sure why unable to click
            // Log.d("selection:",listView.getSelectedItem().toString());
-           // selectedChild = lastLoser;
+            selectedChild = lastLoser;
             updateSetSecondChildList(lastWinner);
         }
     }
@@ -138,15 +138,11 @@ public class ChooseCoinActivity extends AppCompatActivity {
                         listView.getAdapter().getItemId(counterWinner-1));
                 //listView.setSelection(counterWinner-1);
             }else{
-//                listView.setSelection(counterWinner);
-                listView.performItemClick(
-                        listView.getAdapter().getView(counterWinner, null, null),
-                        counterWinner,
-                        listView.getAdapter().getItemId(counterWinner));
-                //listView.setSelection(counterWinner-1);
+               listView.setSelection(counterWinner);
+
             }
             Log.d("Counter winner: ", configs.get(counterWinner).getName());
-           // selectedRival = counterWinner;
+            selectedRival = counterWinner;
         }
     }
 
