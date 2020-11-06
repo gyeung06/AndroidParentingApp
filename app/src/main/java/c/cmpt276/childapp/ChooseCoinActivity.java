@@ -68,9 +68,10 @@ public class ChooseCoinActivity extends AppCompatActivity {
             }
         }
         String[] values = listName.toArray(new String[listName.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
-
+        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listView.setSelector(R.color.design_default_color_secondary);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -78,22 +79,26 @@ public class ChooseCoinActivity extends AppCompatActivity {
                     listView.setSelection(hasFlipCoinPositions[i]);
                     selectedChild = hasFlipCoinPositions[i];
                     Log.d("Selected",configs.get(selectedChild).getName());
+                    selectedRival = -1;
                     updateSetSecondChildList(-1);
 
                 }
             }
         });
-        listView.setSelector(R.color.design_default_color_secondary);
 
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
+
         if(lastLoser > -1 && lastWinner>-1){
 
-            listView.getAdapter().getView(lastLoser,null,null).performClick();//TODO not sure why unable to click
+           listView.setItemChecked(lastLoser,true);
            // Log.d("selection:",listView.getSelectedItem().toString());
             selectedChild = lastLoser;
             updateSetSecondChildList(lastWinner);
         }
     }
+
+
+
     private void updateSetSecondChildList(int counterWinner){
         final ListView listView = (ListView) findViewById(R.id.lsRival);
         int offsetLocation = -1;
@@ -108,7 +113,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
         }
         final int ofLo = offsetLocation;
         String[] values = listName.toArray(new String[listName.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, android.R.id.text1, values);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, values);
         listView.setAdapter(adapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -132,13 +137,10 @@ public class ChooseCoinActivity extends AppCompatActivity {
         if(counterWinner != -1){
 //            listView.requestFocusFromTouch();
             if(counterWinner >= ofLo){//TODO not sure why unable to click
-                listView.performItemClick(
-                        listView.getAdapter().getView(counterWinner-1, null, null),
-                        counterWinner-1,
-                        listView.getAdapter().getItemId(counterWinner-1));
+                listView.setItemChecked(counterWinner-1,true);
                 //listView.setSelection(counterWinner-1);
             }else{
-               listView.setSelection(counterWinner);
+               listView.setItemChecked(counterWinner,true);
 
             }
             Log.d("Counter winner: ", configs.get(counterWinner).getName());
