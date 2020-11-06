@@ -1,9 +1,8 @@
 package c.cmpt276.childapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -12,10 +11,14 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.Random;
 
-public class FlipCoinActivity extends AppCompatActivity {
+import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+public class FlipCoinActivity extends AppCompatActivity {
+    ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     Button b;
     ImageView iv;
     Random r;
@@ -24,6 +27,8 @@ public class FlipCoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_flip_coin);
         b= findViewById(R.id.flip_button);
         iv = findViewById(R.id.iv_coin);
@@ -53,9 +58,24 @@ public class FlipCoinActivity extends AppCompatActivity {
 
         });
     }
-
-    public static Intent createIntent(Context context){
+    public boolean onSupportNavigateUp() {
+        finish();
+        return true;
+    }
+    protected void onPause(){
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+        SharedPreferences.Editor ed = sp.edit();
+        ed.clear();
+        ed.putString("CHILDREN_INFO",configs.getJSON());
+        ed.commit();
+        super.onPause();
+    }
+    public static Intent createIntent(Context context, int firstChild, int secondChild, int winHead){
         Intent in = new Intent(context, FlipCoinActivity.class);
+        in.putExtra("FirstChild",firstChild);
+        in.putExtra("SecondChild",secondChild);
+        in.putExtra("WinHead",winHead);
+
         return in;
     }
 
