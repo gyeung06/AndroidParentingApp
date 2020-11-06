@@ -39,4 +39,10 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     public Iterator<IndividualConfig> iterator() {
         return children.iterator();
     }
+    public void delete(int i){
+        children.remove(i);
+    }
+    public IndividualConfig[] getArray() {
+        return children.toArray(new IndividualConfig[children.size()]);
+    }
 }

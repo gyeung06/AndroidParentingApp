@@ -1,19 +1,31 @@
 package c.cmpt276.childapp;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+    ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         initializeButtons();
+    }
+
+    protected void onPause(){
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+        SharedPreferences.Editor ed = sp.edit();
+        ed.clear();
+        ed.putString("CHILDREN_INFO",configs.getJSON());
+        ed.commit();
+        super.onPause();
     }
 
     void initializeButtons () {
@@ -31,7 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.main_config:
-                startActivity(ConfigureActivity.createIntent(MainActivity.this, -1));
+                startActivity(ConfigureChooserActivity.createIntent(MainActivity.this));
                 break;
 
             case R.id.main_flip:
