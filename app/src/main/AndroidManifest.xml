@@ -10,7 +10,6 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ConfigureChooserActivity"></activity>
-        <activity android:name=".SetupActivity" />
         <activity android:name=".ChooseCoinActivity" />
         <activity android:name=".TimeoutActivity" />
         <activity android:name=".FlipCoinActivity" />

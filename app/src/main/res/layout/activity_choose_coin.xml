@@ -6,110 +6,116 @@
     android:layout_height="match_parent"
     tools:context="c.cmpt276.childapp.ChooseCoinActivity">
 
-    <CheckBox
-        android:id="@+id/chkFlipCoin4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginEnd="315dp"
-        android:layout_marginBottom="43dp"
-        android:text="child 1"
-        app:layout_constraintBottom_toTopOf="@+id/chkFlipCoin5"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <CheckBox
-        android:id="@+id/chkFlipCoin5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginEnd="315dp"
-        android:layout_marginBottom="40dp"
-        android:text="child 2"
-        app:layout_constraintBottom_toTopOf="@+id/textView3"
-        app:layout_constraintEnd_toEndOf="parent"
+    <TableLayout
+        android:id="@+id/tableHistory"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkFlipCoin4" />
+        app:layout_constraintTop_toBottomOf="@+id/txtxDes4" />
 
-    <CheckBox
-        android:id="@+id/chkFlipCoin3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="341dp"
-        android:layout_marginBottom="146dp"
-        android:text="tail"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkFlipCoin2" />
-
-    <CheckBox
-        android:id="@+id/chkFlipCoin2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="329dp"
-        android:layout_marginBottom="54dp"
-        android:text="head"
-        app:layout_constraintBottom_toTopOf="@+id/chkFlipCoin3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView2" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="23dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginEnd="271dp"
-        android:layout_marginBottom="36dp"
-        android:text="Choose your name"
-        app:layout_constraintBottom_toTopOf="@+id/chkFlipCoin4"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/textView2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="19dp"
-        android:layout_marginEnd="271dp"
-        android:layout_marginBottom="51dp"
-        android:text="Choose head or tail"
-        app:layout_constraintBottom_toTopOf="@+id/chkFlipCoin2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
 
     <Button
         android:id="@+id/continuebutton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="291dp"
-        android:layout_marginTop="309dp"
-        android:layout_marginEnd="29dp"
-        android:layout_marginBottom="80dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
         android:text="continue"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3" />
+        app:layout_constraintEnd_toEndOf="parent" />
 
     <TextView
-        android:id="@+id/textView3"
-        android:layout_width="342dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="23dp"
-        android:layout_marginEnd="46dp"
-        android:layout_marginBottom="20dp"
-        android:text="(Skip name choosing if no name listed above)"
-        android:textAlignment="viewStart"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/txtDes1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Select choosing child:"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/chkFlipCoin5" />
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <ListView
+        app:layout_constraintStart_toStartOf="parent"
+        android:id="@+id/lsChoosingChild"
+        android:layout_width="200dp"
+        android:layout_height="175dp"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes1" />
+
+    <ListView
+        android:id="@+id/lsRival"
+        android:layout_width="200dp"
+        android:layout_height="175dp"
+        android:layout_marginStart="11dp"
+        app:layout_constraintStart_toEndOf="@+id/lsChoosingChild"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes2" />
+
+
+    <TextView
+        android:id="@+id/txtDes2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
+        android:text="Select rival:"
+        app:layout_constraintStart_toEndOf="@+id/txtDes1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtxDes4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="86dp"
+        android:text="History:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes3" />
+
+    <TextView
+        android:id="@+id/txtDes3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:text="Choose:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="283dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="58dp"
+        android:layout_marginTop="48dp"
+        android:contextClickable="true"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild">
+
+        <RadioButton
+            android:id="@+id/rdbHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Head" />
+
+        <RadioButton
+            android:id="@+id/rdbTail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tail" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/chkViewHistorySelected"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="14dp"
+        android:text="Selected Child Only"
+        app:layout_constraintStart_toEndOf="@+id/txtxDes4"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
