@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <TextView
+        android:id="@+id/txtTime_item"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="Name"
+        app:autoSizeTextType="uniform" />
+    <TextView
+        android:id="@+id/txtHeadPlayer_item"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="Name"
+         />
+    <TextView
+        android:id="@+id/txtTailPlayer_item"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="Name"
+         />
+    <TextView
+        android:id="@+id/txtWinner_item"
+        android:layout_width="100dp"
+        android:layout_height="match_parent"
+        android:text="Name"
+         />
+
+
+</LinearLayout>

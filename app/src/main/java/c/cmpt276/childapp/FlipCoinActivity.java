@@ -13,8 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Calendar;
 import java.util.Random;
 
+import c.cmpt276.childapp.model.FlipCoinHistory.FlipCoinRecord;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class FlipCoinActivity extends AppCompatActivity {
@@ -23,10 +25,16 @@ public class FlipCoinActivity extends AppCompatActivity {
     ImageView iv;
     Random r;
     int side;
-
+    int child, rival;
+    boolean headWin , win ,guestMode = false;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+         child = getIntent().getIntExtra("FirstChild",-1);
+         rival = getIntent().getIntExtra("SecondChild",-1);
+        int winHead = getIntent().getIntExtra("WinHead",1);
+        headWin = (winHead == 1)?true:false;
+        if(child < 0|| rival  < 0) guestMode =true;
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_flip_coin);
@@ -43,17 +51,38 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 if (side == 0){
                     iv.setImageResource(R.drawable.head);
-                    Toast.makeText(FlipCoinActivity.this,"Heads!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FlipCoinActivity.this,"Heads!",Toast.LENGTH_LONG).show();
+                    win = headWin? true:false;
+
                 }
                 else if (side == 1){
                     iv.setImageResource(R.drawable.tail);
-                    Toast.makeText(FlipCoinActivity.this,"Tails!",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FlipCoinActivity.this,"Tails!",Toast.LENGTH_LONG).show();
+                    win = headWin? false:true;
                 }
 
                 RotateAnimation rotate = new RotateAnimation(0,999999999,
                         RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
                 rotate.setDuration(800);
                 iv.startAnimation(rotate);
+
+                if(!guestMode){
+                    FlipCoinRecord record;
+                    if(headWin){
+                        record = new FlipCoinRecord(configs.get(child).getName(),configs.get(rival).getName());
+                    }else{
+                        record = new FlipCoinRecord(configs.get(rival).getName(),configs.get(child).getName());
+                    }
+                    record.setResult(headWin, Calendar.getInstance().getTime().toString());
+                    if(win){
+                        configs.setLastResultCandidate(configs.get(child).getName(),configs.get(rival).getName());
+                    }else{
+                        configs.setLastResultCandidate(configs.get(rival).getName(),configs.get(child).getName());
+                    }
+
+                    configs.getFlipCoinHistory().add(record);
+                }
+
             }
 
         });

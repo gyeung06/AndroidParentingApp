@@ -21,6 +21,9 @@ public class HistoryCollection {
     public void clear(){
         his.clear();
     }
+    public FlipCoinRecord[] getArray(){
+        return his.toArray(new FlipCoinRecord[his.size()] );
+    }
     public HistoryCollection filter(String name){
         HistoryCollection newhis = new HistoryCollection();
         for(int i =0 ; i < size();i++){
