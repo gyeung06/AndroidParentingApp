@@ -15,10 +15,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
+        String jsonObj = sp.getString("CHILDREN_INFO" , "");
+        if(!jsonObj.trim().isEmpty()){
+            configs = ChildrenConfigCollection.loadWithJSONObject(jsonObj);
+        }
         initializeButtons();
     }
-
+    //TODO copy onPause to every Activity
     protected void onPause(){
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
         SharedPreferences.Editor ed = sp.edit();
