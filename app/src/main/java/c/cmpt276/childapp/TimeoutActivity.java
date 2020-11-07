@@ -1,12 +1,15 @@
 package c.cmpt276.childapp;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
+import android.os.IBinder;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -18,7 +21,7 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 public class TimeoutActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
-    private static final long START_TIME_IN_MILLIS = 600000;
+    private static final long START_TIME_IN_MILLIS = 5000;
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
     private Button mButtonReset;
@@ -62,8 +65,8 @@ public class TimeoutActivity extends AppCompatActivity {
 
     }
 
-    private void startTimer(){
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,1000) {
+    private void startTimer() {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,999) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -83,21 +86,21 @@ public class TimeoutActivity extends AppCompatActivity {
         mButtonReset.setVisibility(View.INVISIBLE);
     }
 
-    private void pauseTimer(){
+    private void pauseTimer() {
         mCountDownTimer.cancel();
         mTimerRunning =false;
         mButtonStartPause.setText("Start");
         mButtonReset.setVisibility(View.VISIBLE);
     }
 
-    private void resetTimer(){
+    private void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
         updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
         mButtonStartPause.setVisibility(View.VISIBLE);
     }
 
-    private void updateCountDownText(){
+    private void updateCountDownText() {
         int minutes = (int)(mTimeLeftInMillis/1000)/60;
         int seconds = (int)(mTimeLeftInMillis/1000)%60;
 
@@ -106,7 +109,7 @@ public class TimeoutActivity extends AppCompatActivity {
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
-    protected void onPause(){
+    protected void onPause() {
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
@@ -117,10 +120,11 @@ public class TimeoutActivity extends AppCompatActivity {
 
 
 
-    public static Intent createIntent(Context context){
+    public static Intent createIntent(Context context) {
         Intent i = new Intent(context, TimeoutActivity.class);
         return i;
     }
+
 }
 
 
