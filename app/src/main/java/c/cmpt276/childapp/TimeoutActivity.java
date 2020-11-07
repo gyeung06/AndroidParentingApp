@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.view.View;
@@ -12,7 +13,11 @@ import android.widget.TextView;
 
 import java.util.Locale;
 
+import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
+
 public class TimeoutActivity extends AppCompatActivity {
+    private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
+
     private static final long START_TIME_IN_MILLIS = 600000;
     private TextView mTextViewCountDown;
     private Button mButtonStartPause;
@@ -99,6 +104,15 @@ public class TimeoutActivity extends AppCompatActivity {
         String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
 
         mTextViewCountDown.setText(timeLeftFormatted);
+    }
+
+    protected void onPause(){
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+        SharedPreferences.Editor ed = sp.edit();
+        ed.clear();
+        ed.putString("CHILDREN_INFO",configs.getJSON());
+        ed.commit();
+        super.onPause();
     }
 
 
