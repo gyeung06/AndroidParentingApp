@@ -9,27 +9,25 @@ public class HistoryCollection {
     public HistoryCollection() {
         his = new ArrayList<>();
     }
-
-    public int size() {
+    public int size(){
         return his.size();
     }
-
-    public void add(FlipCoinRecord record) {
+    public void add(FlipCoinRecord record){
         his.add(record);
     }
-
-    public FlipCoinRecord get(int i) {
+    public FlipCoinRecord get(int i){
         return his.get(i);
     }
-
-    public void clear() {
+    public void clear(){
         his.clear();
     }
-
-    public HistoryCollection filter(String name) {
+    public FlipCoinRecord[] getArray(){
+        return his.toArray(new FlipCoinRecord[his.size()] );
+    }
+    public HistoryCollection filter(String name){
         HistoryCollection newhis = new HistoryCollection();
-        for (int i = 0; i < size(); i++) {
-            if (his.get(i).getHeadChild().equalsIgnoreCase(name) || his.get(i).getTailChild().equalsIgnoreCase(name)) {
+        for(int i =0 ; i < size();i++){
+            if(his.get(i).getHeadChild().equalsIgnoreCase(name) || his.get(i).getTailChild().equalsIgnoreCase(name)){
                 newhis.add(his.get(i));
             }
         }
