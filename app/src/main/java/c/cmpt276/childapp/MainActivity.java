@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
         ed.putString("CHILDREN_INFO", configs.getJSON());
-        ed.commit();
+        ed.apply();
         super.onPause();
     }
 

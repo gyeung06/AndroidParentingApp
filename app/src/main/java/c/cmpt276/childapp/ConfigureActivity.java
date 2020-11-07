@@ -22,6 +22,9 @@ public class ConfigureActivity extends AppCompatActivity {
     private int editIndex = -1;
     private boolean flipCoinEnable, timerEnable;
 
+    Button btnSave, btnDelete, btnSaveClose;
+    CheckBox chkTimer, chkFlipCoin;
+
     /**
      * create intent
      *
@@ -35,23 +38,6 @@ public class ConfigureActivity extends AppCompatActivity {
         return i;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        int position = getIntent().getIntExtra("CHILD_SELECTED", -9);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        setContentView(R.layout.activity_configure);
-        setListeners();
-        if (position >= 0) {
-            // Log.d("loading","loading");
-            editIndex = position;
-            editorMode = true;
-            autoPopulateFields();
-        }
-    }
-
     protected void onPause() {
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
@@ -61,49 +47,29 @@ public class ConfigureActivity extends AppCompatActivity {
         super.onPause();
     }
 
-    private void setListeners() {
-        CheckBox timer = findViewById(R.id.chkTimer);
-        CheckBox fc = findViewById(R.id.chkFlipCoin);
-        timer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                timerEnable = b;
-            }
-        });
-        fc.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                flipCoinEnable = b;
-            }
-        });
-        Button save = findViewById(R.id.btnSave);
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveData(false);
-            }
-        });
-        Button dele = findViewById(R.id.btnDelete);
-        dele.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (editorMode) {
-                    configs.delete(editIndex);
-                    Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
-                    finish();
-                } else {
-                    Toast.makeText(ConfigureActivity.this, "Cannot delete because your are creating a new one", Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-        Button saveClose = findViewById(R.id.btnSaveAndClose);
-        saveClose.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                saveData(true);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        int position = getIntent().getIntExtra("CHILD_SELECTED", -9);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-            }
-        });
+        setContentView(R.layout.activity_configure);
+
+        btnSave = findViewById(R.id.btnSave);
+        btnDelete = findViewById(R.id.btnDelete);
+        btnSaveClose = findViewById(R.id.btnSaveAndClose);
+        chkTimer = findViewById(R.id.chkTimer);
+        chkFlipCoin = findViewById(R.id.chkFlipCoin);
+
+        setListeners();
+
+        if (position >= 0) {
+            // Log.d("loading","loading");
+            editIndex = position;
+            editorMode = true;
+            autoPopulateFields();
+        }
     }
 
     private void saveData(boolean close) {
@@ -141,5 +107,49 @@ public class ConfigureActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void setListeners() {
+        chkTimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                timerEnable = b;
+            }
+        });
+
+        chkFlipCoin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                flipCoinEnable = b;
+            }
+        });
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveData(false);
+            }
+        });
+
+        btnDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (editorMode) {
+                    configs.delete(editIndex);
+                    Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                    finish();
+                } else {
+                    Toast.makeText(ConfigureActivity.this, "Cannot delete because your are creating a new one", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        btnSaveClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                saveData(true);
+
+            }
+        });
     }
 }
