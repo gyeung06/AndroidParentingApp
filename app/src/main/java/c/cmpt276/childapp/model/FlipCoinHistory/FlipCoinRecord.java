@@ -12,17 +12,19 @@ public class FlipCoinRecord {
         this.headChild = headChild;
         this.tailChild = tailChild;
     }
-    public void setResult(boolean head, String date){
+
+    public void setResult(boolean head, String date) {
         this.head = head;
         this.date = date;
-        if(headChild != "" || tailChild!=""){
-            if(head){
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild,tailChild);
-            }else{
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild,headChild);
+        if (headChild != "" || tailChild != "") {
+            if (head) {
+                ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
+            } else {
+                ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
             }
         }
     }
+
     public boolean isHead() {
         return head;
     }
