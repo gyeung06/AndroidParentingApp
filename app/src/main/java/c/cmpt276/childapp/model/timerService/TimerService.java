@@ -5,6 +5,9 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
@@ -24,6 +27,7 @@ public class TimerService extends Service {
     private static long mTimeLeftInMillis;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
+    private static MediaPlayer mp;
 
 
     @Nullable
@@ -66,6 +70,10 @@ public class TimerService extends Service {
                 mTimerRunning = false;
                 TimeoutActivity.setmTimerRunning(false);
                 timerDoneNotification();
+
+                Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
+                mp = MediaPlayer.create(TimerService.this, notification);
+                mp.start();
             }
         }.start();
         mTimerRunning = true;
@@ -73,7 +81,7 @@ public class TimerService extends Service {
     }
 
     public static void stopAlarm(){
-        //TODO stop alarm
+        mp.stop();
     }
 
     private void timerDoneNotification(){
