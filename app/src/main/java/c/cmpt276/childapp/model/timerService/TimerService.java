@@ -17,7 +17,6 @@ public class TimerService extends Service {
     private long mTimeLeftInMillis;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
-    private TimeoutActivity activity = new TimeoutActivity();
 
 
     @Nullable
@@ -36,33 +35,32 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        activity.setmTimeLeftInMillis(mTimeLeftInMillis);
+        TimeoutActivity.setmTimeLeftInMillis(mTimeLeftInMillis);
         mCountDownTimer.cancel();
-        activity.setmTimerRunning(false);
+        TimeoutActivity.setmTimerRunning(false);
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,999) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,500) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
-                activity.setmTimeLeftInMillis(mTimeLeftInMillis);
+                TimeoutActivity.setmTimeLeftInMillis(mTimeLeftInMillis);
 
                 int minutes = (int)(mTimeLeftInMillis/1000)/60;
                 int seconds = (int)(mTimeLeftInMillis/1000)%60;
 
                 String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-                Log.i("huh", "onTick: "+timeLeftFormatted);
-                activity.updateCountDownText(timeLeftFormatted);
+                TimeoutActivity.updateCountDownText(timeLeftFormatted);
             }
 
             @Override
             public void onFinish() {
                 mTimerRunning = false;
-                activity.setmTimerRunning(false);
+                TimeoutActivity.setmTimerRunning(false);
             }
         }.start();
         mTimerRunning = true;
-        activity.setmTimerRunning(true);
+        TimeoutActivity.setmTimerRunning(true);
     }
 }

@@ -22,20 +22,20 @@ public class TimeoutActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
     private static final long START_TIME_IN_MILLIS = 5000;
-    private TextView mTextViewCountDown;
+    private static TextView mTextViewCountDown;
     private Button mButtonStartPause;
     private Button mButtonReset;
 
-    private boolean mTimerRunning;
+    private static boolean mTimerRunning;
 
-    private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
 
-    public void setmTimerRunning(boolean mTimerRunning) {
-        this.mTimerRunning = mTimerRunning;
+    public static void setmTimerRunning(boolean mTimerRunning) {
+        TimeoutActivity.mTimerRunning = mTimerRunning;
     }
 
-    public void setmTimeLeftInMillis(long mTimeLeftInMillis) {
-        this.mTimeLeftInMillis = mTimeLeftInMillis;
+    public static void setmTimeLeftInMillis(long mTimeLeftInMillis) {
+        TimeoutActivity.mTimeLeftInMillis = mTimeLeftInMillis;
     }
 
     @Override
@@ -92,8 +92,7 @@ public class TimeoutActivity extends AppCompatActivity {
         mButtonStartPause.setVisibility(View.VISIBLE);
     }
 
-    public void updateCountDownText(String timeLeftFormatted) {
-        Log.i("why", "updateCountDownText: " + timeLeftFormatted);
+    public static void updateCountDownText(String timeLeftFormatted) {
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
