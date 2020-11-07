@@ -20,10 +20,11 @@ import c.cmpt276.childapp.model.config.IndividualConfig;
 
 public class ConfigureChooserActivity extends AppCompatActivity {
     ChildrenConfigCollection manager = ChildrenConfigCollection.getInstance();
-    public static Intent createIntent(Context context){
-        Intent i = new Intent(context,ConfigureChooserActivity.class);
-        return i;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ConfigureChooserActivity.class);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,27 +41,32 @@ public class ConfigureChooserActivity extends AppCompatActivity {
         });
         updateList();
     }
-    protected void onPause(){
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+
+    protected void onPause() {
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
-        ed.putString("CHILDREN_INFO",manager.getJSON());
-        ed.commit();
+        ed.putString("CHILDREN_INFO", manager.getJSON());
+        ed.apply();
         super.onPause();
     }
+
     protected void onResume() {
         updateList();
         super.onResume();
     }
+
     public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
-    private void updateList(){
+
+    private void updateList() {
         ArrayAdapter<IndividualConfig> adapter = new ChildNameAdapter();
         ListView listView = (ListView) findViewById(R.id.LsChildren);
         listView.setAdapter(adapter);
     }
+
     private class ChildNameAdapter extends ArrayAdapter<IndividualConfig> {
         public ChildNameAdapter() {
             super(ConfigureChooserActivity.this, R.layout.child_list_item, manager.getArray());
@@ -91,8 +97,5 @@ public class ConfigureChooserActivity extends AppCompatActivity {
 
             return itemView;
         }
-
     }
 }
-
-

@@ -20,43 +20,47 @@ public class ConfigureActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
     private int editIndex = -1;
-    private boolean flipCoinEnable , timerEnable;
+    private boolean flipCoinEnable, timerEnable;
+
     /**
      * create intent
-     * @param context context of the origin
+     *
+     * @param context            context of the origin
      * @param indexOfChildConfig if less than 0 then means this is creating a new IndividualConfig. if greater than 0, it will access and load info from ChildrenConfigCollection using the index provided.
      * @return the intent to be started
      */
-    public static Intent createIntent(Context context, int indexOfChildConfig){
-        Intent i = new Intent(context,ConfigureActivity.class);
+    public static Intent createIntent(Context context, int indexOfChildConfig) {
+        Intent i = new Intent(context, ConfigureActivity.class);
         i.putExtra("CHILD_SELECTED", indexOfChildConfig);
         return i;
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        int position = getIntent().getIntExtra("CHILD_SELECTED",-9);
+        int position = getIntent().getIntExtra("CHILD_SELECTED", -9);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         setContentView(R.layout.activity_configure);
         setListeners();
-        if(position >= 0){
-           // Log.d("loading","loading");
+        if (position >= 0) {
+            // Log.d("loading","loading");
             editIndex = position;
             editorMode = true;
             autoPopulateFields();
         }
-
     }
-    protected void onPause(){
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+
+    protected void onPause() {
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
-        ed.putString("CHILDREN_INFO",configs.getJSON());
-        ed.commit();
+        ed.putString("CHILDREN_INFO", configs.getJSON());
+        ed.apply();
         super.onPause();
     }
+
     private void setListeners() {
         CheckBox timer = findViewById(R.id.chkTimer);
         CheckBox fc = findViewById(R.id.chkFlipCoin);
@@ -83,12 +87,12 @@ public class ConfigureActivity extends AppCompatActivity {
         dele.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(editorMode){
+                if (editorMode) {
                     configs.delete(editIndex);
-                    Toast.makeText(ConfigureActivity.this,"Deleted",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                     finish();
-                }else{
-                    Toast.makeText(ConfigureActivity.this,"Cannot delete because your are creating a new one",Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ConfigureActivity.this, "Cannot delete because your are creating a new one", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -103,20 +107,23 @@ public class ConfigureActivity extends AppCompatActivity {
     }
 
     private void saveData(boolean close) {
-        String name = ((EditText)findViewById(R.id.edtName)).getText().toString().trim();
-        if(name.isEmpty()){
-            Toast.makeText(ConfigureActivity.this,"Cannot save because name is empty",Toast.LENGTH_SHORT).show();
+        String name = ((EditText) findViewById(R.id.edtName)).getText().toString().trim();
+        if (name.isEmpty()) {
+            Toast.makeText(ConfigureActivity.this, "Cannot save because name is empty", Toast.LENGTH_SHORT).show();
             return;
         }
-        Toast.makeText(ConfigureActivity.this,"Saved",Toast.LENGTH_SHORT).show();
-        if(editorMode){
-            configs.get(editIndex).set(name,flipCoinEnable,timerEnable);
-        }else{
-            configs.add(new IndividualConfig(name,flipCoinEnable,timerEnable));
-            editorMode =true;
-            editIndex = configs.size()-1;
+
+        Toast.makeText(ConfigureActivity.this, "Saved", Toast.LENGTH_SHORT).show();
+
+        if (editorMode) {
+            configs.get(editIndex).set(name, flipCoinEnable, timerEnable);
+        } else {
+            configs.add(new IndividualConfig(name, flipCoinEnable, timerEnable));
+            editorMode = true;
+            editIndex = configs.size() - 1;
         }
-        if(close){
+
+        if (close) {
             finish();
         }
     }
@@ -124,7 +131,7 @@ public class ConfigureActivity extends AppCompatActivity {
     private void autoPopulateFields() {
         CheckBox timer = findViewById(R.id.chkTimer);
         CheckBox fc = findViewById(R.id.chkFlipCoin);
-        EditText edtName =findViewById(R.id.edtName);
+        EditText edtName = findViewById(R.id.edtName);
         edtName.setText(configs.get(editIndex).getName());
         fc.setChecked(configs.get(editIndex).getFlipCoin());
         timer.setChecked(configs.get(editIndex).getTimeoutTimer());

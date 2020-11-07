@@ -11,28 +11,30 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        String jsonObj = sp.getString("CHILDREN_INFO" , "");
-        if(!jsonObj.trim().isEmpty()){
+        String jsonObj = sp.getString("CHILDREN_INFO", "");
+        if (!jsonObj.trim().isEmpty()) {
             configs = ChildrenConfigCollection.loadWithJSONObject(jsonObj);
         }
         initializeButtons();
     }
+
     //TODO copy onPause to every Activity
-    protected void onPause(){
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+    protected void onPause() {
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
-        ed.putString("CHILDREN_INFO",configs.getJSON());
+        ed.putString("CHILDREN_INFO", configs.getJSON());
         ed.commit();
         super.onPause();
     }
 
-    void initializeButtons () {
+    void initializeButtons() {
         Button mainConfigBtn = findViewById(R.id.main_config);
         mainConfigBtn.setOnClickListener(this);
 
@@ -60,5 +62,3 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 }
-
-
