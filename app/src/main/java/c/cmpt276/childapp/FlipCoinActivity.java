@@ -63,7 +63,7 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 RotateAnimation rotate = new RotateAnimation(0,999999999,
                         RotateAnimation.RELATIVE_TO_SELF,0.5f,RotateAnimation.RELATIVE_TO_SELF,0.5f);
-                rotate.setDuration(800);
+                rotate.setDuration(1800);
                 iv.startAnimation(rotate);
 
                 if(!guestMode){
