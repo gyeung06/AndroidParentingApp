@@ -42,18 +42,14 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return historyCollection;
     }
 
-    public int[] getFlipCoinEnabledChildrenPositions() {
-        List<Integer> l = new ArrayList<>();
+    public List<Integer> getFlipCoinEnabledChildrenPositions() {
+        List<Integer> positions = new ArrayList<>();
         for (int i = 0; i < size(); i++) {
             if (children.get(i).getFlipCoin()) {
-                l.add(i);
+                positions.add(i);
             }
         }
-        int[] toReturn = new int[l.size()]; //doesn't seem like there is a better way
-        for (int i = 0; i < l.size(); i++) {
-            toReturn[i] = l.get(i);
-        }
-        return toReturn;
+        return positions;
     }
 
     public int[] getTimerEnabledChildrenPositions() {
