@@ -21,12 +21,13 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class FlipCoinActivity extends AppCompatActivity {
     ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
-    Button b;
-    ImageView iv;
-    Random r;
+    Button btnFlip;
+    ImageView imgCoin;
+    Random r = new Random();
     int side;
     int child, rival;
     boolean headWin, win, guestMode = false;
+    MediaPlayer mediaPlayer;
 
     public static Intent createIntent(Context context, int firstChild, int secondChild, int winHead) {
         Intent in = new Intent(context, FlipCoinActivity.class);
@@ -40,32 +41,35 @@ public class FlipCoinActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        setContentView(R.layout.activity_flip_coin);
+
+        btnFlip = findViewById(R.id.flip_button);
+        imgCoin = findViewById(R.id.iv_coin);
+
         child = getIntent().getIntExtra("FirstChild", -1);
         rival = getIntent().getIntExtra("SecondChild", -1);
         int winHead = getIntent().getIntExtra("WinHead", 1);
         headWin = winHead == 1;
-        if (child < 0 || rival < 0) guestMode = true;
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setContentView(R.layout.activity_flip_coin);
-        b = findViewById(R.id.flip_button);
-        iv = findViewById(R.id.iv_coin);
-        r = new Random();
-        final MediaPlayer mediaPlayer = MediaPlayer.create(this, R.raw.sound);
 
-        b.setOnClickListener(new View.OnClickListener() {
+        if (child < 0 || rival < 0) guestMode = true;
+
+        mediaPlayer = MediaPlayer.create(this, R.raw.sound);
+
+        btnFlip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 mediaPlayer.start();
                 side = r.nextInt(2);
 
                 if (side == 0) {
-                    iv.setImageResource(R.drawable.head);
+                    imgCoin.setImageResource(R.drawable.head);
                     Toast.makeText(FlipCoinActivity.this, "Heads!", Toast.LENGTH_LONG).show();
                     win = headWin;
 
                 } else if (side == 1) {
-                    iv.setImageResource(R.drawable.tail);
+                    imgCoin.setImageResource(R.drawable.tail);
                     Toast.makeText(FlipCoinActivity.this, "Tails!", Toast.LENGTH_LONG).show();
                     win = !headWin;
                 }
@@ -73,7 +77,7 @@ public class FlipCoinActivity extends AppCompatActivity {
                 RotateAnimation rotate = new RotateAnimation(0, 999999999,
                         RotateAnimation.RELATIVE_TO_SELF, 0.5f, RotateAnimation.RELATIVE_TO_SELF, 0.5f);
                 rotate.setDuration(1800);
-                iv.startAnimation(rotate);
+                imgCoin.startAnimation(rotate);
 
                 if (!guestMode) {
                     FlipCoinRecord record;
