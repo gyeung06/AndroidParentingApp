@@ -7,13 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.CountDownTimer;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import java.util.Locale;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.timerService.TimerService;
@@ -21,7 +18,7 @@ import c.cmpt276.childapp.model.timerService.TimerService;
 public class TimeoutActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
-    private static final long START_TIME_IN_MILLIS = 50000;
+    private static final long START_TIME_IN_MILLIS = 5000;
     private static TextView mTextViewCountDown;
     private Button mButtonStartPause;
     private Button mButtonReset;

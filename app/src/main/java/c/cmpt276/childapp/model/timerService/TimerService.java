@@ -1,20 +1,27 @@
 package c.cmpt276.childapp.model.timerService;
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
+import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.util.Log;
 
 
 import androidx.annotation.Nullable;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import java.util.Locale;
 
+import c.cmpt276.childapp.R;
 import c.cmpt276.childapp.TimeoutActivity;
 
 public class TimerService extends Service {
-    private long mTimeLeftInMillis;
+    private static long mTimeLeftInMillis;
     private CountDownTimer mCountDownTimer;
     private boolean mTimerRunning;
 
@@ -29,7 +36,7 @@ public class TimerService extends Service {
     public int onStartCommand(Intent intent, int flags, int startId) {
         mTimeLeftInMillis = intent.getLongExtra("timeLeft", 0);
         startTimer();
-        return super.onStartCommand(intent, flags, startId);
+        return START_REDELIVER_INTENT;
     }
 
     @Override
@@ -41,7 +48,7 @@ public class TimerService extends Service {
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,500) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,200) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -58,9 +65,38 @@ public class TimerService extends Service {
             public void onFinish() {
                 mTimerRunning = false;
                 TimeoutActivity.setmTimerRunning(false);
+                timerDoneNotification();
             }
         }.start();
         mTimerRunning = true;
         TimeoutActivity.setmTimerRunning(true);
+    }
+
+    public static void stopAlarm(){
+        //TODO stop alarm
+    }
+
+    private void timerDoneNotification(){
+
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+            NotificationChannel channel = new NotificationChannel("TimerService", "TimerService", NotificationManager.IMPORTANCE_DEFAULT);
+            NotificationManager manager = getSystemService(NotificationManager.class);
+            manager.createNotificationChannel(channel);
+        }
+
+        Intent stopIntent = new Intent(this, TimerBroadcastReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
+
+
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "TimerService");
+        builder.setContentTitle("Timeout Over");
+        builder.setContentText("Timer is complete");
+        builder.setSmallIcon(R.drawable.ic_baseline_access_alarm_24);
+        builder.setAutoCancel(true);
+        builder.addAction(R.drawable.ic_baseline_pause_presentation_24, "Stop Alarm", pendingIntent);
+
+        NotificationManagerCompat managerCompat = NotificationManagerCompat.from(TimerService.this);
+        managerCompat.notify(1, builder.build());
     }
 }

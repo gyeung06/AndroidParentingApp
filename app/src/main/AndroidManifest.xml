@@ -26,6 +26,8 @@
         </activity>
 
         <service android:name=".model.timerService.TimerService" />
+
+        <receiver android:name=".model.timerService.TimerBroadcastReceiver"/>
     </application>
 
 </manifest>
