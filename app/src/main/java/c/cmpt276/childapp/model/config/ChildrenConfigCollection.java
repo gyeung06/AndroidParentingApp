@@ -14,11 +14,11 @@ import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
  */
 public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private static List<IndividualConfig> children;
+    private static ChildrenConfigCollection collection = new ChildrenConfigCollection();
+    private static Gson gson = new Gson();
     private HistoryCollection historyCollection;
     private String lastWinner = "";
     private String lastLoser = "";
-    private static ChildrenConfigCollection collection = new ChildrenConfigCollection();
-    private static Gson gson = new Gson();
 
     private ChildrenConfigCollection() {
         children = new ArrayList<>();
