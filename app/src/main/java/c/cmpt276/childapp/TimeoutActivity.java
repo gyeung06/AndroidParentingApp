@@ -1,15 +1,14 @@
 package c.cmpt276.childapp;
 
-import androidx.annotation.Nullable;
+
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.IBinder;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -17,6 +16,7 @@ import android.widget.TextView;
 import java.util.Locale;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
+import c.cmpt276.childapp.model.timerService.TimerService;
 
 public class TimeoutActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
@@ -26,11 +26,18 @@ public class TimeoutActivity extends AppCompatActivity {
     private Button mButtonStartPause;
     private Button mButtonReset;
 
-    private CountDownTimer mCountDownTimer;
-
     private boolean mTimerRunning;
 
     private long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+
+    public void setmTimerRunning(boolean mTimerRunning) {
+        this.mTimerRunning = mTimerRunning;
+    }
+
+    public void setmTimeLeftInMillis(long mTimeLeftInMillis) {
+        this.mTimeLeftInMillis = mTimeLeftInMillis;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,51 +68,32 @@ public class TimeoutActivity extends AppCompatActivity {
             }
         });
 
-        updateCountDownText();
+        updateCountDownText("00:05");
 
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,999) {
-            @Override
-            public void onTick(long millisUntilFinished) {
-                mTimeLeftInMillis = millisUntilFinished;
-                updateCountDownText();
-            }
-
-            @Override
-            public void onFinish() {
-                mTimerRunning = false;
-                mButtonStartPause.setText("Start");
-                mButtonStartPause.setVisibility(View.INVISIBLE);
-                mButtonReset.setVisibility(View.VISIBLE);
-            }
-        }.start();
-        mTimerRunning = true;
-        mButtonStartPause.setText("pause");
+        Intent newTimer = new Intent(this, TimerService.class);
+        newTimer.putExtra("timeLeft", mTimeLeftInMillis);
+        startService(newTimer);
+        mButtonStartPause.setText("Pause");
         mButtonReset.setVisibility(View.INVISIBLE);
     }
 
     private void pauseTimer() {
-        mCountDownTimer.cancel();
-        mTimerRunning =false;
+        stopService(new Intent(this, TimerService.class));
         mButtonStartPause.setText("Start");
         mButtonReset.setVisibility(View.VISIBLE);
     }
 
     private void resetTimer() {
         mTimeLeftInMillis = START_TIME_IN_MILLIS;
-        updateCountDownText();
         mButtonReset.setVisibility(View.INVISIBLE);
         mButtonStartPause.setVisibility(View.VISIBLE);
     }
 
-    private void updateCountDownText() {
-        int minutes = (int)(mTimeLeftInMillis/1000)/60;
-        int seconds = (int)(mTimeLeftInMillis/1000)%60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-
+    public void updateCountDownText(String timeLeftFormatted) {
+        Log.i("why", "updateCountDownText: " + timeLeftFormatted);
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
