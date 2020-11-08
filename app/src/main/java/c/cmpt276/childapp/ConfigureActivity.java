@@ -2,7 +2,6 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -24,28 +23,6 @@ public class ConfigureActivity extends AppCompatActivity {
 
     Button btnSave, btnDelete, btnSaveClose;
     CheckBox chkTimer, chkFlipCoin;
-
-    /**
-     * create intent
-     *
-     * @param context            context of the origin
-     * @param indexOfChildConfig if less than 0 then means this is creating a new IndividualConfig. if greater than 0, it will access and load info from ChildrenConfigCollection using the index provided.
-     * @return the intent to be started
-     */
-    public static Intent createIntent(Context context, int indexOfChildConfig) {
-        Intent i = new Intent(context, ConfigureActivity.class);
-        i.putExtra("CHILD_SELECTED", indexOfChildConfig);
-        return i;
-    }
-
-    protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        SharedPreferences.Editor ed = sp.edit();
-        ed.clear();
-        ed.putString("CHILDREN_INFO", configs.getJSON());
-        ed.apply();
-        super.onPause();
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +49,30 @@ public class ConfigureActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * create intent
+     *
+     * @param context            context of the origin
+     * @param indexOfChildConfig if less than 0 then means this is creating a new IndividualConfig. if greater than 0, it will access and load info from ChildrenConfigCollection using the index provided.
+     * @return the intent to be started
+     */
+    public static Intent createIntent(Context context, int indexOfChildConfig) {
+        Intent i = new Intent(context, ConfigureActivity.class);
+        i.putExtra("CHILD_SELECTED", indexOfChildConfig);
+        return i;
+    }
+
+    protected void onPause() {
+        configs.save(this);
+        super.onPause();
+    }
+
     private void saveData(boolean close) {
         String name = ((EditText) findViewById(R.id.edtName)).getText().toString().trim();
         if (name.isEmpty()) {
             Toast.makeText(ConfigureActivity.this, "Cannot save because name is empty", Toast.LENGTH_SHORT).show();
             return;
         }
-
-        Toast.makeText(ConfigureActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
         if (editorMode) {
             configs.get(editIndex).set(name, flipCoinEnable, timerEnable);
@@ -88,6 +81,9 @@ public class ConfigureActivity extends AppCompatActivity {
             editorMode = true;
             editIndex = configs.size() - 1;
         }
+
+        configs.save(this);
+        Toast.makeText(ConfigureActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
         if (close) {
             finish();
@@ -148,7 +144,6 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveData(true);
-
             }
         });
     }

@@ -1,5 +1,8 @@
 package c.cmpt276.childapp.model.config;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
+
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
@@ -8,15 +11,17 @@ import java.util.List;
 
 import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
 
+import static android.content.Context.MODE_PRIVATE;
+
 /**
  * singleton class for storing all children's config
  * and flip coin history information
  */
 public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
-    private static List<IndividualConfig> children;
-    private static ChildrenConfigCollection collection = new ChildrenConfigCollection();
+    private static ChildrenConfigCollection collection;
     private static Gson gson = new Gson();
     private HistoryCollection historyCollection;
+    private List<IndividualConfig> children;
     private String lastWinner = "";
     private String lastLoser = "";
 
@@ -30,7 +35,11 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     }
 
     public static ChildrenConfigCollection loadWithJSONObject(String json) {
-        collection = gson.fromJson(json, ChildrenConfigCollection.class);
+        if (json.isEmpty()) {
+            collection = new ChildrenConfigCollection();
+        } else {
+            collection = gson.fromJson(json, ChildrenConfigCollection.class);
+        }
         return collection;
     }
 
@@ -101,5 +110,13 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
 
     public String getLastLoser() {
         return lastLoser;
+    }
+
+    public void save(Activity activity) {
+        SharedPreferences sp = activity.getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
+        SharedPreferences.Editor ed = sp.edit();
+        ed.clear();
+        ed.putString("CHILDREN_INFO", getJSON());
+        ed.apply();
     }
 }

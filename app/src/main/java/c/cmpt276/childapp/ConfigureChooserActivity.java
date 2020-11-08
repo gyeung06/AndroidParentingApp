@@ -2,7 +2,6 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +18,8 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
 
 public class ConfigureChooserActivity extends AppCompatActivity {
-    ChildrenConfigCollection manager = ChildrenConfigCollection.getInstance();
+    ChildrenConfigCollection configs;
+    ListView listView;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ConfigureChooserActivity.class);
@@ -32,6 +32,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         setContentView(R.layout.activity_configure_chooser);
         FloatingActionButton fab = findViewById(R.id.fabNew);
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -39,15 +40,16 @@ public class ConfigureChooserActivity extends AppCompatActivity {
                 //finish();
             }
         });
+
+        configs = ChildrenConfigCollection.getInstance();
+
+        listView = findViewById(R.id.LsChildren);
+
         updateList();
     }
 
     protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        SharedPreferences.Editor ed = sp.edit();
-        ed.clear();
-        ed.putString("CHILDREN_INFO", manager.getJSON());
-        ed.apply();
+        configs.save(this);
         super.onPause();
     }
 
@@ -63,13 +65,12 @@ public class ConfigureChooserActivity extends AppCompatActivity {
 
     private void updateList() {
         ArrayAdapter<IndividualConfig> adapter = new ChildNameAdapter();
-        ListView listView = (ListView) findViewById(R.id.LsChildren);
         listView.setAdapter(adapter);
     }
 
     private class ChildNameAdapter extends ArrayAdapter<IndividualConfig> {
         public ChildNameAdapter() {
-            super(ConfigureChooserActivity.this, R.layout.child_list_item, manager.getArray());
+            super(ConfigureChooserActivity.this, R.layout.child_list_item, configs.getArray());
         }
 
         @Override
@@ -80,9 +81,9 @@ public class ConfigureChooserActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.child_list_item, parent, false);
             }
 
-            IndividualConfig currentConfig = manager.get(position);
+            IndividualConfig currentConfig = configs.get(position);
 
-            TextView nameText = (TextView) itemView.findViewById(R.id.txtNameItem);
+            TextView nameText = itemView.findViewById(R.id.txtNameItem);
             nameText.setText(currentConfig.getName());
 
             Button edit = itemView.findViewById(R.id.btnEditItem);

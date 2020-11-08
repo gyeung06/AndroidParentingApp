@@ -2,7 +2,6 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
@@ -105,11 +104,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     }
 
     protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        SharedPreferences.Editor ed = sp.edit();
-        ed.clear();
-        ed.putString("CHILDREN_INFO", configs.getJSON());
-        ed.apply();
+        configs.save(this);
         super.onPause();
     }
 }

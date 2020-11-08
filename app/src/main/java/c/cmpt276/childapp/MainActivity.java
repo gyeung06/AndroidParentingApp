@@ -10,7 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
-    ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
+    ChildrenConfigCollection configs;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -18,19 +18,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         String jsonObj = sp.getString("CHILDREN_INFO", "");
-        if (!jsonObj.trim().isEmpty()) {
-            configs = ChildrenConfigCollection.loadWithJSONObject(jsonObj);
-        }
+        if (jsonObj == null) jsonObj = "";
+        configs = ChildrenConfigCollection.loadWithJSONObject(jsonObj);
+
         initializeButtons();
     }
 
-    //TODO copy onPause to every Activity
     protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        SharedPreferences.Editor ed = sp.edit();
-        ed.clear();
-        ed.putString("CHILDREN_INFO", configs.getJSON());
-        ed.apply();
+        configs.save(this);
         super.onPause();
     }
 

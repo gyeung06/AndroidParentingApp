@@ -2,7 +2,6 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -48,11 +47,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
     }
 
     protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
-        SharedPreferences.Editor ed = sp.edit();
-        ed.clear();
-        ed.putString("CHILDREN_INFO", configs.getJSON());
-        ed.apply();
+        configs.save(this);
         super.onPause();
     }
 
@@ -132,7 +127,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
             listName.add(configs.get(child).getName());
         }
         final int ofLo = offsetLocation;
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, listName);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, listName);
         listRival.setAdapter(adapter);
 
         listRival.setOnItemClickListener(new AdapterView.OnItemClickListener() {
