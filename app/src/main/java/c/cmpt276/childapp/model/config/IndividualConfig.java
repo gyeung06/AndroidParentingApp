@@ -6,10 +6,10 @@ package c.cmpt276.childapp.model.config;
 public class IndividualConfig {
     private String name;
     private boolean flipCoin;
-    private boolean timeoutTimer;
+  //  private boolean timeoutTimer;
 
-    public IndividualConfig(String name, boolean flipCoin, boolean timeoutTimer) {
-        set(name, flipCoin, timeoutTimer);
+    public IndividualConfig(String name, boolean flipCoin) {
+        set(name, flipCoin);
     }
 
     public String getName() {
@@ -20,13 +20,13 @@ public class IndividualConfig {
         return flipCoin;
     }
 
-    public boolean getTimeoutTimer() {
-        return timeoutTimer;
-    }
+//    public boolean getTimeoutTimer() {
+//        return timeoutTimer;
+//    }
 
-    public void set(String name, boolean flipCoin, boolean timeoutTimer) {
+    public void set(String name, boolean flipCoin) {
         this.name = name;
         this.flipCoin = flipCoin;
-        this.timeoutTimer = timeoutTimer;
+
     }
 }

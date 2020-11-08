@@ -19,10 +19,10 @@ public class ConfigureActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
     private int editIndex = -1;
-    private boolean flipCoinEnable, timerEnable;
+    private boolean flipCoinEnable;
 
     Button btnSave, btnDelete, btnSaveClose;
-    CheckBox chkTimer, chkFlipCoin;
+    CheckBox  chkFlipCoin;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,7 @@ public class ConfigureActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
         btnSaveClose = findViewById(R.id.btnSaveAndClose);
-        chkTimer = findViewById(R.id.chkTimer);
+        //chkTimer = findViewById(R.id.chkTimer);
         chkFlipCoin = findViewById(R.id.chkFlipCoin);
 
         setListeners();
@@ -75,9 +75,9 @@ public class ConfigureActivity extends AppCompatActivity {
         }
 
         if (editorMode) {
-            configs.get(editIndex).set(name, flipCoinEnable, timerEnable);
+            configs.get(editIndex).set(name, flipCoinEnable);
         } else {
-            configs.add(new IndividualConfig(name, flipCoinEnable, timerEnable));
+            configs.add(new IndividualConfig(name, flipCoinEnable));
             editorMode = true;
             editIndex = configs.size() - 1;
         }
@@ -91,12 +91,12 @@ public class ConfigureActivity extends AppCompatActivity {
     }
 
     private void autoPopulateFields() {
-        CheckBox timer = findViewById(R.id.chkTimer);
+        //CheckBox timer = findViewById(R.id.chkTimer);
         CheckBox fc = findViewById(R.id.chkFlipCoin);
         EditText edtName = findViewById(R.id.edtName);
         edtName.setText(configs.get(editIndex).getName());
         fc.setChecked(configs.get(editIndex).getFlipCoin());
-        timer.setChecked(configs.get(editIndex).getTimeoutTimer());
+        //timer.setChecked(configs.get(editIndex).getTimeoutTimer());
     }
 
     @Override
@@ -106,12 +106,12 @@ public class ConfigureActivity extends AppCompatActivity {
     }
 
     private void setListeners() {
-        chkTimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                timerEnable = b;
-            }
-        });
+//        chkTimer.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+//            @Override
+//            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+//                timerEnable = b;
+//            }
+//        });
 
         chkFlipCoin.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

@@ -18,14 +18,15 @@ public class FlipCoinRecord {
         this.date = date;
 
         if (!headChild.isEmpty() && !tailChild.isEmpty()) {
-            return;
-        }
 
-        if (head) {
-            ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
-        } else {
-            ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
-        }
+                if (head) {
+                    ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
+                } else {
+                    ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
+                }
+            }
+
+
     }
 
     public boolean isHead() {

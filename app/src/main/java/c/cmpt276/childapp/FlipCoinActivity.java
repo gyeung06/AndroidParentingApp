@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.RotateAnimation;
 import android.widget.Button;
@@ -51,7 +52,7 @@ public class FlipCoinActivity extends AppCompatActivity {
         rival = getIntent().getIntExtra("SecondChild", -1);
         int winHead = getIntent().getIntExtra("WinHead", 1);
         headWin = winHead == 1;
-
+        Log.d("headwin?",String.valueOf(headWin));
         if (child < 0 || rival < 0) guestMode = true;
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sound);
@@ -80,17 +81,13 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 if (!guestMode) {
                     FlipCoinRecord record;
-                    if (headWin) {
+                    if ((win && headWin) || (!win && !headWin)) {
                         record = new FlipCoinRecord(configs.get(child).getName(), configs.get(rival).getName());
                     } else {
                         record = new FlipCoinRecord(configs.get(rival).getName(), configs.get(child).getName());
                     }
                     record.setResult(headWin, Calendar.getInstance().getTime().toString());
-                    if (win) {
-                        configs.setLastResultCandidate(configs.get(child).getName(), configs.get(rival).getName());
-                    } else {
-                        configs.setLastResultCandidate(configs.get(rival).getName(), configs.get(child).getName());
-                    }
+
 
                     configs.getFlipCoinHistory().add(record);
                 }

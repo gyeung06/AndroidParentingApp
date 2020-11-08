@@ -60,20 +60,20 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         }
         return positions;
     }
-
-    public int[] getTimerEnabledChildrenPositions() {
-        List<Integer> l = new ArrayList<>();
-        for (int i = 0; i < size(); i++) {
-            if (children.get(i).getTimeoutTimer()) {
-                l.add(i);
-            }
-        }
-        int[] toReturn = new int[l.size()];
-        for (int i = 0; i < l.size(); i++) {
-            toReturn[i] = l.get(i);
-        }
-        return toReturn;
-    }
+//unused
+//    public int[] getTimerEnabledChildrenPositions() {
+//        List<Integer> l = new ArrayList<>();
+//        for (int i = 0; i < size(); i++) {
+//            if (children.get(i).getTimeoutTimer()) {
+//                l.add(i);
+//            }
+//        }
+//        int[] toReturn = new int[l.size()];
+//        for (int i = 0; i < l.size(); i++) {
+//            toReturn[i] = l.get(i);
+//        }
+//        return toReturn;
+//    }
 
     public void add(IndividualConfig config) {
         children.add(config);
