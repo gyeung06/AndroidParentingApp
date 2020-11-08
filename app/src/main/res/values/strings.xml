@@ -13,4 +13,15 @@
     <string name="main_coinbtn">Flip Coin</string>
     <string name="main_timebtn">Timeout Timer</string>
     <string name="main_title">Pratical Parent</string>
+    <string name="timer_watch">00:00</string>
+    <string name="timer_startbtn">Start</string>
+    <string name="timer_resetbtn">reset</string>
+    <string name="timer_1min">1</string>
+    <string name="timer_2min">2</string>
+    <string name="timer_5min">5</string>
+    <string name="timer_10min">10</string>
+    <string name="timer_3min">3</string>
+    <string name="timer_custombtn">Custom</string>
+    <string name="timer_custom_text">Custom Time (Minutes)</string>
+    <string name="timer_set_text">Set Time (Mintues)</string>
 </resources>

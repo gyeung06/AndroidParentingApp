@@ -3,25 +3,34 @@ package c.cmpt276.childapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+
+import java.util.Locale;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.timerService.TimerService;
 
-public class TimeoutActivity extends AppCompatActivity {
+//TODO Add background
+//TODO Add back button on the tool bar
+
+public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener{
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
-    private static final long START_TIME_IN_MILLIS = 5000;
+    private static final long START_TIME_IN_MILLIS = 60000;
+    @SuppressLint("StaticFieldLeak")
     private static TextView mTextViewCountDown;
     private Button mButtonStartPause;
-    private Button mButtonReset;
 
     private static boolean mTimerRunning;
 
@@ -41,73 +50,141 @@ public class TimeoutActivity extends AppCompatActivity {
         setContentView(R.layout.activity_timeout);
 
         mTextViewCountDown = findViewById(R.id.text_view_timer);
+        onCreateButtonInit();
 
-        mButtonStartPause = findViewById(R.id.button_start);
-        mButtonReset = findViewById(R.id.button_reset);
+        updateCountDownText();
 
-        mButtonStartPause.setOnClickListener(new View.OnClickListener(){
+    }
 
-            @Override
-            public void onClick(View v) {
+    private void onCreateButtonInit(){
+        mButtonStartPause = findViewById(R.id.timer_button_start);
+        Button mButtonReset = findViewById(R.id.timer_button_reset);
+        Button optionBtn;
+
+        optionBtn = findViewById(R.id.timer_1min);
+        optionBtn.setOnClickListener(this);
+        optionBtn = findViewById(R.id.timer_2min);
+        optionBtn.setOnClickListener(this);
+        optionBtn = findViewById(R.id.timer_3min);
+        optionBtn.setOnClickListener(this);
+        optionBtn = findViewById(R.id.timer_5min);
+        optionBtn.setOnClickListener(this);
+        optionBtn = findViewById(R.id.timer_10min);
+        optionBtn.setOnClickListener(this);
+        optionBtn = findViewById(R.id.timer_custombtn);
+        optionBtn.setOnClickListener(this);
+
+        mButtonStartPause.setOnClickListener(this);
+        mButtonReset.setOnClickListener(this);
+    }
+
+    private long getLastUsedTime(){
+        SharedPreferences pref = getSharedPreferences("time", 0);
+        return pref.getLong("time", 60000);
+    }
+
+    private void saveLastUsedTime(long time){
+        SharedPreferences pref = getSharedPreferences("time", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong("time", time);
+        editor.apply();
+    }
+
+    private void initializeButtons(long time) {
+        if (mTimerRunning){
+            Toast.makeText(TimeoutActivity.this, "Pause Timer First", Toast.LENGTH_SHORT).show();
+        } else {
+            saveLastUsedTime(time);
+            resetTimer();
+        }
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.timer_button_start:
                 if (mTimerRunning) {
                     pauseTimer();
                 }
                 else{
                     startTimer();
                 }
-            }
-        });
-        mButtonReset.setOnClickListener(new View.OnClickListener(){
-
-            @Override
-            public void onClick(View v) {
+                break;
+            case R.id.timer_button_reset:
                 resetTimer();
-            }
-        });
-
-        updateCountDownText("00:05");
-
+                break;
+            case R.id.timer_1min:
+                initializeButtons(60000);
+                break;
+            case R.id.timer_2min:
+                initializeButtons(120000);
+                break;
+            case R.id.timer_3min:
+                initializeButtons(180000);
+                break;
+            case R.id.timer_5min:
+                initializeButtons(240000);
+                break;
+            case R.id.timer_10min:
+                initializeButtons(600000);
+                break;
+            case R.id.timer_custombtn:
+                EditText num = findViewById(R.id.timer_custom_input);
+                String test = num.getText().toString();
+                if(TextUtils.isEmpty(test)){
+                    Toast.makeText(TimeoutActivity.this, "Enter a time", Toast.LENGTH_SHORT).show();
+                } else {
+                    long minutes = Long.parseLong(test);
+                    minutes *= 60000;
+                    initializeButtons(minutes);
+                }
+                break;
+        }
     }
 
+    @SuppressLint("SetTextI18n")
     private void startTimer() {
         Intent newTimer = new Intent(this, TimerService.class);
         newTimer.putExtra("timeLeft", mTimeLeftInMillis);
         startService(newTimer);
         mButtonStartPause.setText("Pause");
-        mButtonReset.setVisibility(View.INVISIBLE);
     }
 
+    @SuppressLint("SetTextI18n")
     private void pauseTimer() {
         stopService(new Intent(this, TimerService.class));
         mButtonStartPause.setText("Start");
-        mButtonReset.setVisibility(View.VISIBLE);
     }
 
+    @SuppressLint("SetTextI18n")
     private void resetTimer() {
-        mTimeLeftInMillis = START_TIME_IN_MILLIS;
         stopService(new Intent(this, TimerService.class));
-        mButtonReset.setVisibility(View.INVISIBLE);
-        mButtonStartPause.setVisibility(View.VISIBLE);
+        mTimeLeftInMillis = getLastUsedTime();
+        updateCountDownText();
+        mButtonStartPause.setText("Start");
     }
 
-    public static void updateCountDownText(String timeLeftFormatted) {
+    public static void updateCountDownText() {
+        int minutes = (int)(mTimeLeftInMillis/1000)/60;
+        int seconds = (int)(mTimeLeftInMillis/1000)%60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
         mTextViewCountDown.setText(timeLeftFormatted);
     }
 
     protected void onPause() {
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
         ed.putString("CHILDREN_INFO",configs.getJSON());
-        ed.commit();
+        ed.apply();
         super.onPause();
     }
 
 
 
     public static Intent createIntent(Context context) {
-        Intent i = new Intent(context, TimeoutActivity.class);
-        return i;
+        return new Intent(context, TimeoutActivity.class);
     }
 
 }

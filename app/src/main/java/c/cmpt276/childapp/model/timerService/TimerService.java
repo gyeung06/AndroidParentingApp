@@ -4,6 +4,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.MediaPlayer;
 import android.media.RingtoneManager;
@@ -11,14 +12,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
-import android.util.Log;
+import android.os.Vibrator;
 
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-
-import java.util.Locale;
 
 import c.cmpt276.childapp.R;
 import c.cmpt276.childapp.TimeoutActivity;
@@ -26,7 +25,7 @@ import c.cmpt276.childapp.TimeoutActivity;
 public class TimerService extends Service {
     private static long mTimeLeftInMillis;
     private CountDownTimer mCountDownTimer;
-    private boolean mTimerRunning;
+    private static Vibrator v;
     private static MediaPlayer mp;
 
 
@@ -46,7 +45,6 @@ public class TimerService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        TimeoutActivity.setmTimeLeftInMillis(mTimeLeftInMillis);
         mCountDownTimer.cancel();
         TimeoutActivity.setmTimerRunning(false);
     }
@@ -57,30 +55,28 @@ public class TimerService extends Service {
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
                 TimeoutActivity.setmTimeLeftInMillis(mTimeLeftInMillis);
-
-                int minutes = (int)(mTimeLeftInMillis/1000)/60;
-                int seconds = (int)(mTimeLeftInMillis/1000)%60;
-
-                String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-                TimeoutActivity.updateCountDownText(timeLeftFormatted);
+                TimeoutActivity.updateCountDownText();
             }
 
             @Override
             public void onFinish() {
-                mTimerRunning = false;
                 TimeoutActivity.setmTimerRunning(false);
                 timerDoneNotification();
 
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 mp = MediaPlayer.create(TimerService.this, notification);
                 mp.start();
+
+                v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
+                long[] pattern = {0, 500, 500};
+                v.vibrate(pattern, 0);
             }
         }.start();
-        mTimerRunning = true;
         TimeoutActivity.setmTimerRunning(true);
     }
 
     public static void stopAlarm(){
+        v.cancel();
         mp.stop();
     }
 
@@ -94,8 +90,6 @@ public class TimerService extends Service {
 
         Intent stopIntent = new Intent(this, TimerBroadcastReceiver.class);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, stopIntent, 0);
-
-
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "TimerService");
         builder.setContentTitle("Timeout Over");
