@@ -1,20 +1,21 @@
 package c.cmpt276.childapp;
 
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.Locale;
 
@@ -22,9 +23,8 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.timerService.TimerService;
 
 //TODO Add background
-//TODO Add back button on the tool bar
 
-public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener{
+public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
     private static final long START_TIME_IN_MILLIS = 60000;
@@ -33,30 +33,25 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private Button mButtonStartPause;
 
     private static boolean mTimerRunning;
-
     private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
 
-    public static void setmTimerRunning(boolean mTimerRunning) {
-        TimeoutActivity.mTimerRunning = mTimerRunning;
+    public static void setmTimerRunning(boolean newRunning) {
+        mTimerRunning = newRunning;
     }
 
-    public static void setmTimeLeftInMillis(long mTimeLeftInMillis) {
-        TimeoutActivity.mTimeLeftInMillis = mTimeLeftInMillis;
+    public static void setmTimeLeftInMillis(long newTimeLeft) {
+        mTimeLeftInMillis = newTimeLeft;
     }
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeout);
+    public static void updateCountDownText() {
+        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
 
-        mTextViewCountDown = findViewById(R.id.text_view_timer);
-        onCreateButtonInit();
-
-        updateCountDownText();
-
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        mTextViewCountDown.setText(timeLeftFormatted);
     }
 
-    private void onCreateButtonInit(){
+    private void onCreateButtonInit() {
         mButtonStartPause = findViewById(R.id.timer_button_start);
         Button mButtonReset = findViewById(R.id.timer_button_reset);
         Button optionBtn;
@@ -91,7 +86,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeButtons(long time) {
-        if (mTimerRunning){
+        if (mTimerRunning) {
             Toast.makeText(TimeoutActivity.this, "Pause Timer First", Toast.LENGTH_SHORT).show();
         } else {
             saveLastUsedTime(time);
@@ -100,13 +95,49 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timeout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mTextViewCountDown = findViewById(R.id.text_view_timer);
+        onCreateButtonInit();
+
+        updateCountDownText();
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void startTimer() {
+        Intent newTimer = new Intent(this, TimerService.class);
+        newTimer.putExtra("timeLeft", mTimeLeftInMillis);
+        startService(newTimer);
+        mButtonStartPause.setText("Pause");
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void pauseTimer() {
+        stopService(new Intent(this, TimerService.class));
+        mButtonStartPause.setText("Start");
+    }
+
+    @SuppressLint("SetTextI18n")
+    private void resetTimer() {
+        stopService(new Intent(this, TimerService.class));
+        mTimeLeftInMillis = getLastUsedTime();
+        updateCountDownText();
+        mButtonStartPause.setText("Start");
+    }
+
+    @Override
     public void onClick(View v) {
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.timer_button_start:
                 if (mTimerRunning) {
                     pauseTimer();
-                }
-                else{
+                } else {
                     startTimer();
                 }
                 break;
@@ -142,51 +173,29 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 
-    @SuppressLint("SetTextI18n")
-    private void startTimer() {
-        Intent newTimer = new Intent(this, TimerService.class);
-        newTimer.putExtra("timeLeft", mTimeLeftInMillis);
-        startService(newTimer);
-        mButtonStartPause.setText("Pause");
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void pauseTimer() {
-        stopService(new Intent(this, TimerService.class));
-        mButtonStartPause.setText("Start");
-    }
-
-    @SuppressLint("SetTextI18n")
-    private void resetTimer() {
-        stopService(new Intent(this, TimerService.class));
-        mTimeLeftInMillis = getLastUsedTime();
-        updateCountDownText();
-        mButtonStartPause.setText("Start");
-    }
-
-    public static void updateCountDownText() {
-        int minutes = (int)(mTimeLeftInMillis/1000)/60;
-        int seconds = (int)(mTimeLeftInMillis/1000)%60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(),"%02d:%02d",minutes,seconds);
-        mTextViewCountDown.setText(timeLeftFormatted);
-    }
-
     protected void onPause() {
         SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
-        ed.putString("CHILDREN_INFO",configs.getJSON());
+        ed.putString("CHILDREN_INFO", configs.getJSON());
         ed.apply();
         super.onPause();
     }
 
-
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     public static Intent createIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
-
 }
 
 

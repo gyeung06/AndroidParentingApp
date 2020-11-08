@@ -11,7 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ConfigureChooserActivity"></activity>
         <activity android:name=".ChooseCoinActivity" />
-        <activity android:name=".TimeoutActivity" />
+        <activity
+            android:name=".TimeoutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FlipCoinActivity" />
         <activity android:name=".ConfigureActivity" />
         <activity
