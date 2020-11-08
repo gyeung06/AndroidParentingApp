@@ -154,7 +154,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 initializeButtons(180000);
                 break;
             case R.id.timer_5min:
-                initializeButtons(240000);
+                initializeButtons(300000);
                 break;
             case R.id.timer_10min:
                 initializeButtons(600000);
