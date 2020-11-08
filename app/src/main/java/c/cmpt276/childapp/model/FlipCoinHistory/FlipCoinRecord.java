@@ -16,12 +16,15 @@ public class FlipCoinRecord {
     public void setResult(boolean head, String date) {
         this.head = head;
         this.date = date;
-        if (headChild != "" || tailChild != "") {
-            if (head) {
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
-            } else {
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
-            }
+
+        if (!headChild.isEmpty() && !tailChild.isEmpty()) {
+            return;
+        }
+
+        if (head) {
+            ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
+        } else {
+            ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
         }
     }
 
