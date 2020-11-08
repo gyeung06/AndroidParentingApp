@@ -31,9 +31,27 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @SuppressLint("StaticFieldLeak")
     private static TextView mTextViewCountDown;
     private Button mButtonStartPause;
+    private Button mButtonReset;
 
     private static boolean mTimerRunning;
     private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_timeout);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mTextViewCountDown = findViewById(R.id.text_view_timer);
+        mButtonStartPause = findViewById(R.id.timer_button_start);
+        mButtonReset = findViewById(R.id.timer_button_reset);
+
+        onCreateButtonInit();
+        updateCountDownText();
+    }
 
     public static void setmTimerRunning(boolean newRunning) {
         mTimerRunning = newRunning;
@@ -52,8 +70,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void onCreateButtonInit() {
-        mButtonStartPause = findViewById(R.id.timer_button_start);
-        Button mButtonReset = findViewById(R.id.timer_button_reset);
         Button optionBtn;
 
         optionBtn = findViewById(R.id.timer_1min);
@@ -92,21 +108,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             saveLastUsedTime(time);
             resetTimer();
         }
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_timeout);
-
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mTextViewCountDown = findViewById(R.id.text_view_timer);
-        onCreateButtonInit();
-
-        updateCountDownText();
     }
 
     @SuppressLint("SetTextI18n")
