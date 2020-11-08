@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="c.cmpt276.childapp">
-
+    <uses-permission android:name="android.permission.VIBRATE"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -11,7 +11,9 @@
         android:theme="@style/AppTheme">
         <activity android:name=".ConfigureChooserActivity"></activity>
         <activity android:name=".ChooseCoinActivity" />
-        <activity android:name=".TimeoutActivity" />
+        <activity
+            android:name=".TimeoutActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".FlipCoinActivity" />
         <activity android:name=".ConfigureActivity" />
         <activity
@@ -24,6 +26,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <service android:name=".model.timerService.TimerService" />
+
+        <receiver android:name=".model.timerService.TimerBroadcastReceiver"/>
     </application>
 
 </manifest>
