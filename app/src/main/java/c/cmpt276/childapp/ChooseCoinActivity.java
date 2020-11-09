@@ -71,7 +71,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
         listRival = findViewById(R.id.lsRival);
 
         listRivalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, secondChildList);
-        listRival.setAdapter(listRivalAdapter);
+
 
         setButtons();
         updateSetFirstChildList();
@@ -132,7 +132,8 @@ public class ChooseCoinActivity extends AppCompatActivity {
                 //listView.setSelection(hasFlipCoinPositions.get(i));
                 selectedChild = i;
                 Log.d("Selected", hasFlipCoinNames.get(selectedChild));
-                //selectedRival = -1;
+                selectedRival = -1;
+
                 updateSetSecondChildList();
 
                 if (seeSelectedChildOnly) {
@@ -150,18 +151,18 @@ public class ChooseCoinActivity extends AppCompatActivity {
             secondChildList.add(hasFlipCoinNames.get(i));
         }
         listRivalAdapter.notifyDataSetChanged();
-
+        listRival.setAdapter(listRivalAdapter);
         listRival.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == selectedRival) return;
-
                 selectedRival = i;
                 Log.d("Selected_Second", secondChildList.get(selectedRival));
             }
         });
         listRival.setSelector(R.color.design_default_color_secondary);
         listRival.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+
     }
 
     private void setButtons() {
@@ -204,7 +205,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 if (selectedChild < 0) {
-                    Toast.makeText(getApplicationContext(), "Cannot filter, you have to select one first", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Cannot filter, you have to select the choosing child first", Toast.LENGTH_SHORT).show();
                     chkViewHis.setChecked(false);
                     return;
                 }
