@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
 
+/**
+ * UI element when configuring a child
+ */
 public class ConfigureActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;

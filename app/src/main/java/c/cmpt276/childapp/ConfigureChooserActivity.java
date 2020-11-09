@@ -17,6 +17,9 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
 
+/**
+ * Choose which child to config
+ */
 public class ConfigureChooserActivity extends AppCompatActivity {
     ChildrenConfigCollection configs;
     ListView listView;

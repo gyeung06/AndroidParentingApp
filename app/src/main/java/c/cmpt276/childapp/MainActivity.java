@@ -9,6 +9,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * Menu UI screen
+ */
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     ChildrenConfigCollection configs;
 

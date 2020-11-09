@@ -25,6 +25,9 @@ import java.util.List;
 import c.cmpt276.childapp.model.FlipCoinHistory.FlipCoinRecord;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * Class for choosing which two children are competing
+ */
 public class ChooseCoinActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean seeSelectedChildOnly = false , headWins = true;

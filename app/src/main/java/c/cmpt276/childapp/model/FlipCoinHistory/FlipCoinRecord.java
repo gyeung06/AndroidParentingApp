@@ -2,6 +2,9 @@ package c.cmpt276.childapp.model.FlipCoinHistory;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * A single record for saving flip coin history data
+ */
 public class FlipCoinRecord {
     private boolean head;
     private String headChild;
