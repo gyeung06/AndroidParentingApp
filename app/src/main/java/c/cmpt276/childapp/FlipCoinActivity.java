@@ -84,11 +84,8 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 if (!guestMode) {
                     FlipCoinRecord record;
-                    if ((win && headWin) || (!win && !headWin)) {
-                        record = new FlipCoinRecord(configs.get(child).getName(), configs.get(rival).getName());
-                    } else {
-                        record = new FlipCoinRecord(configs.get(rival).getName(), configs.get(child).getName());
-                    }
+
+                    record = new FlipCoinRecord(configs.get(child).getName(), configs.get(rival).getName());
                     record.setResult(headWin, Calendar.getInstance().getTime().toString());
 
 
