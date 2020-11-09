@@ -7,12 +7,10 @@
     <string name="next">Next</string>
     <string name="previous">Previous</string>
 
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
     <string name="main_childbtn">Configure Child</string>
     <string name="main_coinbtn">Flip Coin</string>
     <string name="main_timebtn">Timeout Timer</string>
-    <string name="main_title">Pratical Parent</string>
+    <string name="main_title">Practical Parent</string>
     <string name="timer_watch">00:00</string>
     <string name="timer_startbtn">Start</string>
     <string name="timer_resetbtn">reset</string>
@@ -23,7 +21,7 @@
     <string name="timer_3min">3</string>
     <string name="timer_custombtn">Custom</string>
     <string name="timer_custom_text">Custom Time (Minutes)</string>
-    <string name="timer_set_text">Set Time (Mintues)</string>
+    <string name="timer_set_text">Set Time (Minutes)</string>
 
 
     <string name="list_item_edit">Edit</string>
@@ -39,7 +37,7 @@
     <string name="choose_coin_des7">Opponent</string>
     <string name="choose_coin_des8">Choice</string>
     <string name="choose_coin_des9">Result</string>
-    <string name="choose_coin_con">continue</string>
+    <string name="choose_coin_con">Continue</string>
     <string name="config_name">Name:</string>
     <string name="config_coin">Flip Coin</string>
     <string name="config_fea">Configure Features:</string>

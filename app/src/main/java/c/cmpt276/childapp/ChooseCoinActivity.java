@@ -32,8 +32,12 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
  */
 public class ChooseCoinActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
-    Button btnContinue;
     private int selectedChild = -1;
+    private boolean seeSelectedChildOnly = false, headWins = true;
+    private int selectedRival = -1;
+    private List<String> hasFlipCoinNames, secondChildList;
+
+    Button btnContinue;
     RadioButton radHead;
     RadioButton radTail;
     CheckBox chkViewHis;
@@ -41,9 +45,6 @@ public class ChooseCoinActivity extends AppCompatActivity {
     ListView listRival;
     ListView listHistory;
     ArrayAdapter<String> listRivalAdapter;
-    private boolean seeSelectedChildOnly = false, headWins = true;
-    private int selectedRival = -1;
-    private List<String> hasFlipCoinNames, secondChildList;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ChooseCoinActivity.class);
@@ -70,10 +71,9 @@ public class ChooseCoinActivity extends AppCompatActivity {
         listFirstChild = findViewById(R.id.lsChoosingChild);
         listRival = findViewById(R.id.lsRival);
 
-        listRivalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, secondChildList);
-
-
         setButtons();
+        setupSecondChildList();
+
         updateSetFirstChildList();
         updatePreviousWinner();
         updateHistory();
@@ -143,14 +143,8 @@ public class ChooseCoinActivity extends AppCompatActivity {
         });
     }
 
-    private void updateSetSecondChildList() {
-        // repopulate omitting first child
-        secondChildList.clear();
-        for (int i = 0; i < hasFlipCoinNames.size(); i++) {
-            if (i == selectedChild) continue;
-            secondChildList.add(hasFlipCoinNames.get(i));
-        }
-        listRivalAdapter.notifyDataSetChanged();
+    private void setupSecondChildList() {
+        listRivalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, secondChildList);
         listRival.setAdapter(listRivalAdapter);
         listRival.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -162,7 +156,16 @@ public class ChooseCoinActivity extends AppCompatActivity {
         });
         listRival.setSelector(R.color.design_default_color_secondary);
         listRival.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+    }
 
+    private void updateSetSecondChildList() {
+        // repopulate omitting first child
+        secondChildList.clear();
+        for (int i = 0; i < hasFlipCoinNames.size(); i++) {
+            if (i == selectedChild) continue;
+            secondChildList.add(hasFlipCoinNames.get(i));
+        }
+        listRival.setAdapter(listRivalAdapter);
     }
 
     private void setButtons() {

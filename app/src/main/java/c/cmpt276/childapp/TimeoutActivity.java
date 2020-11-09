@@ -116,7 +116,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     @SuppressLint("SetTextI18n")
     private void startTimer() {
-
         Intent newTimer = new Intent(this, TimerService.class);
         newTimer.putExtra("timeLeft", mTimeLeftInMillis);
         startService(newTimer);
@@ -144,8 +143,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 if (mTimerRunning) {
                     pauseTimer();
                 } else {
-                    if(mTimeLeftInMillis <= 0){
-                        Toast.makeText(getApplicationContext(),"You must have enter a time that greater than 0",Toast.LENGTH_SHORT).show();
+                    if (mTimeLeftInMillis <= 0) {
+                        Toast.makeText(getApplicationContext(), "You must have enter a time that greater than 0", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     startTimer();

@@ -80,7 +80,7 @@ public class ConfigureActivity extends AppCompatActivity {
         if (editorMode) {
             configs.get(editingChild).set(name, flipCoinEnable);
         } else {
-            if(configs.contains(name)){
+            if (configs.contains(name)) {
                 Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
                 return;
             }

@@ -2,6 +2,7 @@ package c.cmpt276.childapp.model.FlipCoinHistory;
 
 import java.util.ArrayList;
 import java.util.List;
+
 /**
  * A collection of flip coin history
  */
