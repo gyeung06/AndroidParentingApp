@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <ListView
+        android:id="@+id/tableHistory"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fastScrollAlwaysVisible="false"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/txtDes1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="Select choosing child:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ListView
+        android:id="@+id/lsChoosingChild"
+        android:layout_width="200dp"
+        android:layout_height="175dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes1" />
+
+    <ListView
+        android:id="@+id/lsRival"
+        android:layout_width="200dp"
+        android:layout_height="175dp"
+        android:layout_marginStart="11dp"
+        app:layout_constraintStart_toEndOf="@+id/lsChoosingChild"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes2" />
+
+
+    <TextView
+        android:id="@+id/txtDes2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="16dp"
+        android:text="Select rival:"
+        app:layout_constraintStart_toEndOf="@+id/txtDes1"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtxDes4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="50dp"
+        android:text="History:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtDes3" />
+
+    <TextView
+        android:id="@+id/txtDes3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="5dp"
+        android:layout_marginTop="16dp"
+        android:text="Choose:"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="224dp"
+        android:layout_height="58dp"
+        android:layout_marginStart="64dp"
+        android:layout_marginTop="16dp"
+        android:contextClickable="true"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild">
+
+        <RadioButton
+            android:id="@+id/rdbHead"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="Head" />
+
+        <RadioButton
+            android:id="@+id/rdbTail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Tail" />
+
+    </RadioGroup>
+
+    <CheckBox
+        android:id="@+id/chkViewHistorySelected"
+        android:layout_width="200dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="151dp"
+        android:layout_marginTop="11dp"
+        android:text="Selected Child Only"
+        app:layout_constraintStart_toEndOf="@+id/txtxDes4"
+        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:padding="8sp"
+        app:layout_constraintTop_toBottomOf="@+id/txtxDes4">
+
+        <TextView
+            android:id="@+id/textDes5"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Date" />
+
+        <TextView
+            android:id="@+id/txtDes6"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Chooser" />
+
+        <TextView
+            android:id="@+id/txtDes7"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Opponent" />
+
+        <TextView
+            android:id="@+id/txtDes8"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Choice" />
+
+        <TextView
+            android:id="@+id/txtDes9"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Result" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/continuebutton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="13dp"
+        android:layout_marginTop="16dp"
+        android:text="continue"
+        app:layout_constraintStart_toEndOf="@+id/radioGroup"
+        app:layout_constraintTop_toBottomOf="@+id/lsRival" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

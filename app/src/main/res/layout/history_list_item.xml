@@ -1,34 +1,40 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:padding="8sp">
 
     <TextView
         android:id="@+id/txtTime_item"
-        android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:text="Name"
+        android:layout_width="0dp"
+        android:layout_weight="1"
         app:autoSizeTextType="uniform" />
+
     <TextView
-        android:id="@+id/txtHeadPlayer_item"
-        android:layout_width="100dp"
+        android:id="@+id/txtChooser"
         android:layout_height="match_parent"
-        android:text="Name"
-         />
+        android:layout_width="0dp"
+        android:layout_weight="1" />
+
     <TextView
-        android:id="@+id/txtTailPlayer_item"
-        android:layout_width="100dp"
+        android:id="@+id/txtRival"
         android:layout_height="match_parent"
-        android:text="Name"
-         />
+        android:layout_width="0dp"
+        android:layout_weight="1" />
+
     <TextView
-        android:id="@+id/txtWinner_item"
-        android:layout_width="100dp"
+        android:id="@+id/txtChoice"
         android:layout_height="match_parent"
-        android:text="Name"
-         />
+        android:layout_width="0dp"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/txtResult"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1" />
 
 
 </LinearLayout>

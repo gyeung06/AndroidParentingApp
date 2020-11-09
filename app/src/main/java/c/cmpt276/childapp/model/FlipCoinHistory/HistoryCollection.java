@@ -34,11 +34,13 @@ public class HistoryCollection {
 
     public HistoryCollection filter(String name) {
         HistoryCollection newhis = new HistoryCollection();
-        for (int i = 0; i < size(); i++) {
-            if (his.get(i).getHeadChild().equalsIgnoreCase(name) || his.get(i).getTailChild().equalsIgnoreCase(name)) {
-                newhis.add(his.get(i));
+
+        for (FlipCoinRecord record : his) {
+            if (record.getChooser().equals(name)) {
+                newhis.add(record);
             }
         }
+
         return newhis;
     }
 }

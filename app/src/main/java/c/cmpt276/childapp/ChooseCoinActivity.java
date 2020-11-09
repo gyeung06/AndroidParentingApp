@@ -18,6 +18,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +53,10 @@ public class ChooseCoinActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_choose_coin);
+
+        Toolbar toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         hasFlipCoinNames = configs.getFlipCoinEnabledChildrenNames();
         secondChildList = new ArrayList<>();
@@ -242,19 +245,26 @@ public class ChooseCoinActivity extends AppCompatActivity {
 
             FlipCoinRecord currentHistory = list.get(position);
 
-            TextView head = itemView.findViewById(R.id.txtHeadPlayer_item);
-            TextView tail = itemView.findViewById(R.id.txtTailPlayer_item);
+            TextView chooser = itemView.findViewById(R.id.txtChooser);
+            TextView rival = itemView.findViewById(R.id.txtRival);
             TextView date = itemView.findViewById(R.id.txtTime_item);
-            TextView win = itemView.findViewById(R.id.txtWinner_item);
+            TextView choice = itemView.findViewById(R.id.txtChoice);
+            TextView result = itemView.findViewById(R.id.txtResult);
 
-            head.setText(currentHistory.getHeadChild());
-            tail.setText(currentHistory.getTailChild());
+            chooser.setText(currentHistory.getChooser());
+            rival.setText(currentHistory.getRival());
             date.setText(currentHistory.getDate());
 
-            if (currentHistory.isHead()) {
-                win.setText("Head");
+            if (currentHistory.getChoseHead()) {
+                choice.setText("Heads");
             } else {
-                win.setText("Tail");
+                choice.setText("Tails");
+            }
+
+            if (currentHistory.getResult()) {
+                result.setText("Heads");
+            } else {
+                result.setText("Tails");
             }
 
             return itemView;

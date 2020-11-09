@@ -10,7 +10,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".ConfigureChooserActivity"></activity>
-        <activity android:name=".ChooseCoinActivity" />
+        <activity
+            android:name=".ChooseCoinActivity"
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".TimeoutActivity"
             android:theme="@style/AppTheme.NoActionBar" />

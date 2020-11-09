@@ -29,7 +29,7 @@ public class FlipCoinActivity extends AppCompatActivity {
     Random r = new Random();
     int side;
     String child, rival;
-    boolean headWin, win, guestMode = false;
+    boolean headWin, guestMode = false;
     MediaPlayer mediaPlayer;
 
     public static Intent createIntent(Context context, String firstChild, String secondChild, boolean winHead) {
@@ -67,16 +67,14 @@ public class FlipCoinActivity extends AppCompatActivity {
             public void onClick(View view) {
                 mediaPlayer.start();
                 side = r.nextInt(2);
+                boolean result = side == 0;
 
                 if (side == 0) {
                     imgCoin.setImageResource(R.drawable.head);
                     Toast.makeText(FlipCoinActivity.this, "Heads!", Toast.LENGTH_LONG).show();
-                    win = headWin;
-
                 } else if (side == 1) {
                     imgCoin.setImageResource(R.drawable.tail);
                     Toast.makeText(FlipCoinActivity.this, "Tails!", Toast.LENGTH_LONG).show();
-                    win = !headWin;
                 }
 
                 RotateAnimation rotate = new RotateAnimation(0, 999999999,
@@ -85,17 +83,11 @@ public class FlipCoinActivity extends AppCompatActivity {
                 imgCoin.startAnimation(rotate);
 
                 if (!guestMode) {
-                    FlipCoinRecord record;
-
-                    if ((win && headWin) || (!win && !headWin)) {
-                        record = new FlipCoinRecord(configs.get(child).getName(), configs.get(rival).getName());
-                    } else {
-                        record = new FlipCoinRecord(configs.get(rival).getName(), configs.get(child).getName());
-                    }
-                    record.setResult(headWin, Calendar.getInstance().getTime().toString());
-                    configs.setLastResultCandidate(child,rival);
-
+                    FlipCoinRecord record = new FlipCoinRecord(child, rival, headWin);
+                    record.setResult(result, Calendar.getInstance().getTime().toString());
                     configs.getFlipCoinHistory().add(record);
+
+                    configs.setLastResultCandidate(child, rival);
                 }
             }
         });
