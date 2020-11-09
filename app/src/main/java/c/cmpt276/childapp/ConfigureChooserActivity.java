@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.List;
+
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
 
@@ -36,7 +38,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ConfigureActivity.createIntent(getApplicationContext(), -1));
+                startActivity(ConfigureActivity.createIntent(getApplicationContext(), ""));
                 //finish();
             }
         });
@@ -64,13 +66,16 @@ public class ConfigureChooserActivity extends AppCompatActivity {
     }
 
     private void updateList() {
-        ArrayAdapter<IndividualConfig> adapter = new ChildNameAdapter();
+        ArrayAdapter<IndividualConfig> adapter = new ChildNameAdapter(configs.getArray());
         listView.setAdapter(adapter);
     }
 
     private class ChildNameAdapter extends ArrayAdapter<IndividualConfig> {
-        public ChildNameAdapter() {
-            super(ConfigureChooserActivity.this, R.layout.child_list_item, configs.getArray());
+        List<IndividualConfig> list;
+
+        public ChildNameAdapter(List<IndividualConfig> list) {
+            super(ConfigureChooserActivity.this, R.layout.child_list_item, list);
+            this.list = list;
         }
 
         @Override
@@ -81,7 +86,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.child_list_item, parent, false);
             }
 
-            IndividualConfig currentConfig = configs.get(position);
+            IndividualConfig currentConfig = list.get(position);
 
             TextView nameText = itemView.findViewById(R.id.txtNameItem);
             nameText.setText(currentConfig.getName());
@@ -90,9 +95,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Log.d("Choosed",String.valueOf(position));
-                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), position));
-                    //finish();
+                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), list.get(position).getName()));
                 }
             });
 

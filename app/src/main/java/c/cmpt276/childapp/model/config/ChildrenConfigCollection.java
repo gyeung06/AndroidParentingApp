@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.google.gson.Gson;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 
@@ -21,12 +22,12 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private static ChildrenConfigCollection collection;
     private static Gson gson = new Gson();
     private HistoryCollection historyCollection;
-    private List<IndividualConfig> children;
+    private HashMap<String, IndividualConfig> children;
     private String lastWinner = "";
     private String lastLoser = "";
 
     private ChildrenConfigCollection() {
-        children = new ArrayList<>();
+        children = new HashMap<>();
         historyCollection = new HistoryCollection();
     }
 
@@ -51,36 +52,26 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return historyCollection;
     }
 
-    public List<Integer> getFlipCoinEnabledChildrenPositions() {
-        List<Integer> positions = new ArrayList<>();
-        for (int i = 0; i < size(); i++) {
-            if (children.get(i).getFlipCoin()) {
-                positions.add(i);
-            }
+    public List<String> getFlipCoinEnabledChildrenNames() {
+        List<String> names = new ArrayList<>();
+
+        for (IndividualConfig child : children.values()) {
+            if (child.getFlipCoin()) names.add(child.getName());
         }
-        return positions;
+
+        return names;
     }
-//unused
-//    public int[] getTimerEnabledChildrenPositions() {
-//        List<Integer> l = new ArrayList<>();
-//        for (int i = 0; i < size(); i++) {
-//            if (children.get(i).getTimeoutTimer()) {
-//                l.add(i);
-//            }
-//        }
-//        int[] toReturn = new int[l.size()];
-//        for (int i = 0; i < l.size(); i++) {
-//            toReturn[i] = l.get(i);
-//        }
-//        return toReturn;
-//    }
 
     public void add(IndividualConfig config) {
-        children.add(config);
+        children.put(config.getName(), config);
+    }
+
+    public IndividualConfig get(String name) {
+        return children.get(name);
     }
 
     public IndividualConfig get(int i) {
-        return children.get(i);
+        return new ArrayList<>(children.values()).get(i);
     }
 
     public int size() {
@@ -88,15 +79,15 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     }
 
     public Iterator<IndividualConfig> iterator() {
-        return children.iterator();
+        return children.values().iterator();
     }
 
-    public void delete(int i) {
+    public void delete(String i) {
         children.remove(i);
     }
 
     public List<IndividualConfig> getArray() {
-        return children;
+        return new ArrayList<>(children.values());
     }
 
     public String getLastWinner() {
