@@ -9,14 +9,13 @@
         android:id="@+id/txtNameItem"
         android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:text="Name"
         app:autoSizeTextType="uniform" />
 
     <Button
         android:id="@+id/btnEditItem"
         android:layout_width="100dp"
         android:layout_height="match_parent"
-        android:text="Edit"
+        android:text="@string/list_item_edit"
         app:autoSizeTextType="uniform" />
 
 </LinearLayout>

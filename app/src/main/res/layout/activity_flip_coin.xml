@@ -30,7 +30,7 @@
         android:layout_marginEnd="160dp"
         android:layout_marginBottom="299dp"
         android:background="#6EE0EF"
-        android:text="Flip"
+        android:text="@string/flip_flip"
         android:textColor="#FFC107"
         android:textSize="24sp"
         android:textStyle="bold"

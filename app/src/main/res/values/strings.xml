@@ -24,4 +24,27 @@
     <string name="timer_custombtn">Custom</string>
     <string name="timer_custom_text">Custom Time (Minutes)</string>
     <string name="timer_set_text">Set Time (Mintues)</string>
+
+
+    <string name="list_item_edit">Edit</string>
+    <string name="choose_coin_des1">Select choosing child:</string>
+    <string name="choose_coin_des2">Select rival:</string>
+    <string name="choose_coin_des4">History:</string>
+    <string name="choose_coin_des3">Choose:</string>
+    <string name="choose_coin_rdbHead">Head</string>
+    <string name="choose_coin_rdbTail">Tail</string>
+    <string name="choose_coin_HisOption">Selected Child Only</string>
+    <string name="choose_coin_des5">Date</string>
+    <string name="choose_coin_des6">Chooser</string>
+    <string name="choose_coin_des7">Opponent</string>
+    <string name="choose_coin_des8">Choice</string>
+    <string name="choose_coin_des9">Result</string>
+    <string name="choose_coin_con">continue</string>
+    <string name="config_name">Name:</string>
+    <string name="config_coin">Flip Coin</string>
+    <string name="config_fea">Configure Features:</string>
+    <string name="config_save">Save</string>
+    <string name="config_dele">Delete</string>
+    <string name="config_saveclose">Save and Close</string>
+    <string name="flip_flip">Flip</string>
 </resources>

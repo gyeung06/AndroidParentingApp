@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="Select choosing child:"
+        android:text="@string/choose_coin_des1"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -46,7 +46,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="72dp"
         android:layout_marginTop="16dp"
-        android:text="Select rival:"
+        android:text="@string/choose_coin_des2"
         app:layout_constraintStart_toEndOf="@+id/txtDes1"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -55,7 +55,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="50dp"
-        android:text="History:"
+        android:text="@string/choose_coin_des4"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtDes3" />
 
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="5dp"
         android:layout_marginTop="16dp"
-        android:text="Choose:"
+        android:text="@string/choose_coin_des3"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild" />
 
@@ -86,14 +86,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:checked="true"
-            android:text="Head" />
+            android:text="@string/choose_coin_rdbHead" />
 
         <RadioButton
             android:id="@+id/rdbTail"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Tail" />
+            android:text="@string/choose_coin_rdbTail" />
 
     </RadioGroup>
 
@@ -103,7 +103,7 @@
         android:layout_height="20dp"
         android:layout_marginStart="151dp"
         android:layout_marginTop="11dp"
-        android:text="Selected Child Only"
+        android:text="@string/choose_coin_HisOption"
         app:layout_constraintStart_toEndOf="@+id/txtxDes4"
         app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
 
@@ -119,35 +119,35 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Date" />
+            android:text="@string/choose_coin_des5" />
 
         <TextView
             android:id="@+id/txtDes6"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Chooser" />
+            android:text="@string/choose_coin_des6" />
 
         <TextView
             android:id="@+id/txtDes7"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Opponent" />
+            android:text="@string/choose_coin_des7" />
 
         <TextView
             android:id="@+id/txtDes8"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Choice" />
+            android:text="@string/choose_coin_des8" />
 
         <TextView
             android:id="@+id/txtDes9"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Result" />
+            android:text="@string/choose_coin_des9" />
     </LinearLayout>
 
     <Button
@@ -156,7 +156,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="13dp"
         android:layout_marginTop="16dp"
-        android:text="continue"
+        android:text="@string/choose_coin_con"
         app:layout_constraintStart_toEndOf="@+id/radioGroup"
         app:layout_constraintTop_toBottomOf="@+id/lsRival" />
 
