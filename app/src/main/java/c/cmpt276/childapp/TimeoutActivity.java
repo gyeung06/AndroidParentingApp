@@ -22,6 +22,9 @@ import java.util.Locale;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.timerService.TimerService;
 
+/**
+ * Timer main UI
+ */
 //TODO Add background
 
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {

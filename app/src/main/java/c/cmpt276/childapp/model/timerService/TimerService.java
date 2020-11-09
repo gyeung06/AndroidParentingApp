@@ -21,6 +21,9 @@ import androidx.core.app.NotificationManagerCompat;
 import c.cmpt276.childapp.R;
 import c.cmpt276.childapp.TimeoutActivity;
 
+/**
+ * Functionality part of Timer
+ */
 public class TimerService extends Service {
     private static long mTimeLeftInMillis;
     private static Vibrator v;

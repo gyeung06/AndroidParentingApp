@@ -19,6 +19,9 @@ import java.util.Random;
 import c.cmpt276.childapp.model.FlipCoinHistory.FlipCoinRecord;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * Main screen for flipping coins
+ */
 public class FlipCoinActivity extends AppCompatActivity {
     ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     Button btnFlip;
