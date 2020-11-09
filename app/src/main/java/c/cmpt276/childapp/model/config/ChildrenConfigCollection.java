@@ -63,7 +63,9 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
 
         return names;
     }
-
+    public boolean contains(String name){
+        return children.containsKey(name);
+    }
     public void add(IndividualConfig config) {
         children.put(config.getName(), config);
     }
