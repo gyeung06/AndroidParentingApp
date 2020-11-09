@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import c.cmpt276.childapp.model.FlipCoinHistory.FlipCoinRecord;
+import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 /**
@@ -30,17 +31,45 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
  */
 public class ChooseCoinActivity extends AppCompatActivity {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
-    private boolean seeSelectedChildOnly = false , headWins = true;
+    Button btnContinue;
     private int selectedChild = -1;
-    private int selectedRival = -1 , offsetLocation = -1;;
-    private List<Integer> hasFlipCoinPositions;
+    RadioButton radHead;
+    RadioButton radTail;
+    CheckBox chkViewHis;
+    ListView listFirstChild;
+    ListView listRival;
+    ListView listHistory;
+    ArrayAdapter<String> listRivalAdapter;
+    private boolean seeSelectedChildOnly = false, headWins = true;
+    private int selectedRival = -1;
+    private List<String> hasFlipCoinNames, secondChildList;
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, ChooseCoinActivity.class);
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_choose_coin);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        setContentView(R.layout.activity_choose_coin);
-        hasFlipCoinPositions = new ArrayList<>( configs.getFlipCoinEnabledChildrenPositions());
+
+        hasFlipCoinNames = configs.getFlipCoinEnabledChildrenNames();
+        secondChildList = new ArrayList<>();
+
+        btnContinue = findViewById(R.id.continuebutton);
+        radHead = findViewById(R.id.rdbHead);
+        radTail = findViewById(R.id.rdbTail);
+        chkViewHis = findViewById(R.id.chkViewHistorySelected);
+
+        listHistory = findViewById(R.id.tableHistory);
+        listFirstChild = findViewById(R.id.lsChoosingChild);
+        listRival = findViewById(R.id.lsRival);
+
+        listRivalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, secondChildList);
+        listRival.setAdapter(listRivalAdapter);
+
         setButtons();
         updateSetFirstChildList();
         updatePreviousWinner();
@@ -48,169 +77,131 @@ public class ChooseCoinActivity extends AppCompatActivity {
     }
 
     private void updatePreviousWinner() {
-        final ListView chose = (ListView) findViewById(R.id.lsChoosingChild);
-        final ListView rival = (ListView) findViewById(R.id.lsRival);
-        if(!configs.getLastWinner().isEmpty() && !configs.getLastLoser().isEmpty()){
-            int loserP = getPositionFromName(configs.getLastLoser()) , winnerP = getPositionFromName(configs.getLastWinner());
-            if(loserP == -1 || winnerP == -1){
-                Log.d("loser - ",String.valueOf(loserP));
-                Log.d("winner -", String.valueOf(winnerP));
+        String lastLoser = configs.getLastLoser();
+        String lastWinner = configs.getLastWinner();
+
+        if (!lastLoser.isEmpty() && !lastWinner.isEmpty()) {
+            if (!hasFlipCoinNames.contains(lastLoser) || !hasFlipCoinNames.contains(lastWinner)) {
+                Log.d("loser - ", lastLoser);
+                Log.d("winner -", lastWinner);
                 return;
             }
-             chose.setItemChecked(loserP,true);
-             selectedChild = hasFlipCoinPositions.get(loserP);
-             updateSetSecondChildList();
-             if(winnerP>= offsetLocation){
-                 rival.setItemChecked(winnerP-1,true);
-                 selectedRival = hasFlipCoinPositions.get(winnerP);
-             }else{
-                 rival.setItemChecked(winnerP,true);
-                 selectedRival = hasFlipCoinPositions.get(winnerP);
-             }
-             Log.d("autoselected loser",configs.get(selectedChild).getName());
-            Log.d("autoselected winner",configs.get(selectedRival).getName());
+
+            selectedChild = hasFlipCoinNames.indexOf(lastLoser);
+            listFirstChild.setItemChecked(selectedChild, true);
+
+            updateSetSecondChildList();
+
+            selectedRival = secondChildList.indexOf(lastWinner);
+            listRival.setItemChecked(selectedRival, true);
+
+            Log.d("autoselected loser", lastLoser);
+            Log.d("loser index", "" + selectedChild);
+            Log.d("autoselected winner", lastWinner);
+            Log.d("winner index", "" + selectedRival);
         }
     }
-    private int getPositionFromName(String name){
-        int index = -1;
-        for(int i = 0; i< hasFlipCoinPositions.size();i++){
-            Log.d("doing", configs.get(hasFlipCoinPositions.get(i)).getName());
-            if(configs.get(hasFlipCoinPositions.get(i)).getName().equals(name)){
-                index = i;
-            }
-        }
-        return index;
-    }
+
     public boolean onSupportNavigateUp() {
         finish();
         return true;
     }
-    protected void onPause(){
-        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);;
+
+    protected void onPause() {
+        SharedPreferences sp = getSharedPreferences("USER_CHILDREN", MODE_PRIVATE);
         SharedPreferences.Editor ed = sp.edit();
         ed.clear();
-        ed.putString("CHILDREN_INFO",configs.getJSON());
-        ed.commit();
+        ed.putString("CHILDREN_INFO", configs.getJSON());
+        ed.apply();
         super.onPause();
     }
+
     private void updateSetFirstChildList() {
-
-        final ListView listView = (ListView) findViewById(R.id.lsChoosingChild);
-
-        List<String> listName = new ArrayList<>();
-        for(int i = 0; i< hasFlipCoinPositions.size();i++){
-            listName.add(configs.get(hasFlipCoinPositions.get(i)).getName());
-        }
-        String[] values = listName.toArray(new String[listName.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, values);
-        listView.setAdapter(adapter);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listView.setSelector(R.color.design_default_color_secondary);
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, hasFlipCoinNames);
+        listFirstChild.setAdapter(adapter);
+        listFirstChild.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
+        listFirstChild.setSelector(R.color.design_default_color_secondary);
+        listFirstChild.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(hasFlipCoinPositions.get(i) != selectedChild){
-                    //listView.setSelection(hasFlipCoinPositions.get(i));
-                    selectedChild = hasFlipCoinPositions.get(i);
-                    Log.d("Selected",configs.get(selectedChild).getName());
-                    selectedRival = -1;
-                    updateSetSecondChildList();
-                    if(seeSelectedChildOnly){
-                        updateHistory();
-                    }
+                if (i == selectedChild) return;
 
+                //listView.setSelection(hasFlipCoinPositions.get(i));
+                selectedChild = i;
+                Log.d("Selected", hasFlipCoinNames.get(selectedChild));
+                //selectedRival = -1;
+                updateSetSecondChildList();
+
+                if (seeSelectedChildOnly) {
+                    updateHistory();
                 }
             }
         });
-
-
-
-
     }
 
-
-
-    private void updateSetSecondChildList(){
-        final ListView listView = (ListView) findViewById(R.id.lsRival);
-
-
-        List<String> listName = new ArrayList<>();
-        for(int i =0 ;i < hasFlipCoinPositions.size(); i++){
-
-            if(configs.get(hasFlipCoinPositions.get(i)).getName().equals(configs.get(selectedChild).getName())){
-                offsetLocation=i;
-                continue; //>=
-            }
-            listName.add(configs.get(hasFlipCoinPositions.get(i)).getName());
+    private void updateSetSecondChildList() {
+        // repopulate omitting first child
+        secondChildList.clear();
+        for (int i = 0; i < hasFlipCoinNames.size(); i++) {
+            if (i == selectedChild) continue;
+            secondChildList.add(hasFlipCoinNames.get(i));
         }
-        final int ofLo = offsetLocation;
-        String[] values = listName.toArray(new String[listName.size()]);
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, values);
-        listView.setAdapter(adapter);
+        listRivalAdapter.notifyDataSetChanged();
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        listRival.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                if(hasFlipCoinPositions.get(i) != selectedRival){
+                if (i == selectedRival) return;
 
-                    if(i >= ofLo){
-                      //  listView.setSelection(i+1);
-                        selectedRival = hasFlipCoinPositions.get(i+1);
-
-                    }else {
-                       // listView.setSelection(i);
-                        selectedRival = hasFlipCoinPositions.get(i);
-                    }
-                    Log.d("Selected_Second",configs.get(selectedRival).getName());
-                }
+                selectedRival = i;
+                Log.d("Selected_Second", secondChildList.get(selectedRival));
             }
         });
-        listView.setSelector(R.color.design_default_color_secondary);
-        listView.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-
+        listRival.setSelector(R.color.design_default_color_secondary);
+        listRival.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
-
 
     private void setButtons() {
-        Button cont = findViewById(R.id.continuebutton);
-        cont.setOnClickListener(new View.OnClickListener() {
+        btnContinue.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int k = headWins? 1:0;
+                String firstChild = "";
+                String secondChild = "";
 
-                startActivity(FlipCoinActivity.createIntent(ChooseCoinActivity.this,selectedChild,selectedRival,k));
+                if (selectedChild != -1 && selectedRival != -1) {
+                    firstChild = hasFlipCoinNames.get(selectedChild);
+                    secondChild = secondChildList.get(selectedRival);
+                }
 
+                startActivity(FlipCoinActivity.createIntent(ChooseCoinActivity.this, firstChild, secondChild, headWins));
 
                 finish();
             }
         });
 
-
-        final RadioButton radHead = findViewById(R.id.rdbHead);
-        final RadioButton radTail = findViewById(R.id.rdbTail);
         radHead.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 radTail.setChecked(false);
                 headWins = true;
-                Toast.makeText(getApplicationContext(),"Head selected",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Head selected", Toast.LENGTH_SHORT).show();
             }
         });
+
         radTail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 radHead.setChecked(false);
-                headWins=false;
-                Toast.makeText(getApplicationContext(),"Tail selected",Toast.LENGTH_SHORT).show();
+                headWins = false;
+                Toast.makeText(getApplicationContext(), "Tail selected", Toast.LENGTH_SHORT).show();
             }
         });
 
-        final CheckBox chkViewHis = findViewById(R.id.chkViewHistorySelected);
         chkViewHis.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                if(selectedChild<0){
-                    Toast.makeText(getApplicationContext(),"Cannot filter, you have to select one first",Toast.LENGTH_SHORT).show();
+                if (selectedChild < 0) {
+                    Toast.makeText(getApplicationContext(), "Cannot filter, you have to select one first", Toast.LENGTH_SHORT).show();
                     chkViewHis.setChecked(false);
                     return;
                 }
@@ -220,75 +211,25 @@ public class ChooseCoinActivity extends AppCompatActivity {
         });
     }
 
-
-    public static Intent createIntent(Context context){
-        Intent i = new Intent(context, ChooseCoinActivity.class);
-        return i;
-    }
     private void updateHistory() {
-        ArrayAdapter<FlipCoinRecord> adapter;
-           if(seeSelectedChildOnly){
-               adapter = new HistoryAdapterFiltered(configs.get(selectedChild).getName());
-           }else{
-               adapter = new HistoryAdapter();
-           }
+        HistoryCollection history = configs.getFlipCoinHistory();
 
-            ListView listView = (ListView) findViewById(R.id.tableHistory);
-            listView.removeAllViewsInLayout();
-            listView.setAdapter(adapter);
-            listView.setClickable(false);
+        if (seeSelectedChildOnly) {
+            history = history.filter(hasFlipCoinNames.get(selectedChild));
+        }
+
+        ArrayAdapter<FlipCoinRecord> adapter = new HistoryAdapter(history.getArray());
+        listHistory.removeAllViewsInLayout();
+        listHistory.setAdapter(adapter);
+        listHistory.setClickable(false);
     }
-
-
-
-
 
     private class HistoryAdapter extends ArrayAdapter<FlipCoinRecord> {
-        public HistoryAdapter() {
-            super(ChooseCoinActivity.this, R.layout.history_list_item, configs.getFlipCoinHistory().getArray());
+        List<FlipCoinRecord> list;
 
-        }
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-            // Make sure we have a view to work with (may have been given null)
-            View itemView = convertView;
-            if (itemView == null) {
-                itemView = getLayoutInflater().inflate(R.layout.history_list_item, parent, false);
-            }
-            FlipCoinRecord currentHistory;
-
-            currentHistory = configs.getFlipCoinHistory().get(position);
-
-
-            TextView head = (TextView) itemView.findViewById(R.id.txtHeadPlayer_item);
-            head.setText(currentHistory.getHeadChild());
-            TextView tail = (TextView) itemView.findViewById(R.id.txtTailPlayer_item);
-            tail.setText(currentHistory.getTailChild());
-            TextView date = (TextView) itemView.findViewById(R.id.txtTime_item);
-            TextView win = (TextView) itemView.findViewById(R.id.txtWinner_item);
-
-            date.setText(currentHistory.getDate());
-            if(currentHistory.isHead()){
-                win.setText("Head");
-            }else {
-                win.setText("Tail");
-            }
-
-
-
-
-
-
-
-            return itemView;
-        }
-    }
-    private class HistoryAdapterFiltered extends ArrayAdapter<FlipCoinRecord> {
-        String filterToDo;
-        public HistoryAdapterFiltered(String filter) {
-            super(ChooseCoinActivity.this, R.layout.history_list_item, configs.getFlipCoinHistory().filter(filter).getArray());
-            filterToDo = filter;
-
+        public HistoryAdapter(List<FlipCoinRecord> list) {
+            super(ChooseCoinActivity.this, R.layout.history_list_item, list);
+            this.list = list;
         }
 
         @Override
@@ -298,28 +239,23 @@ public class ChooseCoinActivity extends AppCompatActivity {
             if (itemView == null) {
                 itemView = getLayoutInflater().inflate(R.layout.history_list_item, parent, false);
             }
-            FlipCoinRecord currentHistory;
-            if(filterToDo.trim().isEmpty()){
-                currentHistory = configs.getFlipCoinHistory().get(position);
-            }else{
-                currentHistory = configs.getFlipCoinHistory().filter(filterToDo).get(position);
-            }
 
-            TextView head = (TextView) itemView.findViewById(R.id.txtHeadPlayer_item);
+            FlipCoinRecord currentHistory = list.get(position);
+
+            TextView head = itemView.findViewById(R.id.txtHeadPlayer_item);
+            TextView tail = itemView.findViewById(R.id.txtTailPlayer_item);
+            TextView date = itemView.findViewById(R.id.txtTime_item);
+            TextView win = itemView.findViewById(R.id.txtWinner_item);
+
             head.setText(currentHistory.getHeadChild());
-            TextView tail = (TextView) itemView.findViewById(R.id.txtTailPlayer_item);
             tail.setText(currentHistory.getTailChild());
-            TextView date = (TextView) itemView.findViewById(R.id.txtTime_item);
-            TextView win = (TextView) itemView.findViewById(R.id.txtWinner_item);
-
             date.setText(currentHistory.getDate());
-            if(currentHistory.isHead()){
+
+            if (currentHistory.isHead()) {
                 win.setText("Head");
-            }else {
+            } else {
                 win.setText("Tail");
             }
-
-
 
             return itemView;
         }

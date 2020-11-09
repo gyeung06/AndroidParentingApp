@@ -28,16 +28,34 @@ import c.cmpt276.childapp.model.timerService.TimerService;
 //TODO Add background
 
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
-    private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
-
     private static final long START_TIME_IN_MILLIS = 60000;
     @SuppressLint("StaticFieldLeak")
     private static TextView mTextViewCountDown;
+    private static boolean mTimerRunning;
+    private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private Button mButtonStartPause;
     private Button mButtonReset;
 
-    private static boolean mTimerRunning;
-    private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
+    public static void setmTimerRunning(boolean newRunning) {
+        mTimerRunning = newRunning;
+    }
+
+    public static void setmTimeLeftInMillis(long newTimeLeft) {
+        mTimeLeftInMillis = newTimeLeft;
+    }
+
+    public static void updateCountDownText() {
+        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
+        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
+        mTextViewCountDown.setText(timeLeftFormatted);
+    }
+
+    public static Intent createIntent(Context context) {
+        return new Intent(context, TimeoutActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,22 +72,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
         onCreateButtonInit();
         updateCountDownText();
-    }
-
-    public static void setmTimerRunning(boolean newRunning) {
-        mTimerRunning = newRunning;
-    }
-
-    public static void setmTimeLeftInMillis(long newTimeLeft) {
-        mTimeLeftInMillis = newTimeLeft;
-    }
-
-    public static void updateCountDownText() {
-        int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
-        int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
-
-        String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
-        mTextViewCountDown.setText(timeLeftFormatted);
     }
 
     private void onCreateButtonInit() {
@@ -92,12 +94,12 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         mButtonReset.setOnClickListener(this);
     }
 
-    private long getLastUsedTime(){
+    private long getLastUsedTime() {
         SharedPreferences pref = getSharedPreferences("time", 0);
         return pref.getLong("time", 60000);
     }
 
-    private void saveLastUsedTime(long time){
+    private void saveLastUsedTime(long time) {
         SharedPreferences pref = getSharedPreferences("time", 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putLong("time", time);
@@ -166,7 +168,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             case R.id.timer_custombtn:
                 EditText num = findViewById(R.id.timer_custom_input);
                 String test = num.getText().toString();
-                if(TextUtils.isEmpty(test)){
+                if (TextUtils.isEmpty(test)) {
                     Toast.makeText(TimeoutActivity.this, "Enter a time", Toast.LENGTH_SHORT).show();
                 } else {
                     long minutes = Long.parseLong(test);
@@ -195,10 +197,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             default:
                 return super.onOptionsItemSelected(item);
         }
-    }
-
-    public static Intent createIntent(Context context) {
-        return new Intent(context, TimeoutActivity.class);
     }
 }
 

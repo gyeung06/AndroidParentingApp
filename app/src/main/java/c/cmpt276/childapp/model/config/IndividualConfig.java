@@ -6,7 +6,7 @@ package c.cmpt276.childapp.model.config;
 public class IndividualConfig {
     private String name;
     private boolean flipCoin;
-  //  private boolean timeoutTimer;
+    //  private boolean timeoutTimer;
 
     public IndividualConfig(String name, boolean flipCoin) {
         set(name, flipCoin);

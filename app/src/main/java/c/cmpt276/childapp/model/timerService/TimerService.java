@@ -14,7 +14,6 @@ import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.Vibrator;
 
-
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
@@ -27,10 +26,14 @@ import c.cmpt276.childapp.TimeoutActivity;
  */
 public class TimerService extends Service {
     private static long mTimeLeftInMillis;
-    private CountDownTimer mCountDownTimer;
     private static Vibrator v;
     private static MediaPlayer mp;
+    private CountDownTimer mCountDownTimer;
 
+    public static void stopAlarm() {
+        v.cancel();
+        mp.stop();
+    }
 
     @Nullable
     @Override
@@ -53,7 +56,7 @@ public class TimerService extends Service {
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis,200) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 200) {
             @Override
             public void onTick(long millisUntilFinished) {
                 mTimeLeftInMillis = millisUntilFinished;
@@ -78,14 +81,9 @@ public class TimerService extends Service {
         TimeoutActivity.setmTimerRunning(true);
     }
 
-    public static void stopAlarm(){
-        v.cancel();
-        mp.stop();
-    }
+    private void timerDoneNotification() {
 
-    private void timerDoneNotification(){
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel channel = new NotificationChannel("TimerService", "TimerService", NotificationManager.IMPORTANCE_DEFAULT);
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(channel);

@@ -28,11 +28,11 @@ public class FlipCoinActivity extends AppCompatActivity {
     ImageView imgCoin;
     Random r = new Random();
     int side;
-    int child, rival;
+    String child, rival;
     boolean headWin, win, guestMode = false;
     MediaPlayer mediaPlayer;
 
-    public static Intent createIntent(Context context, int firstChild, int secondChild, int winHead) {
+    public static Intent createIntent(Context context, String firstChild, String secondChild, boolean winHead) {
         Intent in = new Intent(context, FlipCoinActivity.class);
         in.putExtra("FirstChild", firstChild);
         in.putExtra("SecondChild", secondChild);
@@ -51,12 +51,14 @@ public class FlipCoinActivity extends AppCompatActivity {
         btnFlip = findViewById(R.id.flip_button);
         imgCoin = findViewById(R.id.iv_coin);
 
-        child = getIntent().getIntExtra("FirstChild", -1);
-        rival = getIntent().getIntExtra("SecondChild", -1);
-        int winHead = getIntent().getIntExtra("WinHead", 1);
-        headWin = winHead == 1;
-        Log.d("headwin?",String.valueOf(headWin));
-        if (child < 0 || rival < 0) guestMode = true;
+        child = getIntent().getStringExtra("FirstChild");
+        rival = getIntent().getStringExtra("SecondChild");
+        headWin = getIntent().getBooleanExtra("WinHead", true);
+        Log.d("headwin?", String.valueOf(headWin));
+
+        if (child == null || child.isEmpty() || rival == null || rival.isEmpty()) {
+            guestMode = true;
+        }
 
         mediaPlayer = MediaPlayer.create(this, R.raw.sound);
 

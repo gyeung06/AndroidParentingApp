@@ -19,49 +19,25 @@ import c.cmpt276.childapp.model.config.IndividualConfig;
  * UI element when configuring a child
  */
 public class ConfigureActivity extends AppCompatActivity {
+    Button btnSave, btnDelete, btnSaveClose;
+    EditText txtName;
+    CheckBox chkFlipCoin;
+
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
-    private int editIndex = -1;
+    private String editingChild;
     private boolean flipCoinEnable;
-
-    Button btnSave, btnDelete, btnSaveClose;
-    CheckBox  chkFlipCoin;
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        int position = getIntent().getIntExtra("CHILD_SELECTED", -9);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        setContentView(R.layout.activity_configure);
-
-        btnSave = findViewById(R.id.btnSave);
-        btnDelete = findViewById(R.id.btnDelete);
-        btnSaveClose = findViewById(R.id.btnSaveAndClose);
-        //chkTimer = findViewById(R.id.chkTimer);
-        chkFlipCoin = findViewById(R.id.chkFlipCoin);
-
-        setListeners();
-
-        if (position >= 0) {
-            // Log.d("loading","loading");
-            editIndex = position;
-            editorMode = true;
-            autoPopulateFields();
-        }
-    }
 
     /**
      * create intent
      *
-     * @param context            context of the origin
-     * @param indexOfChildConfig if less than 0 then means this is creating a new IndividualConfig. if greater than 0, it will access and load info from ChildrenConfigCollection using the index provided.
+     * @param context   context of the origin
+     * @param childName if empty then create a new IndividualConfig, otherwise load from ChildrenConfigCollection.
      * @return the intent to be started
      */
-    public static Intent createIntent(Context context, int indexOfChildConfig) {
+    public static Intent createIntent(Context context, String childName) {
         Intent i = new Intent(context, ConfigureActivity.class);
-        i.putExtra("CHILD_SELECTED", indexOfChildConfig);
+        i.putExtra("CHILD_SELECTED", childName);
         return i;
     }
 
@@ -70,19 +46,41 @@ public class ConfigureActivity extends AppCompatActivity {
         super.onPause();
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_configure);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+        editingChild = getIntent().getStringExtra("CHILD_SELECTED");
+
+        btnSave = findViewById(R.id.btnSave);
+        btnDelete = findViewById(R.id.btnDelete);
+        btnSaveClose = findViewById(R.id.btnSaveAndClose);
+        chkFlipCoin = findViewById(R.id.chkFlipCoin);
+
+        txtName = findViewById(R.id.edtName);
+
+        setListeners();
+
+        if (editingChild != null && !editingChild.isEmpty()) {
+            editorMode = true;
+            autoPopulateFields();
+        }
+    }
+
     private void saveData(boolean close) {
-        String name = ((EditText) findViewById(R.id.edtName)).getText().toString().trim();
+        String name = txtName.getText().toString().trim();
         if (name.isEmpty()) {
             Toast.makeText(ConfigureActivity.this, "Cannot save because name is empty", Toast.LENGTH_SHORT).show();
             return;
         }
 
         if (editorMode) {
-            configs.get(editIndex).set(name, flipCoinEnable);
+            configs.get(editingChild).set(name, flipCoinEnable);
         } else {
             configs.add(new IndividualConfig(name, flipCoinEnable));
-            editorMode = true;
-            editIndex = configs.size() - 1;
         }
 
         configs.save(this);
@@ -93,19 +91,19 @@ public class ConfigureActivity extends AppCompatActivity {
         }
     }
 
-    private void autoPopulateFields() {
-        //CheckBox timer = findViewById(R.id.chkTimer);
-        CheckBox fc = findViewById(R.id.chkFlipCoin);
-        EditText edtName = findViewById(R.id.edtName);
-        edtName.setText(configs.get(editIndex).getName());
-        fc.setChecked(configs.get(editIndex).getFlipCoin());
-        //timer.setChecked(configs.get(editIndex).getTimeoutTimer());
-    }
-
     @Override
     public boolean onSupportNavigateUp() {
         finish();
         return true;
+    }
+
+    private void autoPopulateFields() {
+        //CheckBox timer = findViewById(R.id.chkTimer);
+        CheckBox fc = findViewById(R.id.chkFlipCoin);
+        EditText edtName = findViewById(R.id.edtName);
+        edtName.setText(editingChild);
+        fc.setChecked(configs.get(editingChild).getFlipCoin());
+        //timer.setChecked(configs.get(editIndex).getTimeoutTimer());
     }
 
     private void setListeners() {
@@ -134,7 +132,7 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editorMode) {
-                    configs.delete(editIndex);
+                    configs.delete(editingChild);
                     Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
