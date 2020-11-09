@@ -20,15 +20,6 @@ public class FlipCoinRecord {
         this.head = head;
         this.date = date;
 
-        if (!headChild.isEmpty() && !tailChild.isEmpty()) {
-
-            if (head) {
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(headChild, tailChild);
-            } else {
-                ChildrenConfigCollection.getInstance().setLastResultCandidate(tailChild, headChild);
-            }
-        }
-
 
     }
 

@@ -2,6 +2,7 @@ package c.cmpt276.childapp.model.config;
 
 import android.app.Activity;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import com.google.gson.Gson;
 
@@ -45,6 +46,7 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     }
 
     public String getJSON() {
+        Log.d("gson",gson.toJson(collection));
         return gson.toJson(collection);
     }
 
