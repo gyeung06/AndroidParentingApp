@@ -25,7 +25,6 @@ import c.cmpt276.childapp.model.timerService.TimerService;
 /**
  * Timer main UI
  */
-//TODO Add background
 
 public class TimeoutActivity extends AppCompatActivity implements View.OnClickListener {
     private static final long START_TIME_IN_MILLIS = 60000;
