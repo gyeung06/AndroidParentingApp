@@ -4,6 +4,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -51,7 +52,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.main_flip:
-                startActivity(ChooseCoinActivity.createIntent(MainActivity.this));
+                if(configs.size() ==0){
+                    Toast.makeText(getApplicationContext(),"No child detected, will flip coin directly",Toast.LENGTH_SHORT).show();
+                    startActivity(FlipCoinActivity.createIntent(MainActivity.this,"","",true));
+                }else{
+                    startActivity(ChooseCoinActivity.createIntent(MainActivity.this));
+                }
                 break;
 
             case R.id.main_time:

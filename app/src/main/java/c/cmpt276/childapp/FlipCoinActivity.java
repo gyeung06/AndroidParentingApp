@@ -88,6 +88,8 @@ public class FlipCoinActivity extends AppCompatActivity {
                     configs.getFlipCoinHistory().add(record);
 
                     configs.setLastResultCandidate(child, rival);
+                }else{
+                    Toast.makeText(getApplicationContext(),"This flip won't be recorded since only one or no child is selected",Toast.LENGTH_SHORT).show();
                 }
             }
         });
