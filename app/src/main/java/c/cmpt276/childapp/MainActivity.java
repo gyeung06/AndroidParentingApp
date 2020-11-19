@@ -42,9 +42,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         Button timeBtn = findViewById(R.id.main_time);
         timeBtn.setOnClickListener(this);
-
-        Button taskBtn = findViewById(R.id.main_task);
-        taskBtn.setOnClickListener(this);
     }
 
     @Override
@@ -66,9 +63,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.main_time:
                 startActivity(TimeoutActivity.createIntent(MainActivity.this));
                 break;
-
-            case R.id.main_task:
-                startActivity(WhoseTurnActivity.createIntent(MainActivity.this));
         }
     }
 }
