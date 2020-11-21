@@ -46,5 +46,9 @@
     <string name="config_dele">Delete</string>
     <string name="config_saveclose">Save and Close</string>
     <string name="flip_flip">Flip</string>
+    <string name="enter_task_description">Enter Task Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="warning_nochild_taskend">NO CHILD REMAINS</string>
 
 </resources>
