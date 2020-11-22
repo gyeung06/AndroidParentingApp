@@ -50,5 +50,8 @@
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
     <string name="warning_nochild_taskend">NO CHILD REMAINS</string>
+    <string name="confirm">Confirm</string>
+    <string name="next_child">Next Child:</string>
+    <string name="next_task">Next Task:</string>
 
 </resources>

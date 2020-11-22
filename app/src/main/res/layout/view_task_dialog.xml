@@ -1,6 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <LinearLayout
+        android:layout_width="405dp"
+        android:layout_height="250dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_view_task_title_des"
+                android:layout_width="205dp"
+                android:layout_height="25dp"
+                android:text="@string/next_task" />
+
+            <TextView
+                android:id="@+id/txt_view_task_title"
+                android:layout_width="205dp"
+                android:layout_height="225dp"
+                android:text="@android:string/unknownName"
+                app:autoSizeTextType="uniform" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtDes_task_view"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:text="@string/next_child" />
+
+            <ImageView
+                android:id="@+id/img_view_task_child"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <TextView
+                android:id="@+id/txt_view_task_child_name"
+                android:layout_width="200dp"
+                android:layout_height="25dp"
+                android:text="@android:string/unknownName"
+                app:autoSizeTextType="uniform" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="405dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btn_confirm_done_child_view"
+            android:layout_width="250dp"
+            android:layout_height="60dp"
+            android:clickable="true"
+            android:text="@string/confirm"
+
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/btn_cancel_task_view"
+            android:layout_width="125dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="30dp"
+            android:clickable="true"
+            android:text="@string/cancel"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+</LinearLayout>
