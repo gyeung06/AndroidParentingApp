@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
 
@@ -54,11 +55,11 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return historyCollection;
     }
 
-    public List<String> getFlipCoinEnabledChildrenNames() {
-        List<String> names = new ArrayList<>();
+    public List<IndividualConfig> getFlipCoinEnabledChildren() {
+        ArrayList<IndividualConfig> names = new ArrayList<>();
 
         for (IndividualConfig child : children.values()) {
-            if (child.getFlipCoin()) names.add(child.getName());
+            if (child.getFlipCoin()) names.add(child);
         }
 
         return names;
@@ -73,6 +74,12 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     }
 
     public IndividualConfig get(String name) {
+        IndividualConfig child = children.get(name);
+        if (child == null) {
+            for (IndividualConfig c : children.values()) {
+                if (c.getName().equals(name)) return c;
+            }
+        }
         return children.get(name);
     }
 
@@ -88,8 +95,15 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return children.values().iterator();
     }
 
-    public void delete(String i) {
-        children.remove(i);
+    public void delete(String name) {
+        if (children.remove(name) == null) {
+            for (Map.Entry<String, IndividualConfig> child : children.entrySet()) {
+                if (child.getValue().getName().equals(name)) {
+                    children.remove(child.getKey());
+                    return;
+                }
+            }
+        }
     }
 
     public List<IndividualConfig> getArray() {

@@ -78,7 +78,19 @@ public class ConfigureActivity extends AppCompatActivity {
         }
 
         if (editorMode) {
-            configs.get(editingChild).set(name, flipCoinEnable);
+            if (!name.equals(editingChild)) {
+                if (configs.contains(name)) {
+                    Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                IndividualConfig child = configs.get(editingChild);
+                configs.delete(child.getName());
+                child.setName(name);
+                configs.add(child);
+                editingChild = name;
+            }
+
+            configs.get(editingChild).setFlipCoin(flipCoinEnable);
         } else {
             if (configs.contains(name)) {
                 Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
@@ -86,6 +98,8 @@ public class ConfigureActivity extends AppCompatActivity {
             }
             configs.add(new IndividualConfig(name, flipCoinEnable));
         }
+
+        editorMode = true; // when user saves new child without closing
 
         configs.save(this);
         Toast.makeText(ConfigureActivity.this, "Saved", Toast.LENGTH_SHORT).show();

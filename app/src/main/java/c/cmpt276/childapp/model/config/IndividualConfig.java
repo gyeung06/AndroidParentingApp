@@ -6,10 +6,12 @@ package c.cmpt276.childapp.model.config;
 public class IndividualConfig {
     private String name;
     private boolean flipCoin;
+    private long lastChose;
     //  private boolean timeoutTimer;
 
     public IndividualConfig(String name, boolean flipCoin) {
-        set(name, flipCoin);
+        this.name = name;
+        this.flipCoin = flipCoin;
     }
 
     public String getName() {
@@ -20,13 +22,19 @@ public class IndividualConfig {
         return flipCoin;
     }
 
-//    public boolean getTimeoutTimer() {
-//        return timeoutTimer;
-//    }
+    public long getLastChose() {
+        return lastChose;
+    }
 
-    public void set(String name, boolean flipCoin) {
+    public void chose() {
+        lastChose = System.currentTimeMillis();
+    }
+
+    public void setName(String name) {
         this.name = name;
-        this.flipCoin = flipCoin;
+    }
 
+    public void setFlipCoin(boolean flipCoin) {
+        this.flipCoin = flipCoin;
     }
 }
