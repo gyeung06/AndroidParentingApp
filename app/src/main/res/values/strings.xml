@@ -45,4 +45,7 @@
     <string name="config_dele">Delete</string>
     <string name="config_saveclose">Save and Close</string>
     <string name="flip_flip">Flip</string>
+    <string name="main_help">Help</string>
+    <string name="help_title">INFORMATION</string>
+    <string name="help_text">Created by: Team Khaki\n\nTeam members:\nGabriel Yeung\nJeffrey Song\nSamuel Leong\nSteven Wang\n\nCredits:</string>
 </resources>
