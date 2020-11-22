@@ -40,6 +40,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
     private List<String> firstChildList, secondChildList;
 
     Button btnContinue;
+    Button btnClear;
     RadioButton radHead;
     RadioButton radTail;
     CheckBox chkViewHis;
@@ -77,6 +78,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
         secondChildList = new ArrayList<>();
 
         btnContinue = findViewById(R.id.continuebutton);
+        btnClear = findViewById(R.id.btn_clear_selection);
         radHead = findViewById(R.id.rdbHead);
         radTail = findViewById(R.id.rdbTail);
         chkViewHis = findViewById(R.id.chkViewHistorySelected);
@@ -197,6 +199,16 @@ public class ChooseCoinActivity extends AppCompatActivity {
                 startActivity(FlipCoinActivity.createIntent(ChooseCoinActivity.this, firstChild, secondChild, headWins));
 
                 finish();
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                selectedChild = -1;
+                secondChildList.clear();
+                updateSetFirstChildList();
+                setupSecondChildList();
             }
         });
 
