@@ -11,6 +11,7 @@
     <string name="main_coinbtn">Flip Coin</string>
     <string name="main_timebtn">Timeout Timer</string>
     <string name="main_title">Practical Parent</string>
+    <string name="main_taskbtn">Edit Task</string>
     <string name="timer_watch">00:00</string>
     <string name="timer_startbtn">Start</string>
     <string name="timer_resetbtn">reset</string>
@@ -45,4 +46,15 @@
     <string name="config_dele">Delete</string>
     <string name="config_saveclose">Save and Close</string>
     <string name="flip_flip">Flip</string>
+    <string name="enter_task_description">Enter Task Description</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="warning_nochild_taskend">NO CHILD REMAINS</string>
+    <string name="confirm">Confirm</string>
+    <string name="next_child">Next Child:</string>
+    <string name="next_task">Next Task:</string>
+    <string name="unknown">Unknown</string>
+    <string name="last_child_info_view">This is the last child</string>
+    <string name="whose_turn">Whose Turn</string>
+
 </resources>
