@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
+import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -23,6 +24,7 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private static ChildrenConfigCollection collection;
     private static Gson gson = new Gson();
     private HistoryCollection historyCollection;
+    private ChildrenTaskManager taskList;
     private HashMap<String, IndividualConfig> children;
     private String lastWinner = "";
     private String lastLoser = "";
@@ -30,6 +32,11 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private ChildrenConfigCollection() {
         children = new HashMap<>();
         historyCollection = new HistoryCollection();
+        taskList = new ChildrenTaskManager();
+    }
+
+    public ChildrenTaskManager getTaskList() {
+        return taskList;
     }
 
     public static ChildrenConfigCollection getInstance() {
