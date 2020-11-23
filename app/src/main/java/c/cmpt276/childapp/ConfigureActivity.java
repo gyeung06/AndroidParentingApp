@@ -2,26 +2,40 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
+
+import static android.media.MediaRecorder.VideoSource.CAMERA;
 
 /**
  * UI element when configuring a child
  */
 public class ConfigureActivity extends AppCompatActivity {
-    Button btnSave, btnDelete, btnSaveClose;
+    Button btnSave, btnDelete, btnSaveClose, btnPhoto;
     EditText txtName;
     CheckBox chkFlipCoin;
+    ImageView preview;
 
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
@@ -59,8 +73,11 @@ public class ConfigureActivity extends AppCompatActivity {
         btnDelete = findViewById(R.id.btnDelete);
         btnSaveClose = findViewById(R.id.btnSaveAndClose);
         chkFlipCoin = findViewById(R.id.chkFlipCoin);
+        btnPhoto = findViewById(R.id.config_photobtn);
+
 
         txtName = findViewById(R.id.edtName);
+        preview = findViewById(R.id.config_thumbnail);
 
         setListeners();
 
@@ -140,7 +157,7 @@ public class ConfigureActivity extends AppCompatActivity {
                     Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(ConfigureActivity.this, "Cannot delete because your are creating a new one", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigureActivity.this, "Cannot delete because you are creating a new one", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -151,5 +168,20 @@ public class ConfigureActivity extends AppCompatActivity {
                 saveData(true);
             }
         });
+
+        btnPhoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, CAMERA);
+            }
+        });
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Bitmap thumb = (Bitmap) data.getExtras().get("data");
+        preview.setImageBitmap(thumb);
     }
 }
