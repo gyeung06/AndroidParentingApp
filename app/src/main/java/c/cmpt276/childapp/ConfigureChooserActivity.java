@@ -3,10 +3,7 @@ package c.cmpt276.childapp;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.media.ExifInterface;
 import android.os.Bundle;
-import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,8 +17,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 import java.util.List;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
@@ -49,7 +44,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ConfigureActivity.createIntent(getApplicationContext(), ""));
+                startActivity(ConfigureActivity.createIntent(getApplicationContext(), -1));
                 //finish();
             }
         });
@@ -97,14 +92,14 @@ public class ConfigureChooserActivity extends AppCompatActivity {
                 itemView = getLayoutInflater().inflate(R.layout.child_list_item, parent, false);
             }
 
-            IndividualConfig currentConfig = list.get(position);
+            final IndividualConfig currentConfig = list.get(position);
 
             TextView nameText = itemView.findViewById(R.id.txtNameItem);
             nameText.setText(currentConfig.getName());
             ImageView img = itemView.findViewById(R.id.chooserImg);
             Bitmap bitmap = currentConfig.getBase64Bitmap();
             if (bitmap == null){
-                img.setImageResource(R.drawable.ic_baseline_sentiment_satisfied_24);
+                img.setImageResource(R.drawable.ic_baseline_face_24);
             } else {
                 img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200,false));
         }
@@ -115,7 +110,8 @@ public class ConfigureChooserActivity extends AppCompatActivity {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), list.get(position).getName()));
+                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), position));
+                    Log.d("name", currentConfig.getName());
                 }
             });
 

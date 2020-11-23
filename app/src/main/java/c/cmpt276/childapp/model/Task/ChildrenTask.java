@@ -25,6 +25,15 @@ public class ChildrenTask {
         }
     }
 
+    public void removeChild(String childName) {
+        for (int i = 0; i < nextToDoChildList.size(); i++) {
+            if (nextToDoChildList.get(i).equals(childName)) {
+                nextToDoChildList.remove(i);
+                return;
+            }
+        }
+    }
+
     /**
      * @return the next child in the queue
      */

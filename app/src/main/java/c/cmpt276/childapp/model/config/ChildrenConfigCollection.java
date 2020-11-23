@@ -77,6 +77,9 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
 
     public void add(IndividualConfig config) {
         children.put(config.getName(), config);
+//        for(int i =0 ;i < size() ;i ++){
+////            Log.d(String.valueOf(i),children.keySet().toArray(new String[size()])[i]);
+////        }
     }
 
     public IndividualConfig get(String name) {
@@ -95,8 +98,14 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return children.values().iterator();
     }
 
-    public void delete(String i) {
-        children.remove(i);
+    public void delete(String str) {
+        if (get(str).getTaskEnabled()) {
+            for (int i = 0; i < taskList.size(); i++) {
+                taskList.getTask(i).removeChild(str);
+            }
+        }
+        children.remove(str);
+
     }
 
     public List<IndividualConfig> getArray() {

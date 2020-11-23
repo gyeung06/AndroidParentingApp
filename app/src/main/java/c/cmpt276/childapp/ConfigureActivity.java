@@ -28,7 +28,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.IOException;
@@ -38,21 +37,19 @@ import java.util.Date;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
 
-import static android.media.MediaRecorder.VideoSource.CAMERA;
-
 /**
  * UI element when configuring a child
  */
 public class ConfigureActivity extends AppCompatActivity {
     Button btnSave, btnDelete, btnSaveClose, btnPhoto, btnGallery;
     EditText txtName;
-    CheckBox chkFlipCoin;
+    CheckBox chkFlipCoin, chkWhoseTurn;
     ImageView preview;
 
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
-    private String editingChild;
-    private boolean flipCoinEnable;
+    private int editingChild;
+    private boolean flipCoinEnable, whoseTurnEnable;
     private String base64Img = "";
     private boolean tookPhoto;
     String photoPath;
@@ -64,7 +61,7 @@ public class ConfigureActivity extends AppCompatActivity {
      * @param childName if empty then create a new IndividualConfig, otherwise load from ChildrenConfigCollection.
      * @return the intent to be started
      */
-    public static Intent createIntent(Context context, String childName) {
+    public static Intent createIntent(Context context, int childName) {
         Intent i = new Intent(context, ConfigureActivity.class);
         i.putExtra("CHILD_SELECTED", childName);
         return i;
@@ -82,12 +79,13 @@ public class ConfigureActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        editingChild = getIntent().getStringExtra("CHILD_SELECTED");
+        editingChild = getIntent().getIntExtra("CHILD_SELECTED", -1);
 
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
         btnSaveClose = findViewById(R.id.btnSaveAndClose);
         chkFlipCoin = findViewById(R.id.chkFlipCoin);
+        chkWhoseTurn = findViewById(R.id.chkWhoseTurn);
         btnPhoto = findViewById(R.id.config_photobtn);
         btnGallery = findViewById(R.id.config_gallery);
 
@@ -96,7 +94,7 @@ public class ConfigureActivity extends AppCompatActivity {
 
         setListeners();
 
-        if (editingChild != null && !editingChild.isEmpty()) {
+        if (editingChild > -1) {
             editorMode = true;
             autoPopulateFields();
         }
@@ -120,13 +118,17 @@ public class ConfigureActivity extends AppCompatActivity {
         }
 
         if (editorMode) {
-            configs.get(editingChild).set(name, flipCoinEnable, base64Img);
+            IndividualConfig individualConfig = configs.get(editingChild);
+            configs.delete(individualConfig.getName());
+            individualConfig.set(name, flipCoinEnable, whoseTurnEnable, base64Img);
+            configs.add(individualConfig);
+
         } else {
             if (configs.contains(name)) {
                 Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            configs.add(new IndividualConfig(name, flipCoinEnable, base64Img));
+            configs.add(new IndividualConfig(name, flipCoinEnable, whoseTurnEnable, base64Img));
         }
 
         configs.save(this);
@@ -145,15 +147,18 @@ public class ConfigureActivity extends AppCompatActivity {
 
     private void autoPopulateFields() {
         //CheckBox timer = findViewById(R.id.chkTimer);
-        CheckBox fc = findViewById(R.id.chkFlipCoin);
         EditText edtName = findViewById(R.id.edtName);
-        edtName.setText(editingChild);
-        fc.setChecked(configs.get(editingChild).getFlipCoin());
+        edtName.setText(configs.get(editingChild).getName());
+        chkFlipCoin.setChecked(configs.get(editingChild).getFlipCoin());
+        flipCoinEnable = configs.get(editingChild).getFlipCoin();
+        whoseTurnEnable = configs.get(editingChild).getTaskEnabled();
+        chkWhoseTurn.setChecked(whoseTurnEnable);
         //timer.setChecked(configs.get(editIndex).getTimeoutTimer());
 
         Bitmap tempImg = configs.get(editingChild).getBase64Bitmap();
-        if (tempImg != null){
+        if (tempImg != null) {
             preview.setImageBitmap(tempImg);
+            base64Img = configs.get(editingChild).getBase64Img();
         }
     }
 
@@ -171,7 +176,12 @@ public class ConfigureActivity extends AppCompatActivity {
                 flipCoinEnable = b;
             }
         });
-
+        chkWhoseTurn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                whoseTurnEnable = b;
+            }
+        });
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -183,7 +193,7 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (editorMode) {
-                    configs.delete(editingChild);
+                    configs.delete(configs.get(editingChild).getName());
                     Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
@@ -300,6 +310,11 @@ public class ConfigureActivity extends AppCompatActivity {
                 }
 
                 preview.setImageBitmap(ogImg);
+                ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
+                assert ogImg != null;
+                ogImg.compress(Bitmap.CompressFormat.PNG, 100, bAOS);
+                byte[] byteArray = bAOS.toByteArray();
+                base64Img = Base64.encodeToString(byteArray, Base64.DEFAULT);
             }
         }
     }
@@ -316,11 +331,14 @@ public class ConfigureActivity extends AppCompatActivity {
         if (requestCode == 0) {
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 btnGallery.setVisibility(View.VISIBLE);
+                btnPhoto.setVisibility(View.VISIBLE);
+
             }
         }
         if (requestCode == 1){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                btnGallery.setVisibility(View.VISIBLE);
+                btnPhoto.setVisibility(View.VISIBLE);
+                btnPhoto.setVisibility(View.VISIBLE);
             }
         }
     }

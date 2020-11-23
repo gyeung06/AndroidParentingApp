@@ -14,19 +14,20 @@ public class IndividualConfig {
     private String name;
     private boolean flipCoin;
     private String base64Img;
+    private boolean tasks;
     //  private boolean timeoutTimer;
 
-    public IndividualConfig(String name, boolean flipCoin, String base64Img) {
-        set(name, flipCoin, base64Img);
+    public IndividualConfig(String name, boolean flipCoin, boolean tasks, String base64Img) {
+        set(name, flipCoin, tasks, base64Img);
     }
 
     public String getBase64Img() {
         return base64Img;
     }
 
-    public Bitmap getBase64Bitmap(){
+    public Bitmap getBase64Bitmap() {
         Bitmap bitmap;
-        if (base64Img == null || base64Img.isEmpty()){
+        if (base64Img == null || base64Img.isEmpty()) {
             return null;
         } else {
             InputStream stream = new ByteArrayInputStream(Base64.decode(base64Img.getBytes(), Base64.DEFAULT));
@@ -51,8 +52,9 @@ public class IndividualConfig {
 //        return timeoutTimer;
 //    }
 
-    public void set(String name, boolean flipCoin, String base64Img) {
+    public void set(String name, boolean flipCoin, boolean tasks, String base64Img) {
         this.name = name;
+        this.tasks = tasks;
         this.flipCoin = flipCoin;
         this.base64Img = base64Img;
     }

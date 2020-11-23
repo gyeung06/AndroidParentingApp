@@ -125,4 +125,14 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
+    <CheckBox
+        android:id="@+id/chkWhoseTurn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="20dp"
+        android:text="@string/whose_turn"
+        app:layout_constraintStart_toEndOf="@+id/chkFlipCoin"
+        app:layout_constraintTop_toBottomOf="@+id/txtConfig" />
 </androidx.constraintlayout.widget.ConstraintLayout>
