@@ -12,9 +12,18 @@ import android.widget.Toast;
 import c.cmpt276.childapp.model.Task.ChildrenTask;
 import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
-
+/**
+ * Code Reviews: add class description.
+ *
+ * class enable user to edit exist task, enable to add remove and edit.
+ *
+ */
 public class EditTaskDialog extends Dialog implements android.view.View.OnClickListener {
     private ChildrenTaskManager allTasks = ChildrenConfigCollection.getInstance().getTaskList();
+    /**
+     * Code Review
+     * assigned activity and d, but not yet used.
+     */
     private Activity activity;
     private Dialog d;
     private Button save, delete, cancel;
