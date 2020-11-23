@@ -53,5 +53,8 @@
     <string name="confirm">Confirm</string>
     <string name="next_child">Next Child:</string>
     <string name="next_task">Next Task:</string>
+    <string name="unknown">Unknown</string>
+    <string name="last_child_info_view">This is the last child</string>
+    <string name="whose_turn">Whose Turn</string>
 
 </resources>

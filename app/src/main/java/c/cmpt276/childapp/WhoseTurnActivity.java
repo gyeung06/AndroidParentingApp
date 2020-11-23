@@ -1,9 +1,9 @@
 package c.cmpt276.childapp;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -47,6 +47,12 @@ public class WhoseTurnActivity extends AppCompatActivity {
             public void onClick(View view) {
                 EditTaskDialog ed = new EditTaskDialog(WhoseTurnActivity.this, -1);
                 ed.show();
+                ed.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                    @Override
+                    public void onDismiss(DialogInterface dialogInterface) {
+                        updateList();
+                    }
+                });
             }
         });
 
@@ -118,6 +124,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
 //                portrait.setImageBitmap(configs.get(nextChild).getPortrait());//TODO might change
             } else {
+                portrait.setImageResource(R.drawable.ic_baseline_face_24);
                 nameText.setText(R.string.warning_nochild_taskend);
             }
             TextView title = itemView.findViewById(R.id.txtTaskTitle);
@@ -133,6 +140,7 @@ public class WhoseTurnActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     new EditTaskDialog(WhoseTurnActivity.this, position).show();
+                    updateList();
                 }
             });
 
@@ -140,8 +148,14 @@ public class WhoseTurnActivity extends AppCompatActivity {
         }
 
         private void viewItem(int position) {
-            //Toast.makeText(getContext(),String.valueOf(position),Toast.LENGTH_SHORT).show();
-            Log.d(String.valueOf(position), String.valueOf(position));
+            ViewTaskDialog task = new ViewTaskDialog(WhoseTurnActivity.this, position);
+            task.show();
+            task.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                @Override
+                public void onDismiss(DialogInterface dialogInterface) {
+                    updateList();
+                }
+            });
         }
     }
 
