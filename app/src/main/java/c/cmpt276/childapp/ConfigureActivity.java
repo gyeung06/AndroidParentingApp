@@ -131,6 +131,8 @@ public class ConfigureActivity extends AppCompatActivity {
             configs.add(new IndividualConfig(name, flipCoinEnable, whoseTurnEnable, base64Img));
         }
 
+        editorMode = true; // when user saves new child without closing
+
         configs.save(this);
         Toast.makeText(ConfigureActivity.this, "Saved", Toast.LENGTH_SHORT).show();
 
