@@ -2,7 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="c.cmpt276.childapp">
     <uses-permission android:name="android.permission.VIBRATE"/>
-    <uses-feature android:name="android.hardware.camera" />
+    <uses-feature android:name="android.hardware.camera"
+        android:required="false"/>
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
@@ -33,10 +34,19 @@
             </intent-filter>
         </activity>
 
-
         <service android:name=".model.timerService.TimerService" />
 
         <receiver android:name=".model.timerService.TimerBroadcastReceiver"/>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="c.cmpt276.childapp.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_path" />
+        </provider>
     </application>
 
 </manifest>

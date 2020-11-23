@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.media.ExifInterface;
 import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
@@ -101,14 +102,12 @@ public class ConfigureChooserActivity extends AppCompatActivity {
             TextView nameText = itemView.findViewById(R.id.txtNameItem);
             nameText.setText(currentConfig.getName());
             ImageView img = itemView.findViewById(R.id.chooserImg);
-            String image = currentConfig.getBase64Img();
-            if (image == null || image.isEmpty()){
+            Bitmap bitmap = currentConfig.getBase64Bitmap();
+            if (bitmap == null){
                 img.setImageResource(R.drawable.ic_baseline_sentiment_satisfied_24);
             } else {
-                InputStream stream = new ByteArrayInputStream(Base64.decode(image.getBytes(), Base64.DEFAULT));
-                Bitmap bitmap = BitmapFactory.decodeStream(stream);
                 img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200,false));
-            }
+        }
 
 
 

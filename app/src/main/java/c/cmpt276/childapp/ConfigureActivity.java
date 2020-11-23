@@ -7,8 +7,11 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Matrix;
+import android.media.ExifInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Base64;
 import android.view.View;
@@ -23,9 +26,14 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.content.FileProvider;
 
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
@@ -47,6 +55,7 @@ public class ConfigureActivity extends AppCompatActivity {
     private boolean flipCoinEnable;
     private String base64Img = "";
     private boolean tookPhoto;
+    String photoPath;
 
     /**
      * create intent
@@ -96,6 +105,11 @@ public class ConfigureActivity extends AppCompatActivity {
             btnGallery.setVisibility(View.GONE);
             ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            btnPhoto.setVisibility(View.GONE);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1 );
+        }
     }
 
     private void saveData(boolean close) {
@@ -136,6 +150,11 @@ public class ConfigureActivity extends AppCompatActivity {
         edtName.setText(editingChild);
         fc.setChecked(configs.get(editingChild).getFlipCoin());
         //timer.setChecked(configs.get(editIndex).getTimeoutTimer());
+
+        Bitmap tempImg = configs.get(editingChild).getBase64Bitmap();
+        if (tempImg != null){
+            preview.setImageBitmap(tempImg);
+        }
     }
 
     private void setListeners() {
@@ -184,7 +203,7 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                startActivityForResult(pickPhoto, 1);
+                startActivityForResult(pickPhoto, 0);
                 tookPhoto = false;
             }
         });
@@ -193,47 +212,113 @@ public class ConfigureActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(takePicture, CAMERA);
-                tookPhoto = true;
+                File photoFile = null;
+                try {
+                    photoFile = createImageFile();
+                } catch (IOException e){
+                    e.printStackTrace();
+                }
+                if (photoFile != null){
+                    Uri imgURI = FileProvider.getUriForFile(getApplicationContext(), "c.cmpt276.childapp.fileprovider", photoFile);
+                    takePicture.putExtra(MediaStore.EXTRA_OUTPUT, imgURI);
+                    startActivityForResult(takePicture, 1);
+                    tookPhoto = true;
+                }
+
             }
         });
+    }
+
+    private File createImageFile() throws IOException {
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(new Date());
+        String imgName = "ProfileImg_" + timeStamp + "_";
+        File storageDir = getExternalFilesDir(Environment.DIRECTORY_PICTURES);
+        File image = File.createTempFile(imgName, ".jpg", storageDir);
+        photoPath = image.getAbsolutePath();
+        return image;
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode != RESULT_CANCELED) {
-            Bitmap tempImg = null;
-            if (!tookPhoto) {
-                Uri selectedImage = data.getData();
-                String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                if (selectedImage != null) {
-                    Cursor cursor = getContentResolver().query(selectedImage,
-                            filePathColumn, null, null, null);
-                    if (cursor != null) {
-                        cursor.moveToFirst();
-                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-                        String picturePath = cursor.getString(columnIndex);
-                        tempImg = BitmapFactory.decodeFile(picturePath);
-                        preview.setImageBitmap(tempImg);
-                        cursor.close();
+            if (requestCode == 0) {
+                Bitmap tempImg = null;
+                if (!tookPhoto) {
+                    Uri selectedImage = data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    if (selectedImage != null) {
+                        Cursor cursor = getContentResolver().query(selectedImage,
+                                filePathColumn, null, null, null);
+                        if (cursor != null) {
+                            cursor.moveToFirst();
+                            int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                            String picturePath = cursor.getString(columnIndex);
+                            tempImg = BitmapFactory.decodeFile(picturePath);
+                            preview.setImageBitmap(tempImg);
+                            cursor.close();
+                        }
                     }
+                } else {
+                    tempImg = (Bitmap) data.getExtras().get("data");
+                    preview.setImageBitmap(tempImg);
                 }
-            } else {
-                tempImg = (Bitmap) data.getExtras().get("data");
-                preview.setImageBitmap(tempImg);
+                ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
+                assert tempImg != null;
+                tempImg.compress(Bitmap.CompressFormat.PNG, 100, bAOS);
+                byte[] byteArray = bAOS.toByteArray();
+                base64Img = Base64.encodeToString(byteArray, Base64.DEFAULT);
+            } else if (requestCode == 1){
+                Bitmap ogImg = null;
+                Bitmap bitmap = BitmapFactory.decodeFile(photoPath);
+                ExifInterface ei = null;
+                try {
+                    ei = new ExifInterface(photoPath);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                if (ei == null){
+                    return;
+                }
+                int ori = ei.getAttributeInt(ExifInterface.TAG_ORIENTATION, ExifInterface.ORIENTATION_UNDEFINED);
+                switch(ori) {
+                    case ExifInterface.ORIENTATION_ROTATE_90:
+                        ogImg = rotateImage(bitmap, 90);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_180:
+                        ogImg = rotateImage(bitmap, 180);
+                        break;
+
+                    case ExifInterface.ORIENTATION_ROTATE_270:
+                        ogImg = rotateImage(bitmap, 270);
+                        break;
+
+                    case ExifInterface.ORIENTATION_NORMAL:
+                    default:
+                        ogImg = bitmap;
+                }
+
+                preview.setImageBitmap(ogImg);
             }
-            ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
-            assert tempImg != null;
-            tempImg.compress(Bitmap.CompressFormat.PNG, 100, bAOS);
-            byte[] byteArray = bAOS.toByteArray();
-            base64Img = Base64.encodeToString(byteArray, Base64.DEFAULT);
         }
+    }
+
+    public static Bitmap rotateImage(Bitmap source, float angle) {
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        return Bitmap.createBitmap(source, 0, 0, source.getWidth(), source.getHeight(),
+                matrix, true);
     }
 
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                btnGallery.setVisibility(View.VISIBLE);
+            }
+        }
+        if (requestCode == 1){
             if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 btnGallery.setVisibility(View.VISIBLE);
             }
