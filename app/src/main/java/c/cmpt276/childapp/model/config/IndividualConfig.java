@@ -43,6 +43,10 @@ public class IndividualConfig {
         return flipCoin;
     }
 
+    public boolean getTaskEnabled() {
+        return tasks;
+    }
+
 //    public boolean getTimeoutTimer() {
 //        return timeoutTimer;
 //    }
