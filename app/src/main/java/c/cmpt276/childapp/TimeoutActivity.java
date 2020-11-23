@@ -107,7 +107,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     private void initializeButtons(long time) {
         if (mTimerRunning) {
-            Toast.makeText(TimeoutActivity.this, "Pause Timer First", Toast.LENGTH_SHORT).show();
+            Toast.makeText(TimeoutActivity.this, R.string.pause_warning, Toast.LENGTH_SHORT).show();
         } else {
             saveLastUsedTime(time);
             resetTimer();
@@ -144,7 +144,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                     pauseTimer();
                 } else {
                     if (mTimeLeftInMillis <= 0) {
-                        Toast.makeText(getApplicationContext(), "You must have enter a time that greater than 0", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(getApplicationContext(), R.string.greater_0_warning, Toast.LENGTH_SHORT).show();
                         return;
                     }
                     startTimer();
@@ -172,7 +172,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 EditText num = findViewById(R.id.timer_custom_input);
                 String test = num.getText().toString();
                 if (TextUtils.isEmpty(test)) {
-                    Toast.makeText(TimeoutActivity.this, "Enter a time", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(TimeoutActivity.this, R.string.Enter_time_warning, Toast.LENGTH_SHORT).show();
                 } else {
                     long minutes = Long.parseLong(test);
                     minutes *= 60000;

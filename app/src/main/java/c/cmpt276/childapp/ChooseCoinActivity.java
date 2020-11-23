@@ -286,15 +286,15 @@ public class ChooseCoinActivity extends AppCompatActivity {
             date.setText(currentHistory.getDate());
 
             if (currentHistory.getChoseHead()) {
-                choice.setText("Heads");
+                choice.setText(R.string.head_name);
             } else {
-                choice.setText("Tails");
+                choice.setText(R.string.tail_name);
             }
 
             if (currentHistory.getResult()) {
-                result.setText("Heads");
+                result.setText(R.string.head_name);
             } else {
-                result.setText("Tails");
+                result.setText(R.string.tail_name);
             }
 
             return itemView;

@@ -113,7 +113,7 @@ public class ConfigureActivity extends AppCompatActivity {
     private void saveData(boolean close) {
         String name = txtName.getText().toString().trim();
         if (name.isEmpty()) {
-            Toast.makeText(ConfigureActivity.this, "Cannot save because name is empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(ConfigureActivity.this, R.string.info_save1, Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -125,7 +125,7 @@ public class ConfigureActivity extends AppCompatActivity {
 
         } else {
             if (configs.contains(name)) {
-                Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ConfigureActivity.this, R.string.info_save2, Toast.LENGTH_SHORT).show();
                 return;
             }
             configs.add(new IndividualConfig(name, flipCoinEnable, whoseTurnEnable, base64Img));
@@ -196,10 +196,10 @@ public class ConfigureActivity extends AppCompatActivity {
             public void onClick(View view) {
                 if (editorMode) {
                     configs.delete(configs.get(editingChild).getName());
-                    Toast.makeText(ConfigureActivity.this, "Deleted", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigureActivity.this, R.string.info_warn_delete, Toast.LENGTH_SHORT).show();
                     finish();
                 } else {
-                    Toast.makeText(ConfigureActivity.this, "Cannot delete because you are creating a new one", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ConfigureActivity.this, R.string.info_warn_delete2, Toast.LENGTH_SHORT).show();
                 }
             }
         });
