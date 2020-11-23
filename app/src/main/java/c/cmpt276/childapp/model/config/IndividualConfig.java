@@ -15,6 +15,7 @@ public class IndividualConfig {
     private boolean flipCoin;
     private String base64Img;
     private boolean tasks;
+    private long lastChose;
     //  private boolean timeoutTimer;
 
     public IndividualConfig(String name, boolean flipCoin, boolean tasks, String base64Img) {
@@ -58,4 +59,13 @@ public class IndividualConfig {
         this.flipCoin = flipCoin;
         this.base64Img = base64Img;
     }
+
+    public void chose() {
+        lastChose = System.currentTimeMillis();
+    }
+
+    public long getLastChose() {
+        return lastChose;
+    }
+
 }
