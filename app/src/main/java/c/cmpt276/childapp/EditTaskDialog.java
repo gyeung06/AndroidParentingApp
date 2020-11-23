@@ -13,7 +13,7 @@ import c.cmpt276.childapp.model.Task.ChildrenTask;
 import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 /**
- * Code Reviews: add class description.
+ *
  *
  * class enable user to edit exist task, enable to add remove and edit.
  *

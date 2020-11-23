@@ -21,10 +21,13 @@ import c.cmpt276.childapp.model.Task.ChildrenTask;
 import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * the user interface of task activity, include childNameAdapter class, to form a
+ * list view content of task.
+ */
 public class WhoseTurnActivity extends AppCompatActivity {
     ChildrenConfigCollection configs;
     ListView listView;
-    Button btnAdd, btnRemove, btnEdit;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, WhoseTurnActivity.class);

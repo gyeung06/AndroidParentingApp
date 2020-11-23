@@ -3,6 +3,9 @@ package c.cmpt276.childapp.model.Task;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * basically a list of tasks but with customized features
+ */
 public class ChildrenTaskManager {
     List<ChildrenTask> tasks;
 

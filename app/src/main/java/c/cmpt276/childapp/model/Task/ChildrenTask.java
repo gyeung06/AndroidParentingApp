@@ -5,6 +5,9 @@ import java.util.List;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
+/**
+ * single record of task
+ */
 public class ChildrenTask {
     private String taskDescription;
     private List<String> nextToDoChildList;
