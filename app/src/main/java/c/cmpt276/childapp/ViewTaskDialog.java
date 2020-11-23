@@ -13,10 +13,19 @@ import android.widget.Toast;
 import c.cmpt276.childapp.model.Task.ChildrenTask;
 import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
-
+/**
+ * Code Reviews: add class description.
+ *
+ * 1.class for pop up a dialog when task been clicked. And show the related information
+ * 2. the "cancel" feature not refresh properly. 
+ */
 public class ViewTaskDialog extends Dialog implements android.view.View.OnClickListener {
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private ChildrenTaskManager allTasks = ChildrenConfigCollection.getInstance().getTaskList();
+    /**
+     * Code Review
+     * assigned activity and d, but not yet used.
+     */
     private Activity activity;
     private Dialog d;
     private Button confirm, cancel;
