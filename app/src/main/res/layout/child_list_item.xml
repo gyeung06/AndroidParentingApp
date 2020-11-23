@@ -1,21 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/relativeLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/chooserImg"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:maxHeight="80dp"
+        android:maxWidth="80dp"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
         android:id="@+id/txtNameItem"
-        android:layout_width="300dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:autoSizeTextType="uniform" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/btnEditItem"
+        app:layout_constraintStart_toEndOf="@+id/chooserImg"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/btnEditItem"
-        android:layout_width="100dp"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         android:text="@string/list_item_edit"
-        app:autoSizeTextType="uniform" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
-</LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

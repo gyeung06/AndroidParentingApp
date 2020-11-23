@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 import c.cmpt276.childapp.model.FlipCoinHistory.HistoryCollection;
+import c.cmpt276.childapp.model.Task.ChildrenTaskManager;
 
 import static android.content.Context.MODE_PRIVATE;
 
@@ -24,6 +25,7 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private static ChildrenConfigCollection collection;
     private static Gson gson = new Gson();
     private HistoryCollection historyCollection;
+    private ChildrenTaskManager taskList;
     private HashMap<String, IndividualConfig> children;
     private String lastWinner = "";
     private String lastLoser = "";
@@ -31,6 +33,11 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
     private ChildrenConfigCollection() {
         children = new HashMap<>();
         historyCollection = new HistoryCollection();
+        taskList = new ChildrenTaskManager();
+    }
+
+    public ChildrenTaskManager getTaskList() {
+        return taskList;
     }
 
     public static ChildrenConfigCollection getInstance() {
@@ -71,6 +78,9 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
 
     public void add(IndividualConfig config) {
         children.put(config.getName(), config);
+//        for(int i =0 ;i < size() ;i ++){
+////            Log.d(String.valueOf(i),children.keySet().toArray(new String[size()])[i]);
+////        }
     }
 
     public IndividualConfig get(String name) {
@@ -95,15 +105,14 @@ public class ChildrenConfigCollection implements Iterable<IndividualConfig> {
         return children.values().iterator();
     }
 
-    public void delete(String name) {
-        if (children.remove(name) == null) {
-            for (Map.Entry<String, IndividualConfig> child : children.entrySet()) {
-                if (child.getValue().getName().equals(name)) {
-                    children.remove(child.getKey());
-                    return;
-                }
+    public void delete(String str) {
+        if (get(str).getTaskEnabled()) {
+            for (int i = 0; i < taskList.size(); i++) {
+                taskList.getTask(i).removeChild(str);
             }
         }
+        children.remove(str);
+
     }
 
     public List<IndividualConfig> getArray() {
