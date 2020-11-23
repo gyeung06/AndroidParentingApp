@@ -2,11 +2,16 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
@@ -14,6 +19,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.List;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
@@ -93,6 +100,17 @@ public class ConfigureChooserActivity extends AppCompatActivity {
 
             TextView nameText = itemView.findViewById(R.id.txtNameItem);
             nameText.setText(currentConfig.getName());
+            ImageView img = itemView.findViewById(R.id.chooserImg);
+            String image = currentConfig.getBase64Img();
+            if (image == null || image.isEmpty()){
+                img.setImageResource(R.drawable.ic_baseline_sentiment_satisfied_24);
+            } else {
+                InputStream stream = new ByteArrayInputStream(Base64.decode(image.getBytes(), Base64.DEFAULT));
+                Bitmap bitmap = BitmapFactory.decodeStream(stream);
+                img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200,false));
+            }
+
+
 
             Button edit = itemView.findViewById(R.id.btnEditItem);
             edit.setOnClickListener(new View.OnClickListener() {

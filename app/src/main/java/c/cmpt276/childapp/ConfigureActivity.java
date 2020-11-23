@@ -1,11 +1,16 @@
 package c.cmpt276.childapp;
 
+import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -16,12 +21,11 @@ import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.content.FileProvider;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
-import java.io.File;
-import java.io.IOException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
+import java.io.ByteArrayOutputStream;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.config.IndividualConfig;
@@ -32,7 +36,7 @@ import static android.media.MediaRecorder.VideoSource.CAMERA;
  * UI element when configuring a child
  */
 public class ConfigureActivity extends AppCompatActivity {
-    Button btnSave, btnDelete, btnSaveClose, btnPhoto;
+    Button btnSave, btnDelete, btnSaveClose, btnPhoto, btnGallery;
     EditText txtName;
     CheckBox chkFlipCoin;
     ImageView preview;
@@ -41,6 +45,8 @@ public class ConfigureActivity extends AppCompatActivity {
     private boolean editorMode = false;
     private String editingChild;
     private boolean flipCoinEnable;
+    private String base64Img = "";
+    private boolean tookPhoto;
 
     /**
      * create intent
@@ -74,7 +80,7 @@ public class ConfigureActivity extends AppCompatActivity {
         btnSaveClose = findViewById(R.id.btnSaveAndClose);
         chkFlipCoin = findViewById(R.id.chkFlipCoin);
         btnPhoto = findViewById(R.id.config_photobtn);
-
+        btnGallery = findViewById(R.id.config_gallery);
 
         txtName = findViewById(R.id.edtName);
         preview = findViewById(R.id.config_thumbnail);
@@ -84,6 +90,11 @@ public class ConfigureActivity extends AppCompatActivity {
         if (editingChild != null && !editingChild.isEmpty()) {
             editorMode = true;
             autoPopulateFields();
+        }
+
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
+            btnGallery.setVisibility(View.GONE);
+            ActivityCompat.requestPermissions(this, new String[] {Manifest.permission.READ_EXTERNAL_STORAGE}, 0);
         }
     }
 
@@ -95,13 +106,13 @@ public class ConfigureActivity extends AppCompatActivity {
         }
 
         if (editorMode) {
-            configs.get(editingChild).set(name, flipCoinEnable);
+            configs.get(editingChild).set(name, flipCoinEnable, base64Img);
         } else {
             if (configs.contains(name)) {
                 Toast.makeText(ConfigureActivity.this, "Cannot save because there is already a same name", Toast.LENGTH_SHORT).show();
                 return;
             }
-            configs.add(new IndividualConfig(name, flipCoinEnable));
+            configs.add(new IndividualConfig(name, flipCoinEnable, base64Img));
         }
 
         configs.save(this);
@@ -169,11 +180,21 @@ public class ConfigureActivity extends AppCompatActivity {
             }
         });
 
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent pickPhoto = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(pickPhoto, 1);
+                tookPhoto = false;
+            }
+        });
+
         btnPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
-                startActivityForResult(intent, CAMERA);
+                Intent takePicture = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(takePicture, CAMERA);
+                tookPhoto = true;
             }
         });
     }
@@ -181,7 +202,41 @@ public class ConfigureActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Bitmap thumb = (Bitmap) data.getExtras().get("data");
-        preview.setImageBitmap(thumb);
+        if (resultCode != RESULT_CANCELED) {
+            Bitmap tempImg = null;
+            if (!tookPhoto) {
+                Uri selectedImage = data.getData();
+                String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                if (selectedImage != null) {
+                    Cursor cursor = getContentResolver().query(selectedImage,
+                            filePathColumn, null, null, null);
+                    if (cursor != null) {
+                        cursor.moveToFirst();
+                        int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                        String picturePath = cursor.getString(columnIndex);
+                        tempImg = BitmapFactory.decodeFile(picturePath);
+                        preview.setImageBitmap(tempImg);
+                        cursor.close();
+                    }
+                }
+            } else {
+                tempImg = (Bitmap) data.getExtras().get("data");
+                preview.setImageBitmap(tempImg);
+            }
+            ByteArrayOutputStream bAOS = new ByteArrayOutputStream();
+            assert tempImg != null;
+            tempImg.compress(Bitmap.CompressFormat.PNG, 100, bAOS);
+            byte[] byteArray = bAOS.toByteArray();
+            base64Img = Base64.encodeToString(byteArray, Base64.DEFAULT);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        if (requestCode == 0) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                btnGallery.setVisibility(View.VISIBLE);
+            }
+        }
     }
 }
