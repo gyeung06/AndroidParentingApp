@@ -139,7 +139,14 @@ public class WhoseTurnActivity extends AppCompatActivity {
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    new EditTaskDialog(WhoseTurnActivity.this, position).show();
+                    EditTaskDialog ed = new EditTaskDialog(WhoseTurnActivity.this, position);
+                    ed.show();
+                    ed.setOnDismissListener(new DialogInterface.OnDismissListener() {
+                        @Override
+                        public void onDismiss(DialogInterface dialogInterface) {
+                            updateList();
+                        }
+                    });
                     updateList();
                 }
             });

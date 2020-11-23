@@ -1,7 +1,5 @@
 package c.cmpt276.childapp.model.config;
 
-import android.graphics.Bitmap;
-
 /**
  * Struct for every config for each child
  */
@@ -9,17 +7,12 @@ public class IndividualConfig {
     private String name;
     private boolean flipCoin;
     private boolean tasks;
-    private Bitmap portrait; // TODO currently placeholder
     //  private boolean timeoutTimer;
 
     public IndividualConfig(String name, boolean flipCoin) {
         set(name, flipCoin);
-        tasks = true;
+        tasks = true; //TODO integrate
         //TODO make UI and also make changes here for tasks
-    }
-
-    public Bitmap getPortrait() {
-        return portrait;
     }
 
     public String getName() {
