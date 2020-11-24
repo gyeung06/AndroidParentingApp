@@ -44,7 +44,7 @@ public class ConfigureChooserActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(ConfigureActivity.createIntent(getApplicationContext(), -1));
+                startActivity(ConfigureActivity.createIntent(getApplicationContext(), ""));
                 //finish();
             }
         });
@@ -102,15 +102,13 @@ public class ConfigureChooserActivity extends AppCompatActivity {
                 img.setImageResource(R.drawable.ic_baseline_face_24);
             } else {
                 img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200,false));
-        }
-
-
+            }
 
             Button edit = itemView.findViewById(R.id.btnEditItem);
             edit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), position));
+                    startActivity(ConfigureActivity.createIntent(getApplicationContext(), currentConfig.getName()));
                     Log.d("name", currentConfig.getName());
                 }
             });

@@ -40,7 +40,8 @@
                 android:id="@+id/lsChoosingChild"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:choiceMode="singleChoice" />
+                android:choiceMode="singleChoice"
+                android:listSelector="@color/design_default_color_secondary" />
 
         </LinearLayout>
 
@@ -61,7 +62,8 @@
                 android:id="@+id/lsRival"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:choiceMode="singleChoice" />
+                android:choiceMode="singleChoice"
+                android:listSelector="@color/design_default_color_secondary" />
 
 
         </LinearLayout>

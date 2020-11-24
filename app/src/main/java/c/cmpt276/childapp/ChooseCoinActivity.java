@@ -3,6 +3,7 @@ package c.cmpt276.childapp;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.TextView;
@@ -37,7 +39,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
     private int selectedChild = -1;
     private boolean seeSelectedChildOnly = false, headWins = true;
     private int selectedRival = -1;
-    private List<String> firstChildList, secondChildList;
+    ChildNameAdapter listRivalAdapter;
 
     Button btnContinue;
     Button btnClear;
@@ -47,7 +49,7 @@ public class ChooseCoinActivity extends AppCompatActivity {
     ListView listFirstChild;
     ListView listRival;
     ListView listHistory;
-    ArrayAdapter<String> listRivalAdapter;
+    private List<IndividualConfig> firstChildList, secondChildList;
 
     public static Intent createIntent(Context context) {
         return new Intent(context, ChooseCoinActivity.class);
@@ -62,18 +64,13 @@ public class ChooseCoinActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        List<IndividualConfig> children = configs.getFlipCoinEnabledChildren();
-        children.sort(new Comparator<IndividualConfig>() {
+        firstChildList = configs.getFlipCoinEnabledChildren();
+        firstChildList.sort(new Comparator<IndividualConfig>() {
             @Override
             public int compare(IndividualConfig t0, IndividualConfig t1) {
                 return Long.compare(t0.getLastChose(), t1.getLastChose());
             }
         });
-
-        firstChildList = new ArrayList<>();
-        for (IndividualConfig child : children) {
-            firstChildList.add(child.getName());
-        }
 
         secondChildList = new ArrayList<>();
 
@@ -92,13 +89,13 @@ public class ChooseCoinActivity extends AppCompatActivity {
 
         updateSetFirstChildList();
         updateInitialChooser();
-        updateSetSecondChildList();
         updateHistory();
     }
 
     private void updateInitialChooser() {
-        selectedChild = 0;
-        listFirstChild.setItemChecked(0, true);
+        Log.e("ASD", "" + listFirstChild.getAdapter().getCount());
+        //listFirstChild.setItemChecked(0, true);
+        listFirstChild.performItemClick(null, 0, listFirstChild.getItemIdAtPosition(0));
     }
 
     public boolean onSupportNavigateUp() {
@@ -116,10 +113,8 @@ public class ChooseCoinActivity extends AppCompatActivity {
     }
 
     private void updateSetFirstChildList() {
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, firstChildList);
+        final ChildNameAdapter adapter = new ChildNameAdapter(firstChildList, listFirstChild);
         listFirstChild.setAdapter(adapter);
-        listFirstChild.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        listFirstChild.setSelector(R.color.design_default_color_secondary);
         listFirstChild.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
@@ -127,8 +122,9 @@ public class ChooseCoinActivity extends AppCompatActivity {
 
                 //listView.setSelection(hasFlipCoinPositions.get(i));
                 selectedChild = i;
-                Log.d("Selected", firstChildList.get(selectedChild));
+                Log.d("Selected", firstChildList.get(selectedChild).getName());
                 selectedRival = -1;
+                adapter.notifyDataSetChanged();
 
                 updateSetSecondChildList();
 
@@ -140,18 +136,17 @@ public class ChooseCoinActivity extends AppCompatActivity {
     }
 
     private void setupSecondChildList() {
-        listRivalAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_activated_1, android.R.id.text1, secondChildList);
+        listRivalAdapter = new ChildNameAdapter(secondChildList, listRival);
         listRival.setAdapter(listRivalAdapter);
         listRival.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                 if (i == selectedRival) return;
                 selectedRival = i;
-                Log.d("Selected_Second", secondChildList.get(selectedRival));
+                Log.d("Selected_Second", secondChildList.get(selectedRival).getName());
+                listRivalAdapter.notifyDataSetChanged();
             }
         });
-        listRival.setSelector(R.color.design_default_color_secondary);
-        listRival.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
     }
 
     private void updateSetSecondChildList() {
@@ -172,8 +167,8 @@ public class ChooseCoinActivity extends AppCompatActivity {
                 String secondChild = "";
 
                 if (selectedChild != -1 && selectedRival != -1) {
-                    firstChild = firstChildList.get(selectedChild);
-                    secondChild = secondChildList.get(selectedRival);
+                    firstChild = firstChildList.get(selectedChild).getName();
+                    secondChild = secondChildList.get(selectedRival).getName();
                 }
 
                 startActivity(FlipCoinActivity.createIntent(ChooseCoinActivity.this, firstChild, secondChild, headWins));
@@ -228,13 +223,52 @@ public class ChooseCoinActivity extends AppCompatActivity {
         HistoryCollection history = configs.getFlipCoinHistory();
 
         if (seeSelectedChildOnly) {
-            history = history.filter(firstChildList.get(selectedChild));
+            history = history.filter(firstChildList.get(selectedChild).getName());
         }
 
         ArrayAdapter<FlipCoinRecord> adapter = new HistoryAdapter(history.getArray());
         listHistory.removeAllViewsInLayout();
         listHistory.setAdapter(adapter);
         listHistory.setClickable(false);
+    }
+
+    private class ChildNameAdapter extends ArrayAdapter<IndividualConfig> {
+        private final ListView listView;
+        List<IndividualConfig> list;
+
+        public ChildNameAdapter(List<IndividualConfig> list, ListView listView) {
+            super(ChooseCoinActivity.this, R.layout.choosechild_list_item, list);
+            this.list = list;
+            this.listView = listView;
+        }
+
+        @Override
+        public View getView(final int position, View itemView, ViewGroup parent) {
+            // Make sure we have a view to work with (may have been given null)
+            if (itemView == null) {
+                itemView = getLayoutInflater().inflate(R.layout.choosechild_list_item, parent, false);
+            }
+
+            if (listView.isItemChecked(position)) {
+                itemView.setBackgroundResource(R.color.design_default_color_secondary);
+            } else {
+                itemView.setBackgroundResource(R.color.design_default_color_background);
+            }
+
+            final IndividualConfig currentConfig = list.get(position);
+
+            TextView nameText = itemView.findViewById(R.id.txtNameItem);
+            nameText.setText(currentConfig.getName());
+            ImageView img = itemView.findViewById(R.id.chooserImg);
+            Bitmap bitmap = currentConfig.getBase64Bitmap();
+            if (bitmap == null) {
+                img.setImageResource(R.drawable.ic_baseline_face_24);
+            } else {
+                img.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
+            }
+
+            return itemView;
+        }
     }
 
     private class HistoryAdapter extends ArrayAdapter<FlipCoinRecord> {

@@ -48,7 +48,7 @@ public class ConfigureActivity extends AppCompatActivity {
 
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private boolean editorMode = false;
-    private int editingChild;
+    private String editingChild;
     private boolean flipCoinEnable, whoseTurnEnable;
     private String base64Img = "";
     private boolean tookPhoto;
@@ -61,7 +61,7 @@ public class ConfigureActivity extends AppCompatActivity {
      * @param childName if empty then create a new IndividualConfig, otherwise load from ChildrenConfigCollection.
      * @return the intent to be started
      */
-    public static Intent createIntent(Context context, int childName) {
+    public static Intent createIntent(Context context, String childName) {
         Intent i = new Intent(context, ConfigureActivity.class);
         i.putExtra("CHILD_SELECTED", childName);
         return i;
@@ -79,7 +79,7 @@ public class ConfigureActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        editingChild = getIntent().getIntExtra("CHILD_SELECTED", -1);
+        editingChild = getIntent().getStringExtra("CHILD_SELECTED");
 
         btnSave = findViewById(R.id.btnSave);
         btnDelete = findViewById(R.id.btnDelete);
@@ -94,7 +94,7 @@ public class ConfigureActivity extends AppCompatActivity {
 
         setListeners();
 
-        if (editingChild > -1) {
+        if (!editingChild.isEmpty()) {
             editorMode = true;
             autoPopulateFields();
         }
@@ -119,10 +119,13 @@ public class ConfigureActivity extends AppCompatActivity {
 
         if (editorMode) {
             IndividualConfig individualConfig = configs.get(editingChild);
+            if (!individualConfig.getName().equals(name) && configs.contains(name)) {
+                Toast.makeText(ConfigureActivity.this, R.string.info_save2, Toast.LENGTH_SHORT).show();
+                return;
+            }
             configs.delete(individualConfig.getName());
             individualConfig.set(name, flipCoinEnable, whoseTurnEnable, base64Img);
             configs.add(individualConfig);
-
         } else {
             if (configs.contains(name)) {
                 Toast.makeText(ConfigureActivity.this, R.string.info_save2, Toast.LENGTH_SHORT).show();
@@ -131,6 +134,7 @@ public class ConfigureActivity extends AppCompatActivity {
             configs.add(new IndividualConfig(name, flipCoinEnable, whoseTurnEnable, base64Img));
         }
 
+        editingChild = name;
         editorMode = true; // when user saves new child without closing
 
         configs.save(this);
