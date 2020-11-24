@@ -68,7 +68,7 @@ public class EditTaskDialog extends Dialog implements android.view.View.OnClickL
         switch (v.getId()) {
             case R.id.btn_save_close_task:
                 if (allTasks.contains(edt.getText().toString(), selected)) {
-                    Toast.makeText(getContext(), "you have already created one with the same title", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getContext(), R.string.info_warn_create_title, Toast.LENGTH_SHORT).show();
                     break;
                 }
                 saveTask();

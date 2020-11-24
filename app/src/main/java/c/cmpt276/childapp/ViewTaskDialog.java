@@ -2,6 +2,7 @@ package c.cmpt276.childapp;
 
 import android.app.Activity;
 import android.app.Dialog;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -58,7 +59,13 @@ public class ViewTaskDialog extends Dialog implements android.view.View.OnClickL
             img.setImageResource(R.drawable.ic_baseline_face_24);
         } else {
             ch.setText(task.getNextChild());
-            // img.setImageBitmap(configs.get(task.getNextChild()).getPortrait());//TODO ADD PORTRAIT
+            Bitmap portrait = configs.get(task.getNextChild()).getBase64Bitmap();
+            if (portrait != null) {
+                img.setImageBitmap(portrait);
+            } else {
+                img.setImageResource(R.drawable.ic_baseline_face_24);
+            }
+
         }
         TextView txt = findViewById(R.id.txt_view_task_title);
         txt.setText(task.getTaskDescription());

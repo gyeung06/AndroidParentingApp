@@ -46,9 +46,16 @@
     <string name="config_dele">Delete</string>
     <string name="config_saveclose">Save and Close</string>
     <string name="flip_flip">Flip</string>
+
     <string name="main_help">Help</string>
     <string name="help_title">INFORMATION</string>
     <string name="help_text">Created by: Team Khaki\n\nTeam members:\nGabriel Yeung\nJeffrey Song\nSamuel Leong\nSteven Wang\n\nCredits:</string>
+
+
+    <string name="config_take">Take Photo</string>
+    <string name="config_gallery">Gallery</string>
+
+
     <string name="enter_task_description">Enter Task Description</string>
     <string name="cancel">Cancel</string>
     <string name="delete">Delete</string>
@@ -59,5 +66,20 @@
     <string name="unknown">Unknown</string>
     <string name="last_child_info_view">This is the last child</string>
     <string name="whose_turn">Whose Turn</string>
+    <string name="head_name">Heads</string>
+    <string name="tail_name">Tails</string>
+    <string name="info_save1">Cannot save because name is empty</string>
+    <string name="info_save2">Cannot save because there is already a same name</string>
+    <string name="info_warn_delete">Deleted</string>
+    <string name="info_warn_delete2">Cannot delete because you are creating a new one</string>
+    <string name="info_warn_create_title">you have already created one with the same title</string>
+    <string name="excl_heads">Heads!</string>
+    <string name="excl_tails">Tails!</string>
+    <string name="warning_not_saving">This flip won\'t be recorded since only one or no child is selected</string>
+    <string name="noChildWarning">No child detected, will flip coin directly</string>
+    <string name="pause_warning">Pause Timer First</string>
+    <string name="greater_0_warning">You must have enter a time that greater than 0</string>
+    <string name="Enter_time_warning">Enter a time</string>
+    <string name="winner">" (Winner)"</string>
 
 </resources>

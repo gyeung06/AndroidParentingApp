@@ -15,104 +15,112 @@
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
         app:layout_constraintVertical_bias="0.0" />
 
-    <TextView
-        android:id="@+id/txtDes1"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="@string/choose_coin_des1"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <ListView
-        android:id="@+id/lsChoosingChild"
-        android:layout_width="200dp"
-        android:layout_height="175dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDes1" />
-
-    <ListView
-        android:id="@+id/lsRival"
-        android:layout_width="200dp"
-        android:layout_height="175dp"
-        android:layout_marginStart="11dp"
-        app:layout_constraintStart_toEndOf="@+id/lsChoosingChild"
-        app:layout_constraintTop_toBottomOf="@+id/txtDes2" />
-
-
-    <TextView
-        android:id="@+id/txtDes2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="72dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/choose_coin_des2"
-        app:layout_constraintStart_toEndOf="@+id/txtDes1"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <TextView
-        android:id="@+id/txtxDes4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:text="@string/choose_coin_des4"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtDes3" />
-
-    <TextView
-        android:id="@+id/txtDes3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="5dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/choose_coin_des3"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild" />
-
-    <RadioGroup
-        android:id="@+id/radioGroup"
-        android:layout_width="224dp"
-        android:layout_height="58dp"
-        android:layout_marginStart="64dp"
-        android:layout_marginTop="16dp"
-        android:contextClickable="true"
+    <LinearLayout
+        android:id="@+id/linearLayout4"
+        android:layout_width="match_parent"
+        android:layout_height="240dp"
         android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/lsChoosingChild">
+        android:weightSum="1"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <RadioButton
-            android:id="@+id/rdbHead"
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtDes1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/choose_coin_des1" />
+
+            <ListView
+                android:id="@+id/lsChoosingChild"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txtDes2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:text="@string/choose_coin_des2" />
+
+            <ListView
+                android:id="@+id/lsRival"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:choiceMode="singleChoice" />
+
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/btn_clear_selection">
+
+        <TextView
+            android:id="@+id/txtDes3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/choose_coin_des3" />
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:checked="true"
-            android:text="@string/choose_coin_rdbHead" />
+            android:contextClickable="true"
+            android:orientation="horizontal">
 
-        <RadioButton
-            android:id="@+id/rdbTail"
+            <RadioButton
+                android:id="@+id/rdbHead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="@string/choose_coin_rdbHead" />
+
+            <RadioButton
+                android:id="@+id/rdbTail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/choose_coin_rdbTail" />
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/continuebutton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_margin="8dp"
             android:layout_weight="1"
-            android:text="@string/choose_coin_rdbTail" />
-
-    </RadioGroup>
-
-    <CheckBox
-        android:id="@+id/chkViewHistorySelected"
-        android:layout_width="200dp"
-        android:layout_height="20dp"
-        android:layout_marginStart="151dp"
-        android:layout_marginTop="11dp"
-        android:text="@string/choose_coin_HisOption"
-        app:layout_constraintStart_toEndOf="@+id/txtxDes4"
-        app:layout_constraintTop_toBottomOf="@+id/radioGroup" />
+            android:text="@string/choose_coin_con" />
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8sp"
-        app:layout_constraintTop_toBottomOf="@+id/txtxDes4">
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
 
         <TextView
             android:id="@+id/textDes5"
@@ -150,14 +158,37 @@
             android:text="@string/choose_coin_des9" />
     </LinearLayout>
 
+    <RelativeLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
+
+        <TextView
+            android:id="@+id/txtxDes4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="@string/choose_coin_des4" />
+
+        <CheckBox
+            android:id="@+id/chkViewHistorySelected"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerInParent="true"
+            android:layout_marginEnd="8dp"
+            android:text="@string/choose_coin_HisOption" />
+    </RelativeLayout>
+
     <Button
-        android:id="@+id/continuebutton"
+        android:id="@+id/btn_clear_selection"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="13dp"
-        android:layout_marginTop="16dp"
-        android:text="@string/choose_coin_con"
-        app:layout_constraintStart_toEndOf="@+id/radioGroup"
-        app:layout_constraintTop_toBottomOf="@+id/lsRival" />
+        android:layout_marginStart="8dp"
+        android:text="Clear selection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

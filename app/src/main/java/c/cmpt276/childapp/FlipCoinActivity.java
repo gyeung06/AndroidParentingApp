@@ -71,10 +71,10 @@ public class FlipCoinActivity extends AppCompatActivity {
 
                 if (side == 0) {
                     imgCoin.setImageResource(R.drawable.head);
-                    Toast.makeText(FlipCoinActivity.this, "Heads!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FlipCoinActivity.this, R.string.excl_heads, Toast.LENGTH_LONG).show();
                 } else if (side == 1) {
                     imgCoin.setImageResource(R.drawable.tail);
-                    Toast.makeText(FlipCoinActivity.this, "Tails!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(FlipCoinActivity.this, R.string.excl_tails, Toast.LENGTH_LONG).show();
                 }
 
                 RotateAnimation rotate = new RotateAnimation(0, 999999999,
@@ -85,11 +85,12 @@ public class FlipCoinActivity extends AppCompatActivity {
                 if (!guestMode) {
                     FlipCoinRecord record = new FlipCoinRecord(child, rival, headWin);
                     record.setResult(result, Calendar.getInstance().getTime().toString());
+                    configs.get(child).chose();
                     configs.getFlipCoinHistory().add(record);
 
                     configs.setLastResultCandidate(child, rival);
                 }else{
-                    Toast.makeText(getApplicationContext(),"This flip won't be recorded since only one or no child is selected",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), R.string.warning_not_saving, Toast.LENGTH_SHORT).show();
                 }
             }
         });

@@ -3,7 +3,9 @@ package c.cmpt276.childapp;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -79,7 +81,6 @@ public class WhoseTurnActivity extends AppCompatActivity {
 
 
     private void updateList() {
-        //todo populate list items
         ArrayAdapter<ChildrenTask> ada = new ChildNameAdapter(configs.getTaskList());
         listView.setAdapter(ada);
     }
@@ -123,9 +124,15 @@ public class WhoseTurnActivity extends AppCompatActivity {
             });
             String nextChild = currentTask.getNextChild();
             if (nextChild != null) {
+                Log.d("next child", nextChild);
                 nameText.setText(nextChild);
+                Bitmap img = configs.get(nextChild).getBase64Bitmap();
+                if (img != null) {
+                    portrait.setImageBitmap(img);
+                } else {
+                    portrait.setImageResource(R.drawable.ic_baseline_face_24);
+                }
 
-//                portrait.setImageBitmap(configs.get(nextChild).getPortrait());//TODO might change
             } else {
                 portrait.setImageResource(R.drawable.ic_baseline_face_24);
                 nameText.setText(R.string.warning_nochild_taskend);

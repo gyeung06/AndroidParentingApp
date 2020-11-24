@@ -59,8 +59,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.main_flip:
                 if(configs.size() ==0){
-                    Toast.makeText(getApplicationContext(),"No child detected, will flip coin directly",Toast.LENGTH_SHORT).show();
-                    startActivity(FlipCoinActivity.createIntent(MainActivity.this,"","",true));
+                    Toast.makeText(getApplicationContext(), R.string.noChildWarning, Toast.LENGTH_SHORT).show();
+                    startActivity(FlipCoinActivity.createIntent(MainActivity.this, "", "", true));
                 }else{
                     startActivity(ChooseCoinActivity.createIntent(MainActivity.this));
                 }
