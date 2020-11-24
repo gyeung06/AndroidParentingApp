@@ -48,3 +48,7 @@
  - State the name of the team which created the app.
  - It would be nice (but not required or worth marks) to list the names of the developers who created it.
  - I want it to show me any copyright information, such as links to material used in the app which is under copyright (such as images).
+
+
+ Style guide sources
+ Some elements taken from Google's style guide https://google.github.io/styleguide/javaguide.html
