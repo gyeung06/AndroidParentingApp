@@ -262,9 +262,16 @@ public class ChooseCoinActivity extends AppCompatActivity {
             TextView result = itemView.findViewById(R.id.txtResult);
 
             boolean win = currentHistory.getChoseHead() && currentHistory.getResult();
-
-            chooser.setText(String.format("%s%s", currentHistory.getChooser(), win ? R.string.winner : ""));
-            rival.setText(String.format("%s%s", currentHistory.getRival(), !win ? R.string.winner : ""));
+            String rivalText, chooserText;
+            if (win) {
+                chooserText = currentHistory.getChooser() + getString(R.string.winnerTag);
+                rivalText = currentHistory.getRival();
+            } else {
+                chooserText = currentHistory.getChooser();
+                rivalText = currentHistory.getRival() + getString(R.string.winnerTag);
+            }
+            chooser.setText(chooserText);
+            rival.setText(rivalText);
             date.setText(currentHistory.getDate());
 
             if (currentHistory.getChoseHead()) {

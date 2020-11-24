@@ -70,13 +70,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(TimeoutActivity.createIntent(MainActivity.this));
                 break;
 
-<<<<<<< app/src/main/java/c/cmpt276/childapp/MainActivity.java
+
             case R.id.main_help:
                 startActivity(HelpActivity.createIntent(MainActivity.this));
-=======
+                break;
             case R.id.main_task:
                 startActivity(WhoseTurnActivity.createIntent(MainActivity.this));
->>>>>>> app/src/main/java/c/cmpt276/childapp/MainActivity.java
+                break;
         }
     }
 }

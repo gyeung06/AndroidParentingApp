@@ -16,7 +16,7 @@
         android:theme="@style/AppTheme">
         <activity
             android:name=".HelpActivity"
-            android:theme="@style/AppTheme.NoActionBar" />
+             />
 
         <activity android:name=".WhoseTurnActivity" />
         <activity android:name=".ConfigureChooserActivity" />
