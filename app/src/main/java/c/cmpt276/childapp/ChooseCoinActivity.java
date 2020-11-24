@@ -90,7 +90,6 @@ public class ChooseCoinActivity extends AppCompatActivity {
         setButtons();
         setupSecondChildList();
 
-        listFirstChild.setItemChecked(selectedChild, true);
         updateSetFirstChildList();
         updateInitialChooser();
         updateSetSecondChildList();
