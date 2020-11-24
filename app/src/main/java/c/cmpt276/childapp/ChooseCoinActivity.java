@@ -90,35 +90,16 @@ public class ChooseCoinActivity extends AppCompatActivity {
         setButtons();
         setupSecondChildList();
 
+        listFirstChild.setItemChecked(selectedChild, true);
         updateSetFirstChildList();
-        updatePreviousWinner();
+        updateInitialChooser();
+        updateSetSecondChildList();
         updateHistory();
     }
 
-    private void updatePreviousWinner() {
-        String lastLoser = configs.getLastLoser();
-        String lastWinner = configs.getLastWinner();
-
-        if (!lastLoser.isEmpty() && !lastWinner.isEmpty()) {
-            if (!firstChildList.contains(lastLoser) || !firstChildList.contains(lastWinner)) {
-                Log.d("loser - ", lastLoser);
-                Log.d("winner -", lastWinner);
-                return;
-            }
-
-            selectedChild = firstChildList.indexOf(lastLoser);
-            listFirstChild.setItemChecked(selectedChild, true);
-
-            updateSetSecondChildList();
-
-            selectedRival = secondChildList.indexOf(lastWinner);
-            listRival.setItemChecked(selectedRival, true);
-
-            Log.d("autoselected loser", lastLoser);
-            Log.d("loser index", "" + selectedChild);
-            Log.d("autoselected winner", lastWinner);
-            Log.d("winner index", "" + selectedRival);
-        }
+    private void updateInitialChooser() {
+        selectedChild = 0;
+        listFirstChild.setItemChecked(0, true);
     }
 
     public boolean onSupportNavigateUp() {
@@ -281,8 +262,10 @@ public class ChooseCoinActivity extends AppCompatActivity {
             TextView choice = itemView.findViewById(R.id.txtChoice);
             TextView result = itemView.findViewById(R.id.txtResult);
 
-            chooser.setText(currentHistory.getChooser());
-            rival.setText(currentHistory.getRival());
+            boolean win = currentHistory.getChoseHead() && currentHistory.getResult();
+
+            chooser.setText(String.format("%s%s", currentHistory.getChooser(), win ? R.string.winner : ""));
+            rival.setText(String.format("%s%s", currentHistory.getRival(), !win ? R.string.winner : ""));
             date.setText(currentHistory.getDate());
 
             if (currentHistory.getChoseHead()) {

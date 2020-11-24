@@ -74,5 +74,6 @@
     <string name="pause_warning">Pause Timer First</string>
     <string name="greater_0_warning">You must have enter a time that greater than 0</string>
     <string name="Enter_time_warning">Enter a time</string>
+    <string name="winner">" (Winner)"</string>
 
 </resources>
