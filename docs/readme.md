@@ -1,13 +1,21 @@
 #HOW WE IMPLEMENTED REQUIREMENTS
 ##[20] Kids Portrait Photos
  - I want to be able to set an image for each of my children so I can personalize the application.
+    *When editing or creating a new child after getting permissions if not ready granted the user will see Use Gallery or Take Photo Using either one will do their jobs respectively
  - I want to be able to select an existing image from my phone using its gallery, so I can use a great photo I already have.
+    *Goes to gallery with Intent and Result on return
  - I want to be able to take a new photo using the phone so I can quickly get a photo if I don't already have one.
+    *Calls camera with result on intend like gallery
  - I want to be able to change the portrait photo of my child because over time I will need to update their image.
+    *When user goes to edit the buttons are still there and just need to edit choose a new picture and hit Save
  - When configuring my children in the app, I want the list of children to show the picture for each child.
+    *Thumbnails are shown for each child in the ConfiChooserActivity
  - If I don't want to select an image for a new child, I would like there to be some default general image that is used.
+    *Inside the edit or add screen the area is empty is no picture exists, on the ListView there is a default vector image
  - It would be nice to be able to crop an image inside the application so I can select which part of an image to use (not for marks).
+    *N/A
  - I want all data about each child to be saved between executions of the program.
+    *Saved in JSON
 
 
 
