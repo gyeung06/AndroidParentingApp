@@ -1,5 +1,5 @@
-#HOW WE IMPLEMENTED REQUIREMENTS
-##[20] Kids Portrait Photos
+# HOW WE IMPLEMENTED REQUIREMENTS
+## [20] Kids Portrait Photos
  - I want to be able to set an image for each of my children so I can personalize the application.
  - I want to be able to select an existing image from my phone using its gallery, so I can use a great photo I already have.
  - I want to be able to take a new photo using the phone so I can quickly get a photo if I don't already have one.
@@ -11,7 +11,7 @@
 
 
 
-##[40] Whose Turn
+## [40] Whose Turn
  - I want the app to maintain a list of tasks and help me track which one of my children get to do it next because there are always disagreements about who gets to do something first, or who's turn it is to do it.
    * a list of tasks will be shown after you click **WHOSE TURN** button in main menu
  - I want to be able to add, remove, and edit the set of tasks the program knows.
@@ -32,18 +32,24 @@
  > however, if you delete a existing child, in a task that has this child, it will be deleted from the queue
 
 
-##[25] Coin Flip Enhancements
+## [25] Coin Flip Enhancements
  - I want to be able to override the default choice for whose turn it is to select heads or tails because sometimes one specific child must choose (such as if the flip only involves them), or if there is an external factor (such as the child losing their turn due to behaviour).
+   - The child list auto selects the child whose turn it is. The user can easily select a different child on the list.
  - When I go to flip a coin, when the application is asking the current child to select heads or tails, I want a convenient way to override the current "default" choice of who gets to fip. In this case I want to be able to manually select either a child, or nobody.
+   - Aside from being able to pick a different child, there is also a clear selection button to make it clear that the user can choose nobody.
  - When I go to manually select a different child, I want the app to show me a queue of my children in the order of whose turn would come first, second, third, etc. For example, the current "default" child would be first (top), and the child whose turn it was previously would be last in the list.
+    - The child list is now ordered by the last time they were the chooser, with the oldest on top, and the most recent at the bottom.
  - When a coin flip happens, the child who chose heads vs tails is moved to the end of the queue for next time because they just had a turn choosing.
+   - This is a result of ordering the list of children.
  - When I manually select nobody's turn, the queue of waiting children is not changed.
+   - The childrens' choose time is not affected when nobody is the chooser.
  - I want the app to show me the portrait picture of my child in most places where it makes sense. For example, show their portrait when it is their turn to choose heads or tails, and when the queue of children is shown.
+   - portraits are next to the name in both choose lists
  - I want all data about coin flips to be saved between executions of the program.
+   - already done
 
 
-
-##[5] Help screen
+## [5] Help screen
  - I want there to be a help screen which gives me facts about the application so I can know who created it.
  - State the name of the team which created the app.
  - It would be nice (but not required or worth marks) to list the names of the developers who created it.
