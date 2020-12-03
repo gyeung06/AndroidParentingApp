@@ -12,6 +12,7 @@
     <string name="main_timebtn">Timeout Timer</string>
     <string name="main_title">Practical Parent</string>
     <string name="main_taskbtn">Edit Task</string>
+    <string name="Take_Breath">Take Breath</string>
     <string name="timer_watch">00:00</string>
     <string name="timer_startbtn">Start</string>
     <string name="timer_resetbtn">reset</string>

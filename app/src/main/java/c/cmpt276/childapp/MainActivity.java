@@ -48,6 +48,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         
         Button taskBtn = findViewById(R.id.main_task);
         taskBtn.setOnClickListener(this);
+
+        Button breathBtn = findViewById(R.id.main_breath);
+        breathBtn.setOnClickListener(this);
     }
 
     @Override
@@ -70,12 +73,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 startActivity(TimeoutActivity.createIntent(MainActivity.this));
                 break;
 
-
             case R.id.main_help:
                 startActivity(HelpActivity.createIntent(MainActivity.this));
                 break;
+
             case R.id.main_task:
                 startActivity(WhoseTurnActivity.createIntent(MainActivity.this));
+                break;
+
+            case R.id.main_breath:
+                startActivity(TakeBreathActivity.createIntent(MainActivity.this));
                 break;
         }
     }
