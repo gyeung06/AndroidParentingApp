@@ -1,5 +1,6 @@
 package c.cmpt276.childapp.model.breath;
 
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +22,12 @@ public class ReadyState extends BreathState {
             @Override
             public void onClick(View view) {
                 context.signalNextState(new InState(context));
+            }
+        });
+        btn.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent motionEvent) {
+                return false;
             }
         });
     }

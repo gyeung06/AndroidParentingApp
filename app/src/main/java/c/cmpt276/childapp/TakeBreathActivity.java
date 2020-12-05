@@ -17,7 +17,6 @@ import java.util.List;
 
 import c.cmpt276.childapp.model.breath.BreathState;
 import c.cmpt276.childapp.model.breath.ReadyState;
-import c.cmpt276.childapp.model.breath.UserState;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class TakeBreathActivity extends AppCompatActivity {
@@ -35,9 +34,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     public void signalNextState(BreathState newState) {
         state = newState;
-        if (state.currentState() != UserState.READY) {
-            spn.setEnabled(false);
-        }
+        spn.setEnabled(false);
         state.hearButton(begin);
     }
 
@@ -89,7 +86,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         begin = findViewById(R.id.btnMainBreath);
         instruction = findViewById(R.id.txtInstruction);
         signalNextState(state);
-
+        resetNumBreath();
     }
 
     protected void onPause() {

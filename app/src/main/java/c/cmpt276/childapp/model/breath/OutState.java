@@ -34,8 +34,8 @@ public class OutState extends BreathState {
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
+                            context.setInstruction(R.string.outok);
                             done = true;
-                            doneOneCycle();
                         }
                     }, 3000);
                     tooLongHandler = new Handler();
@@ -43,6 +43,7 @@ public class OutState extends BreathState {
                         @Override
                         public void run() {
                             Toast.makeText(context, R.string.after10secOut, Toast.LENGTH_SHORT).show();
+                            doneOneCycle();
                             btn.callOnClick();
                         }
                     }, 10000);
@@ -51,6 +52,8 @@ public class OutState extends BreathState {
                     if (!done) {
                         context.setInstruction(R.string.breath3secOut_notEnough);
                         handler.removeCallbacksAndMessages(null);
+                    } else {
+                        doneOneCycle();
                     }
                 }
 
@@ -71,7 +74,7 @@ public class OutState extends BreathState {
         if (context.numBreathRemaining > 0) {
             Toast.makeText(context, R.string.after3secOut_needmore, Toast.LENGTH_LONG).show();
             context.signalNextState(new InState(context));
-            context.resetNumBreath();
+
         } else {
             context.setInstruction(R.string.welldoneInstruction);
             btn.setText(R.string.gj);
@@ -79,14 +82,26 @@ public class OutState extends BreathState {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    context.resetNumBreath();
-                    setState(UserState.READY);
-                    context.signalNextState(new ReadyState(context));
+
+
                 }
             });
             btn.setOnTouchListener(new View.OnTouchListener() {
                 @Override
                 public boolean onTouch(View view, MotionEvent motionEvent) {
+                    if (motionEvent.getAction() == MotionEvent.ACTION_DOWN) {
+                        Handler h = new Handler();
+                        btn.setEnabled(false);
+                        h.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                btn.setEnabled(true);
+                            }
+                        }, 250);
+                        setState(UserState.READY);
+                        context.signalNextState(new ReadyState(context));
+                        context.resetNumBreath();
+                    }
                     return false;
                 }
             });

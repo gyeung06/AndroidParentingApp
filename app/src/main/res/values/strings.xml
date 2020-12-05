@@ -101,5 +101,6 @@
     <string name="welldoneInstruction">Well Done! You completed a cycle</string>
     <string name="gj">Good Job</string>
     <string name="after10secOut">Pressing too long, assume you are done</string>
+    <string name="outok">You breath out enough, release the button</string>
 
 </resources>
