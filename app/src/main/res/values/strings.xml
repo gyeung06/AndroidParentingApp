@@ -86,5 +86,10 @@
     <string name="let_s_take">Let\'s take</string>
     <string name="breath_together">Breath Together</string>
     <string name="instruction">Instruction</string>
+    <string name="begin">Begin</string>
+    <string name="breath_in">IN</string>
+    <string name="ready_instruc">Set times to Breath and Press Start</string>
+    <string name="start_in_instrcut">Hold In button to start breathing</string>
+    <string name="instruction_in">In ... ... ...</string>
 
 </resources>
