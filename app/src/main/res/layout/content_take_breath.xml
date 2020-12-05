@@ -10,25 +10,26 @@
         android:id="@+id/txtDes1_breath"
         android:layout_width="109dp"
         android:layout_height="31dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="28dp"
         android:text="@string/let_s_take"
         android:textAlignment="center"
-        android:textSize="24sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/txtDes_breath2"
-        android:layout_width="200dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="208dp"
+        android:layout_height="28dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="2dp"
         android:text="@string/breath_together"
-        android:textAlignment="center"
-        android:textSize="24sp"
+        android:textAlignment="viewStart"
+        android:textSize="20sp"
         android:textStyle="bold"
-        app:layout_constraintStart_toEndOf="@+id/spnBreathNum"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -75,11 +76,16 @@
 
     <Spinner
         android:id="@+id/spnBreathNum"
-        android:layout_width="76dp"
-        android:layout_height="31dp"
-        android:layout_marginTop="32dp"
+        android:layout_width="64dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginBottom="5dp"
+        android:scrollbarSize="10dp"
         android:textAlignment="center"
+        app:layout_constraintBottom_toTopOf="@+id/txtInstruction"
         app:layout_constraintStart_toEndOf="@+id/txtDes1_breath"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.75" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
