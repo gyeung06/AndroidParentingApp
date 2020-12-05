@@ -79,8 +79,15 @@ public class OutState extends BreathState {
             btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    context.resetNumBreath();
                     setState(UserState.READY);
                     context.signalNextState(new ReadyState(context));
+                }
+            });
+            btn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    return false;
                 }
             });
         }
