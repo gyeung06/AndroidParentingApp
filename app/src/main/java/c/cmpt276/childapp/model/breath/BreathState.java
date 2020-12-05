@@ -4,7 +4,6 @@ import android.widget.Button;
 
 public abstract class BreathState {
     private UserState state;
-
     public abstract void hearButton(Button btn);
 
     public UserState currentState() {

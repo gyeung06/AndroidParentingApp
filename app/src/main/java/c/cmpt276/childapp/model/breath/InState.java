@@ -24,7 +24,8 @@ public class InState extends BreathState {
         btn.setOnTouchListener(new View.OnTouchListener() {
             private long startTouchTime, endTouchTime;
             private boolean calc = false;
-            private Handler handler;
+            private Handler handler, tooLongHandler;
+            private boolean breathOut = false;
 
             public boolean onTouch(View view, MotionEvent event) {
 
@@ -34,20 +35,31 @@ public class InState extends BreathState {
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
-                            context.setInstruction(R.string.app_name);
-                            //TODO here create Out State
-                            //todo do animation
+                            context.setInstruction(R.string.after3secIn);
+                            breathOut = true;
                         }
                     }, 3000);
+                    tooLongHandler = new Handler();
+                    tooLongHandler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            context.setInstruction(R.string.after10SecIn);
+                        }
+                    }, 10000);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     calc = true;
                     endTouchTime = System.currentTimeMillis();
+                    if (breathOut) {
+                        tooLongHandler.removeCallbacksAndMessages(null);
+                        context.signalNextState(new OutState(context));
+                    }
                 }
                 if (calc) {
                     Log.d("holded", String.valueOf((endTouchTime - startTouchTime) / 1000));
                     if (((endTouchTime - startTouchTime) / 1000) < 3) {
                         context.setInstruction(R.string.start_in_instrcut);
                         handler.removeCallbacksAndMessages(null);
+                        tooLongHandler.removeCallbacksAndMessages(null);
                     }
                     calc = false;
                 }

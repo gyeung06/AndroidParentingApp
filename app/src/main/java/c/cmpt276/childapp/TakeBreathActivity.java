@@ -22,11 +22,16 @@ import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class TakeBreathActivity extends AppCompatActivity {
 
-    private int numBreath;
+    public int numBreathRemaining;
     private BreathState state = new ReadyState(TakeBreathActivity.this);
     private Button begin;
     private Spinner spn;
     private TextView instruction;
+
+    public void resetNumBreath() {
+        numBreathRemaining = spn.getSelectedItemPosition() + 1;
+        spn.setEnabled(true);
+    }
 
     public void signalNextState(BreathState newState) {
         state = newState;
@@ -68,11 +73,11 @@ public class TakeBreathActivity extends AppCompatActivity {
         adapterS.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         spn.setAdapter(adapterS);
         spn.setSelection(2);
-        numBreath = breathes.get(2);//default
+        numBreathRemaining = breathes.get(2);//default
         spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                numBreath = breathes.get(i);
+                numBreathRemaining = breathes.get(i);
             }
 
             @Override
