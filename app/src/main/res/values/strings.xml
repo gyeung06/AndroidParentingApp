@@ -83,5 +83,8 @@
     <string name="Enter_time_warning">Enter a time</string>
     <string name="winner">" (Winner)"</string>
     <string name="winnerTag">(Winner)</string>
+    <string name="let_s_take">Let\'s take</string>
+    <string name="breath_together">Breath Together</string>
+    <string name="instruction">Instruction</string>
 
 </resources>

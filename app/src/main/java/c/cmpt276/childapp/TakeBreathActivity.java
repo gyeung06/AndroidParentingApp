@@ -1,29 +1,25 @@
 package c.cmpt276.childapp;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Spinner;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class TakeBreathActivity extends AppCompatActivity {
 
     private int numBreath;
-    TextView nBreath;
-
-    private abstract class State{
-        void handleClickLessThanThree(){}
-        void handleClickThreeToTen(){}
-        //void handleClickGreaterThanTen(){}
-        void handleEnter(){}
-        void handleExit(){}
-    }
 
     private final State stateLessThanThree = new state1();
     private final State stateThreeToTen = new state2();
@@ -45,7 +41,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_take_breath);
 
-        nBreath = findViewById(R.id.textView2);
+
         setButtons();
         setState(stateLessThanThree);
     }
@@ -54,103 +50,37 @@ public class TakeBreathActivity extends AppCompatActivity {
         return new Intent(context, TakeBreathActivity.class);
     }
 
-    private void setButtons(){
-        Button breath1 = findViewById(R.id.button1);
-        breath1.setOnClickListener(new View.OnClickListener() {
+    private void setButtons() {
+        final List<Integer> breathes = new ArrayList<>();
+        Spinner spn = findViewById(R.id.spnBreathNum);
+        for (int i = 1; i < 11; i++) {
+            breathes.add(i);
+        }
+        ArrayAdapter<Integer> adapterS = new ArrayAdapter<Integer>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, breathes);
+        adapterS.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);//TODO fix not centered text in spinner
+        spn.setAdapter(adapterS);
+        spn.setSelection(2);
+        numBreath = breathes.get(2);//default
+        spn.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onClick(View v) {
-                numBreath = 1;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                numBreath = breathes.get(i);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+
             }
         });
 
-        Button breath2 = findViewById(R.id.button2);
-        breath2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 2;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath3 = findViewById(R.id.button3);
-        breath3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 3;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath4 = findViewById(R.id.button4);
-        breath4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 4;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath5 = findViewById(R.id.button5);
-        breath5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 5;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-        Button breath6 = findViewById(R.id.button6);
-        breath6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 6;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-        Button breath7 = findViewById(R.id.button7);
-        breath7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 7;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath8 = findViewById(R.id.button8);
-        breath8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 8;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath9 = findViewById(R.id.button9);
-        breath9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 9;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button breath10 = findViewById(R.id.button10);
-        breath10.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                numBreath = 10;
-                nBreath.setText("Let's take " + numBreath +" breaths together");
-            }
-        });
-
-        Button begin = findViewById(R.id.button);
+        Button begin = findViewById(R.id.btnMainBreath);
         begin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 currentState.handleClickLessThanThree();
             }
         });
-        Button btn = findViewById(R.id.btn);
+        Button btn = findViewById(R.id.btn); //what does this do?
         btn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
@@ -160,6 +90,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     }
 
+    //TODO need to rework here
     private class state1 extends State {
         private int count = 0;
 
@@ -173,7 +104,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
             //super.handleEnter();
-            final Button begin = findViewById(R.id.button);
+            final Button begin = findViewById(R.id.btnMainBreath);
             begin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -221,7 +152,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         @Override
         void handleEnter() {
            // super.handleEnter();
-            final Button begin = findViewById(R.id.button);
+            final Button begin = findViewById(R.id.btnMainBreath);
             begin.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -251,7 +182,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         }
     }
 
-//    private class state3 extends State {
+    //    private class state3 extends State {
 //        @Override
 //        void handleClickLessThanThree() {
 //            super.handleClickLessThanThree();
@@ -259,4 +190,18 @@ public class TakeBreathActivity extends AppCompatActivity {
 //                    .show();
 //        }
 //    }
+    private abstract class State {
+        void handleClickLessThanThree() {
+        }
+
+        void handleClickThreeToTen() {
+        }
+
+        //void handleClickGreaterThanTen(){}
+        void handleEnter() {
+        }
+
+        void handleExit() {
+        }
+    }
 }

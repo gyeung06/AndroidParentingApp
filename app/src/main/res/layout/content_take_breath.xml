@@ -6,230 +6,58 @@
     android:layout_height="match_parent"
     tools:context="c.cmpt276.childapp.TakeBreathActivity">
 
-    <Button
-        android:id="@+id/button1"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="21dp"
-        android:text="1"
-        app:layout_constraintBottom_toTopOf="@+id/button6"
-        app:layout_constraintEnd_toStartOf="@+id/button2"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <Button
-        android:id="@+id/button2"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="26dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="21dp"
-        android:text="2"
-        app:layout_constraintBottom_toTopOf="@+id/button7"
-        app:layout_constraintStart_toEndOf="@+id/button1"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <Button
-        android:id="@+id/button10"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="25dp"
-        android:layout_marginBottom="56dp"
-        android:text="10"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button5" />
-
-    <Button
-        android:id="@+id/button9"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginBottom="56dp"
-        android:text="9"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button10"
-        app:layout_constraintTop_toBottomOf="@+id/button4" />
-
-    <Button
-        android:id="@+id/button7"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="36dp"
-        android:layout_marginBottom="56dp"
-        android:text="7"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button8"
-        app:layout_constraintTop_toBottomOf="@+id/button2" />
-
-    <Button
-        android:id="@+id/button6"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="26dp"
-        android:layout_marginBottom="56dp"
-        android:text="6"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button7"
-        app:layout_constraintTop_toBottomOf="@+id/button1" />
-
-    <Button
-        android:id="@+id/button8"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginTop="21dp"
-        android:layout_marginEnd="33dp"
-        android:layout_marginBottom="56dp"
-        android:text="8"
-        app:layout_constraintBottom_toTopOf="@+id/textView2"
-        app:layout_constraintEnd_toStartOf="@+id/button9"
-        app:layout_constraintTop_toBottomOf="@+id/button3" />
-
-    <Button
-        android:id="@+id/button5"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="21dp"
-        android:text="5"
-        app:layout_constraintBottom_toTopOf="@+id/button10"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <Button
-        android:id="@+id/button4"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="33dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="21dp"
-        android:text="4"
-        app:layout_constraintBottom_toTopOf="@+id/button9"
-        app:layout_constraintStart_toEndOf="@+id/button3"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <Button
-        android:id="@+id/button3"
-        android:layout_width="51dp"
-        android:layout_height="48dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="29dp"
-        android:layout_marginBottom="21dp"
-        android:text="3"
-        app:layout_constraintBottom_toTopOf="@+id/button8"
-        app:layout_constraintStart_toEndOf="@+id/button2"
-        app:layout_constraintTop_toBottomOf="@+id/textView1" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.14363885" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline13"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.3652531" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="365dp" />
-
     <TextView
-        android:id="@+id/textView1"
-        android:layout_width="318dp"
-        android:layout_height="29dp"
-        android:layout_marginStart="40dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="40dp"
-        android:text="Choose the number of breath below"
+        android:id="@+id/txtDes1_breath"
+        android:layout_width="109dp"
+        android:layout_height="31dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/let_s_take"
         android:textAlignment="center"
-        android:textSize="18sp"
+        android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.461"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView2"
-        android:layout_width="337dp"
-        android:layout_height="49dp"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="36dp"
-        android:text="Let's take N breaths together"
+        android:id="@+id/txtDes_breath2"
+        android:layout_width="200dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="32dp"
+        android:text="@string/breath_together"
         android:textAlignment="center"
         android:textSize="24sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/spnBreathNum"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/txtInstruction"
+        android:layout_width="385dp"
+        android:layout_height="73dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="34dp"
+        android:text="@string/instruction"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:autoSizeTextType="uniform"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline13" />
+        app:layout_constraintTop_toBottomOf="@+id/txtDes1_breath" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/btnMainBreath"
         style="@style/Widget.AppCompat.Button.Colored"
         android:layout_width="163dp"
         android:layout_height="151dp"
         android:layout_marginStart="125dp"
         android:layout_marginEnd="123dp"
         android:layout_marginBottom="122dp"
-        android:text="Begin"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline14"
-        app:layout_constraintVertical_bias="1.0" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline16"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.24487004" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="79dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline18"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="164dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline19"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="249dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline20"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="325dp" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <Button
         android:id="@+id/btn"
@@ -239,10 +67,19 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="164dp"
         android:layout_marginBottom="41dp"
-        android:text="Button"
+
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button" />
+        app:layout_constraintTop_toBottomOf="@+id/btnMainBreath" />
+
+    <Spinner
+        android:id="@+id/spnBreathNum"
+        android:layout_width="76dp"
+        android:layout_height="31dp"
+        android:layout_marginTop="32dp"
+        android:textAlignment="center"
+        app:layout_constraintStart_toEndOf="@+id/txtDes1_breath"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
