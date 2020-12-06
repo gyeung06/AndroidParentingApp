@@ -7,6 +7,9 @@ import android.widget.Button;
 import c.cmpt276.childapp.R;
 import c.cmpt276.childapp.TakeBreathActivity;
 
+/**
+ * The Ready
+ */
 public class ReadyState extends BreathState {
     TakeBreathActivity context;
 
@@ -24,7 +27,7 @@ public class ReadyState extends BreathState {
                 context.signalNextState(new InState(context));
             }
         });
-        btn.setOnTouchListener(new View.OnTouchListener() {
+        btn.setOnTouchListener(new View.OnTouchListener() { //Just to refresh the listener, should not be deleted
             @Override
             public boolean onTouch(View view, MotionEvent motionEvent) {
                 return false;

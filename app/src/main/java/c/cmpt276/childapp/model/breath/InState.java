@@ -11,6 +11,9 @@ import android.widget.Button;
 import c.cmpt276.childapp.R;
 import c.cmpt276.childapp.TakeBreathActivity;
 
+/**
+ * State for Breath In Process
+ */
 public class InState extends BreathState {
     TakeBreathActivity context;
 
@@ -90,6 +93,7 @@ public class InState extends BreathState {
             @Override
             public void onClick(View view) {
                 //DO NOTHING
+                //Just to refresh the listener, should not be deleted
             }
         });
     }

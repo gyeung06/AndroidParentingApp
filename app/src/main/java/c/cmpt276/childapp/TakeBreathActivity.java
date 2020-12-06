@@ -23,7 +23,9 @@ import c.cmpt276.childapp.model.breath.ReadyState;
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 
 public class TakeBreathActivity extends AppCompatActivity {
-
+    /**
+     * Main Activity for Breath
+     */
     public int numBreathRemaining;
     private BreathState state = new ReadyState(TakeBreathActivity.this);
     private Button begin;
