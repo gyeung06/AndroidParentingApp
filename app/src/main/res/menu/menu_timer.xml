@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <group
+        android:checkableBehavior="single"
+        android:enabled="true"
+        android:visible="true">
+        <item
+            android:id="@+id/menu_25"
+            android:title="25%" />
+        <item
+            android:id="@+id/menu_50"
+            android:title="50%" />
+        <item
+            android:id="@+id/menu_75"
+            android:title="75%" />
+        <item
+            android:id="@+id/menu_100"
+            android:title="100%" />
+        <item
+            android:id="@+id/menu_200"
+            android:title="200%" />
+        <item
+            android:id="@+id/menu_300"
+            android:title="300%" />
+        <item
+            android:id="@+id/menu_400"
+            android:title="400%" />
+    </group>
+
+</menu>

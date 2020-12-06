@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -61,7 +63,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timeout);
 
-        Toolbar toolbar = findViewById(R.id.toolbar);
+        Toolbar toolbar = findViewById(R.id.time_toolbar);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -112,6 +114,23 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             saveLastUsedTime(time);
             resetTimer();
         }
+    }
+
+    private void initializeOptionsButtons(int percent, MenuItem item){
+        if (item.isChecked()){
+            return;
+        }
+        item.setChecked(true);
+        TimerService.setSpeedModifier(percent);
+        SharedPreferences pref = getSharedPreferences("timeMod", 0);
+        SharedPreferences.Editor editor = pref.edit();
+        editor.putLong("timeMod", percent);
+        editor.apply();
+    }
+
+    private int getLastUsedSpeedMod(){
+        SharedPreferences pref = getSharedPreferences("timeMod", 0);
+        return pref.getInt("timeMod", 3);
     }
 
     @SuppressLint("SetTextI18n")
@@ -192,11 +211,31 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_timer, menu);
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.menu_25:
+                initializeOptionsButtons(0, item);
+            case R.id.menu_50:
+                initializeOptionsButtons(1, item);
+            case R.id.menu_75:
+                initializeOptionsButtons(2, item);
+            case R.id.menu_100:
+                initializeOptionsButtons(3, item);
+            case R.id.menu_200:
+                initializeOptionsButtons(4, item);
+            case R.id.menu_300:
+                initializeOptionsButtons(5, item);
+            case R.id.menu_400:
+                initializeOptionsButtons(6, item);
             default:
                 return super.onOptionsItemSelected(item);
         }

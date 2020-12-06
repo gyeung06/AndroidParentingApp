@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.CountDownTimer;
 import android.os.IBinder;
 import android.os.Vibrator;
+import android.util.Log;
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -29,6 +30,8 @@ public class TimerService extends Service {
     private static Vibrator v;
     private static MediaPlayer mp;
     private CountDownTimer mCountDownTimer;
+    private static int speedMod = 0;
+    private final int  COUNTDOWN_INTERVAL = 1000;
 
     public static void stopAlarm() {
         v.cancel();
@@ -56,10 +59,14 @@ public class TimerService extends Service {
     }
 
     private void startTimer() {
-        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, 200) {
+        mCountDownTimer = new CountDownTimer(mTimeLeftInMillis, COUNTDOWN_INTERVAL) {
             @Override
             public void onTick(long millisUntilFinished) {
+                Log.i("?", "onTick before: " + millisUntilFinished);
+                mTimeLeftInMillis = mTimeLeftInMillis + speedModifier();
+                millisUntilFinished = millisUntilFinished + speedModifier();
                 mTimeLeftInMillis = millisUntilFinished;
+                Log.i("?", "onTick after: " + millisUntilFinished);
                 TimeoutActivity.setmTimeLeftInMillis(mTimeLeftInMillis);
                 TimeoutActivity.updateCountDownText();
             }
@@ -79,6 +86,37 @@ public class TimerService extends Service {
             }
         }.start();
         TimeoutActivity.setmTimerRunning(true);
+    }
+
+    public long speedModifier(){
+        switch (speedMod){
+            //25%
+            case 0:
+                return COUNTDOWN_INTERVAL * 3;
+            //50%
+            case 1:
+                return COUNTDOWN_INTERVAL;
+            //75%
+            case 2:
+                return COUNTDOWN_INTERVAL / 3;
+            //100%
+            case 3:
+                return 0;
+            //200%
+            case 4:
+                return -COUNTDOWN_INTERVAL;
+            //300%
+            case 5:
+                return -COUNTDOWN_INTERVAL * 2;
+            //400%
+            case 6:
+                return -COUNTDOWN_INTERVAL * 3;
+        }
+        return speedMod;
+    }
+
+    static public void setSpeedModifier(int speed){
+        speedMod = speed;
     }
 
     private void timerDoneNotification() {
