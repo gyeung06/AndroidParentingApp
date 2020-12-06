@@ -36,8 +36,8 @@ public class OutState extends BreathState {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     context.setInstruction(R.string.instruction_out);
                     context.setImageView(R.drawable.breath);
-                    ScaleAnimation breath_in = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF,
-                            0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                    final ScaleAnimation breath_in = new ScaleAnimation(1, 0, 1, 0, Animation.RELATIVE_TO_SELF,
+                            0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
                     breath_in.setDuration(3000);
                     context.startAnimation(breath_in);
@@ -48,6 +48,7 @@ public class OutState extends BreathState {
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             context.setInstruction(R.string.outok);
+                            context.setImageView(R.drawable.image_nothing);
                             done = true;
                         }
                     }, 3000);
