@@ -74,4 +74,18 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.75" />
 
+    <ImageView
+        android:id="@+id/image_breath"
+        android:layout_width="273dp"
+        android:layout_height="257dp"
+        android:layout_marginStart="69dp"
+        android:layout_marginTop="71dp"
+        android:layout_marginEnd="69dp"
+        android:layout_marginBottom="52dp"
+        app:layout_constraintBottom_toTopOf="@+id/btnMainBreath"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtInstruction"
+        app:srcCompat="@drawable/image_nothing" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -4,9 +4,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.ScaleAnimation;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -26,6 +28,7 @@ public class TakeBreathActivity extends AppCompatActivity {
     private Button begin;
     private Spinner spn;
     private TextView instruction;
+    private ImageView circle;
 
     public void resetNumBreath() {
         numBreathRemaining = spn.getSelectedItemPosition() + 1;
@@ -40,6 +43,13 @@ public class TakeBreathActivity extends AppCompatActivity {
 
     public void setInstruction(int resource) {
         instruction.setText(resource);
+    }
+
+    public void setImageView(int imgResource){
+        circle.setImageResource(imgResource);
+    }
+    public void startAnimation(ScaleAnimation breath_in) {
+        circle.startAnimation(breath_in);
     }
 
     @Override
@@ -85,6 +95,7 @@ public class TakeBreathActivity extends AppCompatActivity {
 
         begin = findViewById(R.id.btnMainBreath);
         instruction = findViewById(R.id.txtInstruction);
+        circle = findViewById(R.id.image_breath);
         signalNextState(state);
         resetNumBreath();
     }
@@ -93,6 +104,7 @@ public class TakeBreathActivity extends AppCompatActivity {
         ChildrenConfigCollection.getInstance().save(this);
         super.onPause();
     }
+
 
 
 }

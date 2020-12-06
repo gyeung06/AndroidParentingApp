@@ -3,6 +3,8 @@ package c.cmpt276.childapp.model.breath;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -20,10 +22,12 @@ public class OutState extends BreathState {
 
     @Override
     public void hearButton(final Button btn) {
+
         this.btn = btn;
         context.setInstruction(R.string.start_out_instrcut);
         btn.setText(R.string.breath_out);
         btn.setOnTouchListener(new View.OnTouchListener() {
+            private long startTouchTime, endTouchTime;
             private Handler handler, tooLongHandler;
             private boolean done = false;
 
@@ -31,6 +35,14 @@ public class OutState extends BreathState {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     context.setInstruction(R.string.instruction_out);
+                    context.setImageView(R.drawable.breath);
+                    ScaleAnimation breath_in = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF,
+                            0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+
+                    breath_in.setDuration(3000);
+                    context.startAnimation(breath_in);
+
+                    startTouchTime = System.currentTimeMillis();
                     handler = new Handler();
                     handler.postDelayed(new Runnable() {
                         public void run() {
@@ -49,9 +61,17 @@ public class OutState extends BreathState {
                     }, 10000);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
                     tooLongHandler.removeCallbacksAndMessages(null);
-                    if (!done) {
+                    endTouchTime = System.currentTimeMillis();
+                    if (((endTouchTime - startTouchTime) / 1000) < 3) {
+
                         context.setInstruction(R.string.breath3secOut_notEnough);
+                        context.setImageView(R.drawable.breath);
                         handler.removeCallbacksAndMessages(null);
+                        ScaleAnimation breath_in = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF,
+                                0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+
+                        breath_in.setDuration(0);
+                        context.startAnimation(breath_in);
                     } else {
                         doneOneCycle();
                     }
@@ -71,6 +91,7 @@ public class OutState extends BreathState {
 
     private void doneOneCycle() {
         context.numBreathRemaining--;
+        context.setImageView(R.drawable.image_nothing);
         if (context.numBreathRemaining > 0) {
             Toast.makeText(context, R.string.after3secOut_needmore, Toast.LENGTH_LONG).show();
             context.signalNextState(new InState(context));
