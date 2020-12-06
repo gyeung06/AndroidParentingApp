@@ -2,6 +2,7 @@ package c.cmpt276.childapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.view.animation.ScaleAnimation;
@@ -29,6 +30,8 @@ public class TakeBreathActivity extends AppCompatActivity {
     private Spinner spn;
     private TextView instruction;
     private ImageView circle;
+    MediaPlayer mediaPlayerOn;
+    MediaPlayer mediaPlayerOff;
 
     public void resetNumBreath() {
         numBreathRemaining = spn.getSelectedItemPosition() + 1;
@@ -50,6 +53,19 @@ public class TakeBreathActivity extends AppCompatActivity {
     }
     public void startAnimation(ScaleAnimation breath_in) {
         circle.startAnimation(breath_in);
+    }
+    public void startOn() {
+        mediaPlayerOn.start();
+    }
+
+    public void endOn() {
+        mediaPlayerOn.pause();
+    }
+    public void startOff() {
+        mediaPlayerOff.start();
+    }
+    public void endOff() {
+        mediaPlayerOff.pause();
     }
 
     @Override
@@ -96,6 +112,10 @@ public class TakeBreathActivity extends AppCompatActivity {
         begin = findViewById(R.id.btnMainBreath);
         instruction = findViewById(R.id.txtInstruction);
         circle = findViewById(R.id.image_breath);
+
+        mediaPlayerOn = MediaPlayer.create(this, R.raw.breath_in);
+        mediaPlayerOff = MediaPlayer.create(this, R.raw.breath_out);
+
         signalNextState(state);
         resetNumBreath();
     }

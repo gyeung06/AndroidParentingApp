@@ -36,9 +36,10 @@ public class InState extends BreathState {
                     context.setImageView(R.drawable.breath);
                     ScaleAnimation breath_in = new ScaleAnimation(0,1,0,1, Animation.RELATIVE_TO_SELF,
                             0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-
                     breath_in.setDuration(3000);
                     context.startAnimation(breath_in);
+
+                    context.startOn();
 
                     startTouchTime = System.currentTimeMillis();
                     handler = new Handler();
@@ -74,10 +75,11 @@ public class InState extends BreathState {
                                 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
 
                         breath_in.setDuration(endTouchTime - startTouchTime);
-
+                        context.endOn();
 
                     }
                     calc = false;
+
                 }
 
 
