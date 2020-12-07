@@ -7,24 +7,31 @@
         android:visible="true">
         <item
             android:id="@+id/menu_25"
+            android:checkable="false"
             android:title="@string/_25" />
         <item
             android:id="@+id/menu_50"
+            android:checkable="false"
             android:title="@string/_50" />
         <item
             android:id="@+id/menu_75"
+            android:checkable="false"
             android:title="@string/_75" />
         <item
             android:id="@+id/menu_100"
+            android:checkable="false"
             android:title="@string/_100" />
         <item
             android:id="@+id/menu_200"
+            android:checkable="false"
             android:title="@string/_200" />
         <item
             android:id="@+id/menu_300"
+            android:checkable="false"
             android:title="@string/_300" />
         <item
             android:id="@+id/menu_400"
+            android:checkable="false"
             android:title="@string/_400" />
     </group>
 

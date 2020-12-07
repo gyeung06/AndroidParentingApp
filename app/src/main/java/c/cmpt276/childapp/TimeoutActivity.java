@@ -98,6 +98,10 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
             }
         }, 0, 200);
 
+        if(mTimeLeftInMillis == getLastUsedTime()){
+            saveLastUsedSpeedMod(3);
+        }
+
         onCreateButtonInit();
         updateCountDownText();
         updateSpeedView(getLastUsedSpeedMod());
@@ -146,10 +150,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     }
 
     private void initializeOptionsButtons(int percent, MenuItem item){
-        if (item.isChecked()){
-            return;
-        }
-        item.setChecked(true);
         TimerService.setSpeedModifier(percent);
         saveLastUsedSpeedMod(percent);
         updateSpeedView(percent);
@@ -282,18 +282,25 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
                 return true;
             case R.id.menu_25:
                 initializeOptionsButtons(0, item);
+                return true;
             case R.id.menu_50:
                 initializeOptionsButtons(1, item);
+                return true;
             case R.id.menu_75:
                 initializeOptionsButtons(2, item);
+                return true;
             case R.id.menu_100:
                 initializeOptionsButtons(3, item);
+                return true;
             case R.id.menu_200:
                 initializeOptionsButtons(4, item);
+                return true;
             case R.id.menu_300:
                 initializeOptionsButtons(5, item);
+                return true;
             case R.id.menu_400:
                 initializeOptionsButtons(6, item);
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
