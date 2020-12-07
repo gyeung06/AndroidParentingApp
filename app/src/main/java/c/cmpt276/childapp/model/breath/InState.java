@@ -42,7 +42,7 @@ public class InState extends BreathState {
                     breath_in.setDuration(3000);
                     context.startAnimation(breath_in);
 
-                    context.startOn();
+                    context.breathInSoundStart();
 
                     startTouchTime = System.currentTimeMillis();
                     handler = new Handler();
@@ -78,7 +78,7 @@ public class InState extends BreathState {
                                 0.5f,Animation.RELATIVE_TO_SELF,0.5f);
 
                         breath_in.setDuration(endTouchTime - startTouchTime);
-                        context.endOn();
+                        context.breathInSoundOff();
 
                     }
                     calc = false;

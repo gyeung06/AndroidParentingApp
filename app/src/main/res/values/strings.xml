@@ -98,7 +98,7 @@
     <string name="instruction_out">Out... ... ...</string>
     <string name="after3secOut_needmore">you completed a cycle, let\'s breath more</string>
     <string name="breath3secOut_notEnough">you should breath out more, but okay...</string>
-    <string name="welldoneInstruction">Well Done! You completed a cycle</string>
+    <string name="welldoneInstruction">Well Done! You completed the breathing activity</string>
     <string name="gj">Good Job</string>
     <string name="after10secOut">Pressing too long, assume you are done</string>
     <string name="outok">You breath out enough, release the button</string>

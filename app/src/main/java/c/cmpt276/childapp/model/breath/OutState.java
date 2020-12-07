@@ -44,7 +44,7 @@ public class OutState extends BreathState {
 
                     breath_in.setDuration(3000);
                     context.startAnimation(breath_in);
-                    context.startOff();
+                    context.breathOutSoundStart();
 
                     startTouchTime = System.currentTimeMillis();
                     handler = new Handler();
@@ -77,7 +77,7 @@ public class OutState extends BreathState {
 
                         breath_in.setDuration(0);
                         context.startAnimation(breath_in);
-                        context.endOff();
+                        context.breathOutSoundOff();
                     } else {
                         doneOneCycle();
                     }

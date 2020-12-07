@@ -56,17 +56,20 @@ public class TakeBreathActivity extends AppCompatActivity {
     public void startAnimation(ScaleAnimation breath_in) {
         circle.startAnimation(breath_in);
     }
-    public void startOn() {
+
+    public void breathInSoundStart() {
         mediaPlayerOn.start();
     }
 
-    public void endOn() {
+    public void breathInSoundOff() {
         mediaPlayerOn.pause();
     }
-    public void startOff() {
+
+    public void breathOutSoundStart() {
         mediaPlayerOff.start();
     }
-    public void endOff() {
+
+    public void breathOutSoundOff() {
         mediaPlayerOff.pause();
     }
 
