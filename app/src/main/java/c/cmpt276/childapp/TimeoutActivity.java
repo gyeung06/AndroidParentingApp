@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,10 +38,12 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     @SuppressLint("StaticFieldLeak")
     private static TextView mTextViewCountDown;
     private static boolean mTimerRunning;
+    private long startTime = START_TIME_IN_MILLIS;
     private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private Button mButtonStartPause;
     private Button mButtonReset;
+    private ProgressBar progressTime;
 
     public static void setmTimerRunning(boolean newRunning) {
         mTimerRunning = newRunning;
@@ -62,6 +65,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         mTextViewCountDown.setText(timeLeftFormatted);
+        progressTime.setProgress((int) (100 * mTimeLeftInMillis / startTime), true);
     }
 
     public static Intent createIntent(Context context) {
@@ -80,6 +84,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         mTextViewCountDown = findViewById(R.id.text_view_timer);
         mButtonStartPause = findViewById(R.id.timer_button_start);
         mButtonReset = findViewById(R.id.timer_button_reset);
+        progressTime = findViewById(R.id.timer_progressbar);
 
         new Timer().scheduleAtFixedRate(new TimerTask() {
             @Override
@@ -136,6 +141,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             saveLastUsedTime(time);
             resetTimer();
+            startTime = time;
         }
     }
 
