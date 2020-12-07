@@ -298,11 +298,11 @@ public class ChooseCoinActivity extends AppCompatActivity {
 
             ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
 
-            Bitmap bitmap = configs.get(currentHistory.getChooser()).getBase64Bitmap();
-            if (bitmap == null) {
-                kidPic.setImageResource(R.drawable.ic_baseline_face_24);
-            } else {
+            try {
+                Bitmap bitmap = configs.get(currentHistory.getChooser()).getBase64Bitmap();
                 kidPic.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
+            } catch (NullPointerException e) {
+                kidPic.setImageResource(R.drawable.ic_baseline_face_24);
             }
 
             boolean win = currentHistory.getChoseHead() && currentHistory.getResult();
