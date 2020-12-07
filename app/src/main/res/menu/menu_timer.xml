@@ -7,25 +7,25 @@
         android:visible="true">
         <item
             android:id="@+id/menu_25"
-            android:title="25%" />
+            android:title="@string/_25" />
         <item
             android:id="@+id/menu_50"
-            android:title="50%" />
+            android:title="@string/_50" />
         <item
             android:id="@+id/menu_75"
-            android:title="75%" />
+            android:title="@string/_75" />
         <item
             android:id="@+id/menu_100"
-            android:title="100%" />
+            android:title="@string/_100" />
         <item
             android:id="@+id/menu_200"
-            android:title="200%" />
+            android:title="@string/_200" />
         <item
             android:id="@+id/menu_300"
-            android:title="300%" />
+            android:title="@string/_300" />
         <item
             android:id="@+id/menu_400"
-            android:title="400%" />
+            android:title="@string/_400" />
     </group>
 
 </menu>

@@ -6,6 +6,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,11 +17,13 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import java.util.Locale;
+import java.util.Objects;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import c.cmpt276.childapp.model.config.ChildrenConfigCollection;
 import c.cmpt276.childapp.model.timerService.TimerService;
@@ -44,11 +48,17 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
     public static void setmTimeLeftInMillis(long newTimeLeft) {
         mTimeLeftInMillis = newTimeLeft;
+        setmTimerRunning(true);
     }
 
-    public static void updateCountDownText() {
+    public void updateCountDownText() {
         int minutes = (int) (mTimeLeftInMillis / 1000) / 60;
         int seconds = (int) (mTimeLeftInMillis / 1000) % 60;
+
+        if (mTimeLeftInMillis < 0){
+            minutes = 0;
+            seconds = 0;
+        }
 
         String timeLeftFormatted = String.format(Locale.getDefault(), "%02d:%02d", minutes, seconds);
         mTextViewCountDown.setText(timeLeftFormatted);
@@ -65,14 +75,27 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
 
         Toolbar toolbar = findViewById(R.id.time_toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
 
         mTextViewCountDown = findViewById(R.id.text_view_timer);
         mButtonStartPause = findViewById(R.id.timer_button_start);
         mButtonReset = findViewById(R.id.timer_button_reset);
 
+        new Timer().scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                new Handler(Looper.getMainLooper()).post(new Runnable(){
+                    @Override
+                    public void run() {
+                        updateCountDownText();
+                    }
+                });
+            }
+        }, 0, 200);
+
         onCreateButtonInit();
         updateCountDownText();
+        updateSpeedView(getLastUsedSpeedMod());
     }
 
     private void onCreateButtonInit() {
@@ -122,15 +145,41 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
         item.setChecked(true);
         TimerService.setSpeedModifier(percent);
+        saveLastUsedSpeedMod(percent);
+        updateSpeedView(percent);
+    }
+
+    void updateSpeedView(long percent){
+        TextView speed = findViewById(R.id.timer_speed);
+        if (percent == 0) {
+            speed.setText(R.string._25);
+        } else if (percent == 1) {
+            speed.setText(R.string._50);
+        } else if (percent == 2) {
+            speed.setText(R.string._75);
+        } else if (percent == 3) {
+            speed.setText(R.string._100);
+        } else if (percent == 4) {
+            speed.setText(R.string._200);
+        } else if (percent == 5) {
+            speed.setText(R.string._300);
+        } else if (percent == 6) {
+            speed.setText(R.string._400);
+        } else {
+            speed.setText(R.string._100);
+        }
+    }
+
+    private void saveLastUsedSpeedMod(long percent) {
         SharedPreferences pref = getSharedPreferences("timeMod", 0);
         SharedPreferences.Editor editor = pref.edit();
         editor.putLong("timeMod", percent);
         editor.apply();
     }
 
-    private int getLastUsedSpeedMod(){
+    private long getLastUsedSpeedMod(){
         SharedPreferences pref = getSharedPreferences("timeMod", 0);
-        return pref.getInt("timeMod", 3);
+        return pref.getLong("timeMod", 3);
     }
 
     @SuppressLint("SetTextI18n")
@@ -138,6 +187,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         Intent newTimer = new Intent(this, TimerService.class);
         newTimer.putExtra("timeLeft", mTimeLeftInMillis);
         startService(newTimer);
+        TimerService.setSpeedModifier(getLastUsedSpeedMod());
         mButtonStartPause.setText("Pause");
     }
 
@@ -152,6 +202,8 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         stopService(new Intent(this, TimerService.class));
         mTimeLeftInMillis = getLastUsedTime();
         updateCountDownText();
+        saveLastUsedSpeedMod(3);
+        updateSpeedView(3);
         mButtonStartPause.setText("Start");
     }
 
@@ -241,6 +293,9 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         }
     }
 }
+
+
+
 
 
 
