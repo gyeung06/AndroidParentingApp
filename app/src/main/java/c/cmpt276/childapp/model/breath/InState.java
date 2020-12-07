@@ -31,7 +31,7 @@ public class InState extends BreathState {
             private boolean calc = false;
             private Handler handler, tooLongHandler;
             private boolean breathOut = false;
-
+            private boolean alreadyEnded = false;
             public boolean onTouch(View view, MotionEvent event) {
 
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
@@ -39,7 +39,7 @@ public class InState extends BreathState {
                     context.setImageView(R.drawable.breath);
                     ScaleAnimation breath_in = new ScaleAnimation(0,1,0,1, Animation.RELATIVE_TO_SELF,
                             0.5f,Animation.RELATIVE_TO_SELF,0.5f);
-                    breath_in.setDuration(3000);
+                    breath_in.setDuration(10000);
                     context.startAnimation(breath_in);
 
                     context.breathInSoundStart();
@@ -57,6 +57,8 @@ public class InState extends BreathState {
                         @Override
                         public void run() {
                             context.setInstruction(R.string.after10SecIn);
+                            context.breathInSoundOff();
+                            alreadyEnded = true;
                         }
                     }, 10000);
                 } else if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -64,6 +66,10 @@ public class InState extends BreathState {
                     endTouchTime = System.currentTimeMillis();
                     if (breathOut) {
                         tooLongHandler.removeCallbacksAndMessages(null);
+                        if (!alreadyEnded) {
+                            context.breathInSoundOff();
+                            context.endAnimation();
+                        }
                         context.signalNextState(new OutState(context));
                     }
                 }
@@ -79,7 +85,7 @@ public class InState extends BreathState {
 
                         breath_in.setDuration(endTouchTime - startTouchTime);
                         context.breathInSoundOff();
-
+                        context.endAnimation();
                     }
                     calc = false;
 

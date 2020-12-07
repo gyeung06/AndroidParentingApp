@@ -39,11 +39,11 @@ public class OutState extends BreathState {
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     context.setInstruction(R.string.instruction_out);
                     context.setImageView(R.drawable.breath);
-                    final ScaleAnimation breath_in = new ScaleAnimation(1, 0, 1, 0, Animation.RELATIVE_TO_SELF,
+                    final ScaleAnimation breath_out = new ScaleAnimation(1, 0, 1, 0, Animation.RELATIVE_TO_SELF,
                             0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-                    breath_in.setDuration(3000);
-                    context.startAnimation(breath_in);
+                    breath_out.setDuration(10000);
+                    context.startAnimation(breath_out);
                     context.breathOutSoundStart();
 
                     startTouchTime = System.currentTimeMillis();
@@ -51,8 +51,8 @@ public class OutState extends BreathState {
                     handler.postDelayed(new Runnable() {
                         public void run() {
                             context.setInstruction(R.string.outok);
-                            context.setImageView(R.drawable.image_nothing);
-                            done = true;
+
+
                         }
                     }, 3000);
                     tooLongHandler = new Handler();
@@ -61,6 +61,7 @@ public class OutState extends BreathState {
                         public void run() {
                             Toast.makeText(context, R.string.after10secOut, Toast.LENGTH_SHORT).show();
                             doneOneCycle();
+                            done = true;
                             btn.callOnClick();
                         }
                     }, 10000);
@@ -72,13 +73,17 @@ public class OutState extends BreathState {
                         context.setInstruction(R.string.breath3secOut_notEnough);
                         context.setImageView(R.drawable.breath);
                         handler.removeCallbacksAndMessages(null);
-                        ScaleAnimation breath_in = new ScaleAnimation(1,0,1,0, Animation.RELATIVE_TO_SELF,
-                                0.5f,Animation.RELATIVE_TO_SELF,0.5f);
+                        ScaleAnimation breath_out = new ScaleAnimation(1, 0, 1, 0, Animation.RELATIVE_TO_SELF,
+                                0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
-                        breath_in.setDuration(0);
-                        context.startAnimation(breath_in);
+                        breath_out.setDuration(0);
+                        context.startAnimation(breath_out);
                         context.breathOutSoundOff();
                     } else {
+
+                        if (!done) {
+                            context.endAnimation();
+                        }
                         doneOneCycle();
                     }
                 }
@@ -99,8 +104,10 @@ public class OutState extends BreathState {
     private void doneOneCycle() {
         context.numBreathRemaining--;
         context.setImageView(R.drawable.image_nothing);
+        context.breathOutSoundOff();
+
         if (context.numBreathRemaining > 0) {
-            Toast.makeText(context, R.string.after3secOut_needmore, Toast.LENGTH_LONG).show();
+            Toast.makeText(context, context.getString(R.string.after3secOut_needmore) + ", " + context.numBreathRemaining + " remaining", Toast.LENGTH_LONG).show();
             context.signalNextState(new InState(context));
 
         } else {

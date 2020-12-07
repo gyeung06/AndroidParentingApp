@@ -32,8 +32,8 @@ public class TakeBreathActivity extends AppCompatActivity {
     private Spinner spn;
     private TextView instruction;
     private ImageView circle;
-    MediaPlayer mediaPlayerOn;
-    MediaPlayer mediaPlayerOff;
+    MediaPlayer mediaPlayerIn;
+    MediaPlayer mediaPlayerOut;
 
     public void resetNumBreath() {
         numBreathRemaining = spn.getSelectedItemPosition() + 1;
@@ -50,27 +50,37 @@ public class TakeBreathActivity extends AppCompatActivity {
         instruction.setText(resource);
     }
 
-    public void setImageView(int imgResource){
+    public void setImageView(int imgResource) {
         circle.setImageResource(imgResource);
     }
+
     public void startAnimation(ScaleAnimation breath_in) {
         circle.startAnimation(breath_in);
     }
 
+    public void endAnimation() {
+        if (!circle.getAnimation().hasEnded()) {
+            circle.getAnimation().cancel();
+        }
+
+    }
+
     public void breathInSoundStart() {
-        mediaPlayerOn.start();
+        mediaPlayerIn.seekTo(0);
+        mediaPlayerIn.start();
     }
 
     public void breathInSoundOff() {
-        mediaPlayerOn.pause();
+        mediaPlayerIn.pause();
     }
 
     public void breathOutSoundStart() {
-        mediaPlayerOff.start();
+        mediaPlayerOut.seekTo(0);
+        mediaPlayerOut.start();
     }
 
     public void breathOutSoundOff() {
-        mediaPlayerOff.pause();
+        mediaPlayerOut.pause();
     }
 
     @Override
@@ -118,8 +128,8 @@ public class TakeBreathActivity extends AppCompatActivity {
         instruction = findViewById(R.id.txtInstruction);
         circle = findViewById(R.id.image_breath);
 
-        mediaPlayerOn = MediaPlayer.create(this, R.raw.breath_in);
-        mediaPlayerOff = MediaPlayer.create(this, R.raw.breath_out);
+        mediaPlayerIn = MediaPlayer.create(this, R.raw.breath_in);
+        mediaPlayerOut = MediaPlayer.create(this, R.raw.breath_out);
 
         signalNextState(state);
         resetNumBreath();
