@@ -89,7 +89,7 @@ public class TimerService extends Service {
 
     private void startTimer() {
         timer = new Timer();
-        timer.scheduleAtFixedRate(new OnTick(), 0, COUNTDOWN_INTERVAL);
+        timer.scheduleAtFixedRate(new OnTick(), 500, COUNTDOWN_INTERVAL);
         TimeoutActivity.setmTimerRunning(true);
     }
 
