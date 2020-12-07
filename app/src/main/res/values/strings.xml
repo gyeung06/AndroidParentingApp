@@ -12,6 +12,7 @@
     <string name="main_timebtn">Timeout Timer</string>
     <string name="main_title">Practical Parent</string>
     <string name="main_taskbtn">Edit Task</string>
+    <string name="Take_Breath">Take Breath</string>
     <string name="timer_watch">00:00</string>
     <string name="timer_startbtn">Start</string>
     <string name="timer_resetbtn">reset</string>
@@ -82,5 +83,24 @@
     <string name="Enter_time_warning">Enter a time</string>
     <string name="winner">" (Winner)"</string>
     <string name="winnerTag">(Winner)</string>
+    <string name="let_s_take">Let\'s take</string>
+    <string name="breath_together">Breaths Together</string>
+    <string name="instruction">Instruction</string>
+    <string name="begin">Begin</string>
+    <string name="breath_in">IN</string>
+    <string name="ready_instruc">Set times to Breathe and Press Begin</string>
+    <string name="start_in_instrcut">Hold In button to start breathing</string>
+    <string name="instruction_in">In ... ... ...</string>
+    <string name="after10SecIn">Release the Button and Breathe Out</string>
+    <string name="after3secIn">3 seconds passed... inhale done</string>
+    <string name="start_out_instrcut">Hold button to start Breathe Out</string>
+    <string name="breath_out">OUT</string>
+    <string name="instruction_out">Out... ... ...</string>
+    <string name="after3secOut_needmore">you completed a cycle, let\'s breath more</string>
+    <string name="breath3secOut_notEnough">you should breathe out more</string>
+    <string name="welldoneInstruction">Well Done! You completed the breathing activity</string>
+    <string name="gj">Good Job</string>
+    <string name="after10secOut">Pressing too long, assuming you are done</string>
+    <string name="outok">You breathed out enough, release the button</string>
 
 </resources>
