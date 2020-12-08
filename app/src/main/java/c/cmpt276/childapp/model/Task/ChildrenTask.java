@@ -17,6 +17,11 @@ public class ChildrenTask {
         this.taskDescription = taskDescription;
         nextToDoChildList = new ArrayList<>();
         doneChildList = new ArrayList<>();
+        addAllChildren();
+
+    }
+
+    private void addAllChildren() {
         ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
         for (int i = 0; i < configs.size(); i++) {
             if (configs.get(i).getTaskEnabled()) {
@@ -38,12 +43,9 @@ public class ChildrenTask {
      * @return the next child in the queue
      */
     public String popNextChild() {
-        if (nextToDoChildList.size() == 0) {
-            return null;
-        }
         doneChildList.add(nextToDoChildList.remove(0));
         if (nextToDoChildList.size() == 0) {
-            return null;
+            addAllChildren();
         }
         return nextToDoChildList.get(0);
     }
