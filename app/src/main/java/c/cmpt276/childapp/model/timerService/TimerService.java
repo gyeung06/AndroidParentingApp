@@ -35,10 +35,14 @@ public class TimerService extends Service {
     private final int  COUNTDOWN_INTERVAL = 1000;
     private Timer timer;
     private final IBinder binder = new LocalBinder();
+    private static boolean sounding = false;
 
     public static void stopAlarm() {
-        v.cancel();
-        mp.pause();
+        if (sounding) {
+            v.cancel();
+            mp.pause();
+        }
+
     }
 
     @Nullable
@@ -74,7 +78,7 @@ public class TimerService extends Service {
                 Uri notification = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_ALARM);
                 mp = MediaPlayer.create(TimerService.this, notification);
                 mp.start();
-
+                sounding = true;
                 v = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
                 long[] pattern = {0, 500, 500};
                 v.vibrate(pattern, 0);

@@ -39,6 +39,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     private static TextView mTextViewCountDown;
     private static boolean mTimerRunning;
     private long startTime = START_TIME_IN_MILLIS;
+
     private static long mTimeLeftInMillis = START_TIME_IN_MILLIS;
     private ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
     private Button mButtonStartPause;
@@ -210,7 +211,10 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         updateCountDownText();
         saveLastUsedSpeedMod(3);
         updateSpeedView(3);
+
         TimerService.stopAlarm();
+
+
         mButtonStartPause.setText("Start");
     }
 
