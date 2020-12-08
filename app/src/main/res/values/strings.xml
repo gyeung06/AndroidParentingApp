@@ -83,6 +83,15 @@
     <string name="Enter_time_warning">Enter a time</string>
     <string name="winner">" (Winner)"</string>
     <string name="winnerTag">(Winner)</string>
+
+    <string name="_25">25%</string>
+    <string name="_50">50%</string>
+    <string name="_75">75%</string>
+    <string name="_100">100%</string>
+    <string name="_200">200%</string>
+    <string name="_300">300%</string>
+    <string name="_400">400%</string>
+
     <string name="let_s_take">Let\'s take</string>
     <string name="breath_together">Breaths Together</string>
     <string name="instruction">Instruction</string>
@@ -102,5 +111,6 @@
     <string name="gj">Good Job</string>
     <string name="after10secOut">Pressing too long, assuming you are done</string>
     <string name="outok">You breathed out enough, release the button</string>
+
 
 </resources>

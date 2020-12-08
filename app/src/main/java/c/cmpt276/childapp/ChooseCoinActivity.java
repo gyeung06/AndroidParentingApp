@@ -294,6 +294,16 @@ public class ChooseCoinActivity extends AppCompatActivity {
             TextView date = itemView.findViewById(R.id.txtTime_item);
             TextView choice = itemView.findViewById(R.id.txtChoice);
             TextView result = itemView.findViewById(R.id.txtResult);
+            ImageView kidPic = itemView.findViewById(R.id.txtPic);
+
+            ChildrenConfigCollection configs = ChildrenConfigCollection.getInstance();
+
+            try {
+                Bitmap bitmap = configs.get(currentHistory.getChooser()).getBase64Bitmap();
+                kidPic.setImageBitmap(Bitmap.createScaledBitmap(bitmap, 200, 200, false));
+            } catch (NullPointerException e) {
+                kidPic.setImageResource(R.drawable.ic_baseline_face_24);
+            }
 
             boolean win = currentHistory.getChoseHead() && currentHistory.getResult();
             String rivalText, chooserText;
