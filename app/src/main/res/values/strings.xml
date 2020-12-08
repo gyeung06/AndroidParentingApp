@@ -50,7 +50,10 @@
 
     <string name="main_help">Help</string>
     <string name="help_title">INFORMATION</string>
-    <string name="help_text">Created by: Team Khaki\n\nTeam members:\nGabriel Yeung\nJeffrey Song\nSamuel Leong\nSteven Wang\n\nCredits:</string>
+    <string name="help_text">Created by: Team Khaki\n\nTeam members:\nGabriel Yeung\nJeffrey Song\nSamuel Leong\nSteven Wang\n\nCredits:
+    Fesliyan Studios Inc\n
+
+    </string>
 
 
     <string name="config_take">Take Photo</string>

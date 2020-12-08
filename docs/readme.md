@@ -1,3 +1,14 @@
+# Iteration 3
+## Breathe:
+    - While Inhaling more than 10 seconds, it will NOT automatic assume you are done with inhaling until you release the button (but it will terminate the sound and animation), unlike breathe out. Then you may continue with your breathe out.
+    - The spinner won't update the count, instead there is a Toast message that reminds you how many breathe you need left.
+  
+## Timer:
+    - Note that the timer will not stop the sound and vibration UNTILL you go back to the activity and press "reset"
+
+<hr/>
+
+# Iteration 2
 # HOW WE IMPLEMENTED REQUIREMENTS
 ## [20] Kids Portrait Photos
  - I want to be able to set an image for each of my children so I can personalize the application.
