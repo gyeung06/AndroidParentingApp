@@ -71,7 +71,6 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
     public static Intent createIntent(Context context) {
         return new Intent(context, TimeoutActivity.class);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -145,6 +144,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         } else {
             saveLastUsedTime(time);
             resetTimer();
+
             startTime = time;
         }
     }
@@ -210,6 +210,7 @@ public class TimeoutActivity extends AppCompatActivity implements View.OnClickLi
         updateCountDownText();
         saveLastUsedSpeedMod(3);
         updateSpeedView(3);
+        TimerService.stopAlarm();
         mButtonStartPause.setText("Start");
     }
 

@@ -11,13 +11,8 @@ import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Binder;
 import android.os.Build;
-import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
-import android.os.Looper;
 import android.os.Vibrator;
-import android.widget.TextView;
-
 
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
@@ -43,7 +38,7 @@ public class TimerService extends Service {
 
     public static void stopAlarm() {
         v.cancel();
-        mp.stop();
+        mp.pause();
     }
 
     @Nullable
